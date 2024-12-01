@@ -1,0 +1,74 @@
+{
+  "description": {
+    "message": "Google スプレッドシートなどのリンクを、タイトルを整形した上で Slack 絵文字とともにコピーします。"
+  },
+  "copyLinkDescription": {
+    "message": "リンクをコピー"
+  },
+  "copyLinkForSlackDescription": {
+    "message": "Slack 絵文字つきのリンクをコピー"
+  },
+  "copyTitleDescription": {
+    "message": "タイトルをコピー"
+  },
+  "copyTitleSuccess": {
+    "message": "タイトルをクリップボードにコピーしました"
+  },
+  "copyTitleFailure": {
+    "message": "タイトルのコピーに失敗しました"
+  },
+  "copyLinkSuccess": {
+    "message": "リンクをクリップボードにコピーしました"
+  },
+  "copyLinkFailure": {
+    "message": "リンクのコピーに失敗しました"
+  },
+  "settingsTitle": {
+    "message": "設定"
+  },
+  "shortcutSettings": {
+    "message": "ショートカット設定"
+  },
+  "openExtensionsPage": {
+    "message": "拡張機能ページを開き、左側のメニューから\n「キーボード ショートカット」を開いてください。"
+  },
+  "slackEmojiSettings": {
+    "message": "Slack 絵文字設定"
+  },
+  "changeEmojiNames": {
+    "message": "絵文字名の変更"
+  },
+  "googleSheets": {
+    "message": "Google スプレッドシート"
+  },
+  "googleDocs": {
+    "message": "Google ドキュメント"
+  },
+  "googleSlides": {
+    "message": "Google スライド"
+  },
+  "googleDrive": {
+    "message": "Google ドライブ"
+  },
+  "github": {
+    "message": "GitHub"
+  },
+  "githubPullRequest": {
+    "message": "GitHub Pull Request"
+  },
+  "githubIssue": {
+    "message": "GitHub Issue"
+  },
+  "jiraIssue": {
+    "message": "Jira 課題"
+  },
+  "asanaTask": {
+    "message": "Asana タスク"
+  },
+  "backlogIssue": {
+    "message": "Backlog 課題"
+  },
+  "redmineTicket": {
+    "message": "Redmine チケット"
+  }
+}

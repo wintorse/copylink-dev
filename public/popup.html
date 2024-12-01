@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title data-i18n="settingsTitle">Settings</title>
+    <link rel="stylesheet" href="styles/popup.css">
+</head>
+<body>
+    <div class="container">
+        <h1 data-i18n="shortcutSettings">Shortcut Settings</h1>
+        <div data-i18n="openExtensionsPage">Open the Extensions page, and click Keyboard Shortcuts in the left-hand menu.</div>
+        <h1 data-i18n="slackEmojiSettings">Slack Emoji Settings</h1>
+        <form id="emojiForm">
+            <label for="emojiName-google-sheets" data-i18n="googleSheets">Google Sheets</label>
+            <input type="text" id="emojiName-google-sheets" placeholder="Emoji Name">
+            <label for="emojiName-google-docs" data-i18n="googleDocs">Google Docs</label>
+            <input type="text" id="emojiName-google-docs" placeholder="Emoji Name">
+            <label for="emojiName-google-slides" data-i18n="googleSlides">Google Slides</label>
+            <input type="text" id="emojiName-google-slides" placeholder="Emoji Name">
+            <label for="emojiName-google-drive" data-i18n="googleDrive">Google Drive</label>
+            <input type="text" id="emojiName-google-drive" placeholder="Emoji Name">
+            <label for="emojiName-github" data-i18n="github">GitHub</label>
+            <input type="text" id="emojiName-github" placeholder="Emoji Name">
+            <label for="emojiName-github-pull-request" data-i18n="githubPullRequest">GitHub Pull Request</label>
+            <input type="text" id="emojiName-github-pull-request" placeholder="Emoji Name">
+            <label for="emojiName-github-issue" data-i18n="githubIssue">GitHub Issue</label>
+            <input type="text" id="emojiName-github-issue" placeholder="Emoji Name">
+            <label for="emojiName-jira-issue" data-i18n="jiraIssue">Jira Issue</label>
+            <input type="text" id="emojiName-jira-issue" placeholder="Emoji Name">
+            <label for="emojiName-asana-task" data-i18n="asanaTask">Asana Task</label>
+            <input type="text" id="emojiName-asana-task" placeholder="Emoji Name">
+            <label for="emojiName-backlog-issue" data-i18n="backlogIssue">Backlog Issue</label>
+            <input type="text" id="emojiName-backlog-issue" placeholder="Emoji Name">
+            <label for="emojiName-redmine-ticket" data-i18n="redmineTicket">Redmine Ticket</label>
+            <input type="text" id="emojiName-redmine-ticket" placeholder="Emoji Name">
+            <button id="updateEmojiNames" data-i18n="changeEmojiNames">Change emoji names</button>
+        </form>
+    </div>
+    <script type="module" src="../scripts/popup.js"></script>
+</body>
+</html>

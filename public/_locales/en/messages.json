@@ -1,0 +1,74 @@
+{
+  "description": {
+    "message": "Copy the link with a formatted title and Slack emoji from a Google Sheets and other sources."
+  },
+  "copyLinkDescription": {
+    "message": "Copy link"
+  },
+  "copyLinkForSlackDescription": {
+    "message": "Copy link with a Slack emoji"
+  },
+  "copyTitleDescription": {
+    "message": "Copy title"
+  },
+  "copyTitleSuccess": {
+    "message": "Title copied to clipboard"
+  },
+  "copyTitleFailure": {
+    "message": "Failed to copy title to clipboard"
+  },
+  "copyLinkSuccess": {
+    "message": "Link copied to clipboard"
+  },
+  "copyLinkFailure": {
+    "message": "Failed to copy link to clipboard"
+  },
+  "settingsTitle": {
+    "message": "Settings"
+  },
+  "shortcutSettings": {
+    "message": "Shortcut Settings"
+  },
+  "openExtensionsPage": {
+    "message": "Open the Extensions page, and click \nKeyboard Shortcuts in the left-hand menu."
+  },
+  "slackEmojiSettings": {
+    "message": "Slack Emoji Settings"
+  },
+  "changeEmojiNames": {
+    "message": "Change emoji names"
+  },
+  "googleSheets": {
+    "message": "Google Sheets"
+  },
+  "googleDocs": {
+    "message": "Google Docs"
+  },
+  "googleSlides": {
+    "message": "Google Slides"
+  },
+  "googleDrive": {
+    "message": "Google Drive"
+  },
+  "github": {
+    "message": "GitHub"
+  },
+  "githubPullRequest": {
+    "message": "GitHub Pull Request"
+  },
+  "githubIssue": {
+    "message": "GitHub Issue"
+  },
+  "jiraIssue": {
+    "message": "Jira Issue"
+  },
+  "asanaTask": {
+    "message": "Asana Task"
+  },
+  "backlogIssue": {
+    "message": "Backlog Issue"
+  },
+  "redmineTicket": {
+    "message": "Redmine Ticket"
+  }
+}

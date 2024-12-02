@@ -1,6 +1,6 @@
 {
   "description": {
-    "message": "Copy the link with a formatted title and Slack emoji from a Google Sheets and other sources."
+    "message": "Copy the link with title. For Google Sheets, GitHub PR and other sources, it also copies the link with a formatted title and Slack emojis before it."
   },
   "copyLinkDescription": {
     "message": "Copy link"

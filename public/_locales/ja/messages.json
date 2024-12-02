@@ -1,6 +1,6 @@
 {
   "description": {
-    "message": "Google スプレッドシートなどのリンクを、タイトルを整形した上で Slack 絵文字とともにコピーします。"
+    "message": "ページのタイトルつきリンクをコピーします。Google スプレッドシートや GitHub Pull Request などでは、タイトルを整形した上で Slack 絵文字とともにコピーします。"
   },
   "copyLinkDescription": {
     "message": "リンクをコピー"

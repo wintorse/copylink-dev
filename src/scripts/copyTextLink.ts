@@ -211,20 +211,6 @@ export async function copyTextLink(command: string) {
     redmineTicket: string;
   };
 
-  const defaultEmojiNames: EmojiNames = {
-    googleSheets: ":google_sheets:",
-    googleDocs: ":google_docs:",
-    googleSlides: ":google_slides:",
-    googleDrive: ":google_drive_2:",
-    github: ":github:",
-    githubPullRequest: ":open_pull_request:",
-    githubIssue: ":open_issue:",
-    jiraIssue: ":jira:",
-    asanaTask: ":asana:",
-    backlogIssue: ":backlog:",
-    redmineTicket: ":redmine_ticket:",
-  };
-
   // MARK: get emoji name
   /**
    * Retrieves the appropriate emoji name based on the current URL's hostname and pathname, or the document body ID.
@@ -233,6 +219,20 @@ export async function copyTextLink(command: string) {
    * @returns {Promise<string>} A promise that resolves to the corresponding emoji name.
    */
   function _getEmojiName(): Promise<string> {
+    const defaultEmojiNames: EmojiNames = {
+      googleSheets: ":google_sheets:",
+      googleDocs: ":google_docs:",
+      googleSlides: ":google_slides:",
+      googleDrive: ":google_drive_2:",
+      github: ":github:",
+      githubPullRequest: ":open_pull_request:",
+      githubIssue: ":open_issue:",
+      jiraIssue: ":jira:",
+      asanaTask: ":asana:",
+      backlogIssue: ":backlog:",
+      redmineTicket: ":redmine_ticket:",
+    };
+
     return new Promise((resolve) => {
       chrome.storage.local.get("emojiNames", function (data) {
         const emojiNames: EmojiNames = data.emojiNames || {

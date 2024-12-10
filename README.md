@@ -20,7 +20,7 @@ For the following sites, it has the functionality to format titles and also copy
 For other sites, it copies links with `document.title`.
 
 ## Installation
-Install from the [Chrome Web Store](https://chromewebstore.google.com/)
+Install from [Chrome Web Store](https://chromewebstore.google.com/)
 
 Or
 1. Download and unzip the latest zip file from Releases

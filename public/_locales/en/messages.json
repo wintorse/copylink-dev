@@ -1,6 +1,7 @@
 {
   "description": {
-    "message": "Copy the link with title. For Google Sheets, GitHub PR and other sources, it also copies the link with a formatted title and Slack emojis before it."
+    "message": "Copy link with title. For sites such as Google Sheets and GitHub PR, individual title formats and Slack emojis are supported.",
+    "messaga": "Access ChatGPT from the browser toolbar and get transcripts and summaries of YouTube videos. Powered by ChatGPT & Claude."
   },
   "copyLinkDescription": {
     "message": "Copy link"

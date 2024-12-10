@@ -12,7 +12,7 @@ export async function copyTextLink(command: string) {
   // MARK: main
   const title = _getFormattedTitle();
   const url = document.URL;
-  const html = `<a href="${url}">${title}</a>`;
+  const html = `<a href="${url}">${title}</a>&nbsp;`;
 
   const t = (key: string): string => chrome.i18n.getMessage(key);
 
@@ -52,7 +52,7 @@ export async function copyTextLink(command: string) {
 
   // Copy plain text and HTML with Slack emoji name to clipboard
   if (command === "copy-link-for-slack") {
-    const html = `${emojiName}&nbsp;<a href="${url}">${title}</a>`;
+    const html = `${emojiName}&nbsp;<a href="${url}">${title}</a>&nbsp;`;
     navigator.clipboard
       .write([
         new ClipboardItem({

@@ -1,5 +1,5 @@
 # copylink.dev
-Googleスプレッドシートなどでタイトルつきのリンクをコピーするブラウザ拡張機能
+Google スプレッドシートなどでタイトルつきのリンクをコピーするブラウザ拡張機能
 
 ## 機能
 「[◯◯◯◯設計書](https://example.com)」のような、タイトルのついたリンク（テキストリンク）を簡単にコピーできるショートカットを提供します。
@@ -8,6 +8,9 @@ Googleスプレッドシートなどでタイトルつきのリンクをコピ�
 - Google スプレッドシート
 - Google ドキュメント
 - Google スライド
+- Microsoft Excel Online
+- Microsoft Word Online
+- Microsoft PowerPoint Online
 - GitHub Pull Request
 - GitHub Issue
 - Jira 課題
@@ -15,10 +18,10 @@ Googleスプレッドシートなどでタイトルつきのリンクをコピ�
 - Backlog 課題
 - Redmine チケット
 
-その他のサイトでは、`document.title` のついたリンクをコピーします。
+その他のサイトでは、`document.title` （ブラウザのタブに表示されるタイトル）のついたリンクをコピーします。
 
 ## インストール
-[Chromeウェブストア](https://chromewebstore.google.com/)からインストールする
+[Chrome ウェブストア](https://chromewebstore.google.com/)からインストールする
 
 または
 1. Releases から最新の zip ファイルをダウンロードして解凍する 

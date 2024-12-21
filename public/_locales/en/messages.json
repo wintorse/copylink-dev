@@ -1,7 +1,6 @@
 {
   "description": {
-    "message": "Copy link with title. For sites such as Google Sheets and GitHub PR, individual title formats and Slack emojis are supported.",
-    "messaga": "Access ChatGPT from the browser toolbar and get transcripts and summaries of YouTube videos. Powered by ChatGPT & Claude."
+    "message": "Copy link with title. For sites such as Google Sheets and GitHub PR, title formatting and Slack emojis are supported."
   },
   "copyLinkDescription": {
     "message": "Copy link"
@@ -50,6 +49,15 @@
   },
   "googleDrive": {
     "message": "Google Drive"
+  },
+  "excel": {
+    "message": "Excel"
+  },
+  "word": {
+    "message": "Word"
+  },
+  "powerPoint": {
+    "message": "PowerPoint"
   },
   "github": {
     "message": "GitHub"

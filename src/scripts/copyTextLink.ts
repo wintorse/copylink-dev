@@ -95,6 +95,9 @@ export async function copyTextLink(command: string) {
     if (document.body.id === "jira") {
       return _getJiraTitle();
     }
+    if (document.body.id.startsWith("Wac")) {
+      return _getMSOnlineTitle();
+    }
     return document.title; // fallback
 
     /**
@@ -195,6 +198,20 @@ export async function copyTextLink(command: string) {
       }
       return document.title;
     }
+
+    /**
+     * Retrieves the title of a Microsoft Office Online document.
+     *
+     * @returns {string} The title of the Microsoft Office Online document.
+     */
+    function _getMSOnlineTitle(): string {
+      const titleSpanElement =
+        document.querySelector<HTMLDivElement>("#documentTitle")?.children[0];
+      if (titleSpanElement && titleSpanElement.textContent) {
+        return titleSpanElement.textContent;
+      }
+      return document.title;
+    }
   }
 
   type EmojiNames = {
@@ -202,6 +219,9 @@ export async function copyTextLink(command: string) {
     googleDocs: string;
     googleSlides: string;
     googleDrive: string;
+    excel: string;
+    word: string;
+    powerpoint: string;
     github: string;
     githubPullRequest: string;
     githubIssue: string;
@@ -224,6 +244,9 @@ export async function copyTextLink(command: string) {
       googleDocs: ":google_docs:",
       googleSlides: ":google_slides:",
       googleDrive: ":google_drive_2:",
+      excel: ":excel:",
+      word: ":word:",
+      powerpoint: ":powerpoint:",
       github: ":github:",
       githubPullRequest: ":open_pull_request:",
       githubIssue: ":open_issue:",
@@ -278,12 +301,27 @@ export async function copyTextLink(command: string) {
         }
         if (hostname.includes("backlog")) {
           result = emojiNames.backlogIssue;
-        }
-        if (hostname.includes("redmine")) {
+        } else if (hostname.includes("redmine")) {
           result = emojiNames.redmineTicket;
-        }
-        if (document.body.id === "jira") {
+        } else if (document.body.id === "jira") {
           result = emojiNames.jiraIssue;
+        } else if (
+          document
+            .querySelector<HTMLDivElement>("body > div:first-child")
+            ?.id.includes("WAC")
+        ) {
+          const iframeId = document.querySelector<HTMLIFrameElement>(
+            "body > div:first-child > div:first-child > iframe"
+          )?.id;
+          if (iframeId?.includes("Excel")) {
+            result = emojiNames.excel;
+          } else if (iframeId?.includes("Word")) {
+            result = emojiNames.word;
+          } else if (iframeId?.includes("PowerPoint")) {
+            result = emojiNames.powerpoint;
+          }
+        } else {
+          console.log("No emoji name found");
         }
         resolve(result);
       });

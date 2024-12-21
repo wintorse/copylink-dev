@@ -10,6 +10,9 @@ For the following sites, it has the functionality to format titles and also copy
 - Google Sheets
 - Google Docs
 - Google Slides
+- Microsoft Excel Online
+- Microsoft Word Online
+- Microsoft PowerPoint Online
 - GitHub Pull Request
 - GitHub Issue
 - Jira Issue
@@ -17,7 +20,7 @@ For the following sites, it has the functionality to format titles and also copy
 - Backlog Issue
 - Redmine Ticket
 
-For other sites, it copies links with `document.title`.
+For other sites, it copies links with `document.title`, which is the title of the current webpage.
 
 ## Installation
 Install from [Chrome Web Store](https://chromewebstore.google.com/)
@@ -40,7 +43,7 @@ Or
 
 Shortcuts can be changed from [Extension Settings](chrome://extensions/shortcuts).
 
-You can change Slack emoji names by clicking the extension icon.
+You can set Slack emojis by clicking the extension icon.
 
 ## License
 MIT

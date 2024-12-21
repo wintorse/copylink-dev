@@ -1,6 +1,6 @@
 {
   "description": {
-    "message": "ページのタイトルつきリンクをコピーします。Google スプレッドシートや GitHub Pull Request などでは、タイトルを整形した上で Slack 絵文字とともにコピーします。"
+    "message": "ページのタイトルつきリンクをコピーします。Google スプレッドシートなどでは、タイトルの整形や Slack 絵文字に対応しています。"
   },
   "copyLinkDescription": {
     "message": "リンクをコピー"
@@ -49,6 +49,15 @@
   },
   "googleDrive": {
     "message": "Google ドライブ"
+  },
+  "excel": {
+    "message": "Microsoft Excel Online"
+  },
+  "word": {
+    "message": "Microsoft Word Online"
+  },
+  "powerPoint": {
+    "message": "Microsoft PowerPoint Online"
   },
   "github": {
     "message": "GitHub"

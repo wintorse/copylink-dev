@@ -3,6 +3,9 @@ export type EmojiNames = {
   googleDocs: string;
   googleSlides: string;
   googleDrive: string;
+  excel: string;
+  word: string;
+  powerpoint: string;
   github: string;
   githubPullRequest: string;
   githubIssue: string;

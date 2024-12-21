@@ -1,6 +1,6 @@
 {
   "name": "copylink.dev",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Browser extension that copies the link with a formatted title and Slack emojis before it.",
   "main": "src/background.ts",
   "type": "module",

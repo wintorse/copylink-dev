@@ -128,7 +128,7 @@ export async function copyTextLink(command: string) {
         "#partial-discussion-header > div.gh-header-show > div > h1 > span"
       );
       if (titleBdiElement && idSpanElement) {
-        return titleBdiElement.textContent + " " + idSpanElement.textContent;
+        return idSpanElement.textContent + " " + titleBdiElement.textContent;
       }
       return document.title;
     }

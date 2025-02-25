@@ -1,39 +1,44 @@
 import type { EmojiNames } from "../types/types";
-import { defaultEmojiNames } from "../types/constants";
+import { emojiElements } from "../types/constants";
 
-const emojiElements: { [key in keyof EmojiNames]: string } = {
-  googleSheets: "emojiName-google-sheets",
-  googleDocs: "emojiName-google-docs",
-  googleSlides: "emojiName-google-slides",
-  googleDrive: "emojiName-google-drive",
-  excel: "emojiName-excel",
-  word: "emojiName-word",
-  powerpoint: "emojiName-powerpoint",
-  github: "emojiName-github",
-  githubPullRequest: "emojiName-github-pull-request",
-  githubIssue: "emojiName-github-issue",
-  jiraIssue: "emojiName-jira-issue",
-  asanaTask: "emojiName-asana-task",
-  backlogIssue: "emojiName-backlog-issue",
-  redmineTicket: "emojiName-redmine-ticket",
+const defaultEmojiNames = {
+  googleSheets: ":google_sheets:",
+  googleDocs: ":google_docs:",
+  googleSlides: ":google_slides:",
+  googleDrive: ":google_drive_2:",
+  excel: ":excel:",
+  word: ":word:",
+  powerpoint: ":powerpoint:",
+  github: ":github:",
+  githubPullRequest: ":open_pull_request:",
+  githubIssue: ":open_issue:",
+  jiraIssue: ":jira:",
+  asanaTask: ":asana:",
+  backlogIssue: ":backlog:",
+  redmineTicket: ":redmine_ticket:",
 };
 
+// Retrieve emoji names from storage and update the form inputs
 function getEmojiNames() {
-  chrome.storage.local.get("emojiNames", function (data) {
+  chrome.storage.local.get("emojiNames", (data) => {
     const emojiNames: EmojiNames = data.emojiNames || defaultEmojiNames;
-    if (emojiNames) {
-      for (const key in emojiElements) {
-        const element = document.getElementById(
-          emojiElements[key as keyof EmojiNames]
-        ) as HTMLInputElement;
-        if (element) {
-          element.value = emojiNames[key as keyof EmojiNames] ?? "";
-        }
-      }
-    }
+    updateFormInputs(emojiNames);
   });
 }
 
+// Update form inputs with the retrieved emoji names
+function updateFormInputs(emojiNames: EmojiNames) {
+  for (const key in emojiElements) {
+    const element = document.getElementById(
+      emojiElements[key as keyof EmojiNames]
+    ) as HTMLInputElement;
+    if (element) {
+      element.value = emojiNames[key as keyof EmojiNames] ?? "";
+    }
+  }
+}
+
+// Update emoji names in storage based on form inputs
 function updateEmojiNames() {
   const emojiNames: Partial<EmojiNames> = {};
   for (const key in emojiElements) {

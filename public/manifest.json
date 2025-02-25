@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "copylink.dev",
   "description": "__MSG_description__",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "default_locale": "en",
   "icons": {
     "16": "images/icon-16.png",
@@ -12,9 +12,6 @@
   },
   "homepage_url": "https://github.com/wintorse/copylink-dev",
   "permissions": [
-    "activeTab",
-    "clipboardWrite",
-    "scripting",
     "storage"
   ],
   "web_accessible_resources": [
@@ -23,9 +20,6 @@
       "matches": ["<all_urls>"]
     }
   ],
-  "background": {
-    "service_worker": "scripts/background.js"
-  },
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -57,5 +51,15 @@
       },
       "description": "__MSG_copyTitleDescription__"
     }
-  }
+  },
+  "background": {
+    "service_worker": "scripts/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["scripts/content.js"]
+    }
+  ]
 }

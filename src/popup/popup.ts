@@ -1,22 +1,5 @@
 import type { EmojiNames } from "../types/types";
-import { emojiElements } from "../types/constants";
-
-const defaultEmojiNames = {
-  googleSheets: ":google_sheets:",
-  googleDocs: ":google_docs:",
-  googleSlides: ":google_slides:",
-  googleDrive: ":google_drive_2:",
-  excel: ":excel:",
-  word: ":word:",
-  powerpoint: ":powerpoint:",
-  github: ":github:",
-  githubPullRequest: ":open_pull_request:",
-  githubIssue: ":open_issue:",
-  jiraIssue: ":jira:",
-  asanaTask: ":asana:",
-  backlogIssue: ":backlog:",
-  redmineTicket: ":redmine_ticket:",
-};
+import { emojiElements, defaultEmojiNames } from "../types/constants";
 
 // Retrieve emoji names from storage and update the form inputs
 function getEmojiNames() {

@@ -1,5 +1,20 @@
-import { defaultEmojiNames } from "../types/constants";
 import type { EmojiNames } from "../types/types";
+const defaultEmojiNames: EmojiNames = {
+  googleSheets: ":google_sheets:",
+  googleDocs: ":google_docs:",
+  googleSlides: ":google_slides:",
+  googleDrive: ":google_drive_2:",
+  excel: ":excel:",
+  word: ":word:",
+  powerpoint: ":powerpoint:",
+  github: ":github:",
+  githubPullRequest: ":open_pull_request:",
+  githubIssue: ":open_issue:",
+  jiraIssue: ":jira:",
+  asanaTask: ":asana:",
+  backlogIssue: ":backlog:",
+  redmineTicket: ":redmine_ticket:",
+} as const;
 /**
  * Retrieves the appropriate emoji name based on the current URL's hostname and pathname, or the document body ID.
  * The emoji names are stored in the browser's local storage under the key "emojiNames".

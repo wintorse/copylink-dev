@@ -5,7 +5,7 @@ import { evaluateXPath } from "../utils/utils";
  *
  *  If the site is not supported, it falls back to returning `document.title`.
  *
- * @returns {string} The title of the current document.
+ * @returns {string} The formatted title of the current document.
  */
 export function getFormattedTitle(): string {
   switch (window.location.hostname) {
@@ -19,14 +19,18 @@ export function getFormattedTitle(): string {
   if (window.location.hostname.includes("backlog")) {
     return getBacklogTitle();
   }
-  if (window.location.hostname.includes("redmine")) {
-    return getRedmineTitle();
-  }
   if (document.body.id === "jira") {
     return getJiraTitle();
   }
   if (document.body.id.startsWith("Wac")) {
     return getMSOnlineTitle();
+  }
+  if (window.location.hostname.includes("redmine")) {
+    return getRedmineTitle();
+  }
+  // if #footer > a has "Redmine" in it, return getRedmineTitle()
+  if (document.querySelector("#footer > a")?.textContent?.includes("Redmine")) {
+    return getRedmineTitle();
   }
   return document.title; // fallback
 }

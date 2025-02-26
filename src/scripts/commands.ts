@@ -4,7 +4,7 @@ import { copyTextLink } from "./copyTextLink";
 /**
  * Handles the execution of a given command on a current tab.
  *
- * @param command - The command to be executed.
+ * @param {Command} command - The command to be executed.
  */
 export function handleCommand(command: Command): void {
   try {

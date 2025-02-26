@@ -7,7 +7,7 @@ import type { Command } from "../types/types";
 /**
  * Copies text or a link to the clipboard based on the provided argument.
  *
- * @param {string} args - The action to perform. Can be one of the following:
+ * @param {Command} command - The action to perform. Can be one of the following:
  *   - "copy-title": Copies the formatted title to the clipboard.
  *   - "copy-link": Copies a text link to the clipboard.
  *   - "copy-link-for-slack": Copies a text link with a Slack emoji name to the clipboard.
@@ -15,7 +15,6 @@ import type { Command } from "../types/types";
  * The function also displays a toast message indicating the success or failure of the copy operation.
  */
 export async function copyTextLink(command: Command) {
-  // MARK: main
   const title = getFormattedTitle();
   const url = document.URL;
   const html = `<a href="${url}">${title}</a>&nbsp;`;

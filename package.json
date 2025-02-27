@@ -1,6 +1,6 @@
 {
   "name": "copylink.dev",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Browser extension that copies the link with a formatted title and Slack emojis before it.",
   "main": "src/background.ts",
   "type": "module",
@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/wintorse/copylink-dev#readme",
   "devDependencies": {
-    "@types/chrome": "^0.0.287",
-    "@types/node": "^22.10.1",
-    "typescript": "^5.7.2",
-    "vite": "^6.0.3"
+    "@types/chrome": "^0.0.306",
+    "@types/node": "^22.13.5",
+    "typescript": "^5.7.3",
+    "vite": "^6.2.0"
   }
 }

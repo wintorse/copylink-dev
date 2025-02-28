@@ -1,7 +1,7 @@
 [日本語版 README はこちら](./README-ja.md)
 
 # copylink.dev
-A browser extension that copies links with formatted titles from Google Sheets and other sources.
+A browser extension that copies link with formatted title from Google Sheets and other sources.
 
 ## Features
 Provides shortcuts to easily copy text links with titles, such as "[My spreadsheet](https://example.com)".
@@ -10,9 +10,9 @@ For the following sites, it has the functionality to format titles and also copy
 - Google Sheets
 - Google Docs
 - Google Slides
-- Microsoft Excel Online
-- Microsoft Word Online
-- Microsoft PowerPoint Online
+- Excel for the web
+- Word for the web
+- PowerPoint for the web
 - GitHub Pull Request
 - GitHub Issue
 - Jira Issue

@@ -1,54 +1,54 @@
 {
   "description": {
-    "message": "Copy link with title. For sites such as Google Sheets and GitHub PR, title formatting and Slack emojis are supported."
+    "message": "复制带标题的链接。对于Google Sheets和GitHub PR等网站，支持标题格式和Slack表情符号。"
   },
   "copyLinkDescription": {
-    "message": "Copy link"
+    "message": "复制链接"
   },
   "copyLinkForSlackDescription": {
-    "message": "Copy link with a Slack emoji"
+    "message": "复制带Slack表情符号的链接"
   },
   "copyTitleDescription": {
-    "message": "Copy title"
+    "message": "复制标题"
   },
   "copyTitleSuccess": {
-    "message": "Title copied to clipboard"
+    "message": "标题已复制到剪贴板"
   },
   "copyTitleFailure": {
-    "message": "Failed to copy title to clipboard"
+    "message": "复制标题到剪贴板失败"
   },
   "copyLinkSuccess": {
-    "message": "Link copied to clipboard"
+    "message": "链接已复制到剪贴板"
   },
   "copyLinkFailure": {
-    "message": "Failed to copy link to clipboard"
+    "message": "复制链接到剪贴板失败"
   },
   "settingsTitle": {
-    "message": "Settings"
+    "message": "设置"
   },
   "shortcutSettings": {
-    "message": "Shortcut Settings"
+    "message": "快捷键设置"
   },
   "openExtensionsPage": {
-    "message": "Open the Extensions page, and click \nKeyboard Shortcuts in the left-hand menu."
+    "message": "打开扩展页面，然后点击左侧菜单中的“键盘快捷键”。"
   },
   "slackEmojiSettings": {
-    "message": "Slack Emoji Settings"
+    "message": "Slack表情符号设置"
   },
   "changeEmojiNames": {
-    "message": "Change emoji names"
+    "message": "更改表情符号名称"
   },
   "googleSheets": {
-    "message": "Google Sheets"
+    "message": "Google表格"
   },
   "googleDocs": {
-    "message": "Google Docs"
+    "message": "Google文档"
   },
   "googleSlides": {
-    "message": "Google Slides"
+    "message": "Google幻灯片"
   },
   "googleDrive": {
-    "message": "Google Drive"
+    "message": "Google云端硬盘"
   },
   "excel": {
     "message": "Excel for the web"
@@ -72,12 +72,12 @@
     "message": "Jira Issue"
   },
   "asanaTask": {
-    "message": "Asana Task"
+    "message": "Asana任务"
   },
   "backlogIssue": {
     "message": "Backlog Issue"
   },
   "redmineTicket": {
-    "message": "Redmine Issue"
+    "message": "Redmine问题"
   }
 }

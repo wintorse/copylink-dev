@@ -1,6 +1,6 @@
 import { getFormattedTitle } from "./titleRetrievers";
 import { getEmojiName } from "./emojiNames";
-import { showToast } from "./toast";
+import { showToast } from "../utils/toast";
 import { ValidCommands } from "../types/types";
 import type { Command } from "../types/types";
 
@@ -21,16 +21,21 @@ export async function copyTextLink(command: Command) {
 
   const t = (key: string): string => chrome.i18n.getMessage(key);
 
+  const notify = (message: string) => {
+    showToast(message);
+    // chrome.runtime.sendMessage({ type: "copylink.dev-notification", message });
+  };
+
   // Copy the title only to the clipboard
   if (command === ValidCommands.COPY_TITLE) {
     navigator.clipboard
       .writeText(title)
       .then(() => {
-        showToast(t("copyTitleSuccess"));
+        notify(t("copyTitleSuccess"));
       })
       .catch((err) => {
         console.error("Failed to copy title to clipboard", err);
-        showToast(t("copyTitleFailure"));
+        notify(t("copyTitleFailure"));
       });
     return;
   }
@@ -45,11 +50,11 @@ export async function copyTextLink(command: Command) {
         }),
       ])
       .then(() => {
-        showToast(t("copyLinkSuccess"));
+        notify(t("copyLinkSuccess"));
       })
       .catch((err) => {
         console.error("Failed to copy link to clipboard", err);
-        showToast(t("copyLinkFailure"));
+        notify(t("copyLinkFailure"));
       });
   }
 
@@ -66,11 +71,11 @@ export async function copyTextLink(command: Command) {
         }),
       ])
       .then(() => {
-        showToast(t("copyLinkSuccess"));
+        notify(t("copyLinkSuccess"));
       })
       .catch((err) => {
         console.error("Failed to copy link to clipboard", err);
-        showToast(t("copyLinkFailure"));
+        notify(t("copyLinkFailure"));
       });
   }
 }

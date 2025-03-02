@@ -1,0 +1,83 @@
+{
+  "description": {
+    "message": "复制带标题的链接。对于Google Sheets和GitHub PR等网站，支持标题格式和Slack表情符号。"
+  },
+  "copyLinkDescription": {
+    "message": "复制链接"
+  },
+  "copyLinkForSlackDescription": {
+    "message": "复制带Slack表情符号的链接"
+  },
+  "copyTitleDescription": {
+    "message": "复制标题"
+  },
+  "copyTitleSuccess": {
+    "message": "标题已复制到剪贴板"
+  },
+  "copyTitleFailure": {
+    "message": "复制标题到剪贴板失败"
+  },
+  "copyLinkSuccess": {
+    "message": "链接已复制到剪贴板"
+  },
+  "copyLinkFailure": {
+    "message": "复制链接到剪贴板失败"
+  },
+  "settingsTitle": {
+    "message": "设置"
+  },
+  "shortcutSettings": {
+    "message": "快捷键设置"
+  },
+  "openExtensionsPage": {
+    "message": "打开扩展页面，然后点击左侧菜单中的“键盘快捷键”。"
+  },
+  "slackEmojiSettings": {
+    "message": "Slack表情符号设置"
+  },
+  "changeEmojiNames": {
+    "message": "更改表情符号名称"
+  },
+  "googleSheets": {
+    "message": "Google表格"
+  },
+  "googleDocs": {
+    "message": "Google文档"
+  },
+  "googleSlides": {
+    "message": "Google幻灯片"
+  },
+  "googleDrive": {
+    "message": "Google云端硬盘"
+  },
+  "excel": {
+    "message": "Excel for the web"
+  },
+  "word": {
+    "message": "Word for the web"
+  },
+  "powerPoint": {
+    "message": "PowerPoint for the web"
+  },
+  "github": {
+    "message": "GitHub"
+  },
+  "githubPullRequest": {
+    "message": "GitHub Pull Request"
+  },
+  "githubIssue": {
+    "message": "GitHub Issue"
+  },
+  "jiraIssue": {
+    "message": "Jira Issue"
+  },
+  "asanaTask": {
+    "message": "Asana任务"
+  },
+  "backlogIssue": {
+    "message": "Backlog Issue"
+  },
+  "redmineTicket": {
+    "message": "Redmine问题"
+  }
+}

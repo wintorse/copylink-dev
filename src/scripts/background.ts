@@ -1,3 +1,5 @@
+// import { createNotification } from "../utils/notification";
+
 try {
   chrome.commands.onCommand.addListener((command) => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -11,6 +13,13 @@ try {
     });
     return true;
   });
+
+  // chrome.runtime.onMessage.addListener((message, _, __) => {
+  //   console.log("Received message", message.type, message.message);
+  //   if (message.type === "copylink.dev-notification") {
+  //     createNotification(message.message);
+  //   }
+  // });
 } catch (error) {
   console.error(error);
 }

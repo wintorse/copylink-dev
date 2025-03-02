@@ -51,13 +51,13 @@
     "message": "Google Drive"
   },
   "excel": {
-    "message": "Excel"
+    "message": "Excel for the web"
   },
   "word": {
-    "message": "Word"
+    "message": "Word for the web"
   },
   "powerPoint": {
-    "message": "PowerPoint"
+    "message": "PowerPoint for the web"
   },
   "github": {
     "message": "GitHub"
@@ -78,6 +78,6 @@
     "message": "Backlog Issue"
   },
   "redmineTicket": {
-    "message": "Redmine Ticket"
+    "message": "Redmine Issue"
   }
 }

@@ -51,13 +51,13 @@
     "message": "Google ドライブ"
   },
   "excel": {
-    "message": "Microsoft Excel Online"
+    "message": "Excel for the web"
   },
   "word": {
-    "message": "Microsoft Word Online"
+    "message": "Word for the web"
   },
   "powerPoint": {
-    "message": "Microsoft PowerPoint Online"
+    "message": "PowerPoint for the web"
   },
   "github": {
     "message": "GitHub"

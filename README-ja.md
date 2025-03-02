@@ -8,9 +8,9 @@ Google スプレッドシートなどでタイトルつきのリンクをコピ�
 - Google スプレッドシート
 - Google ドキュメント
 - Google スライド
-- Microsoft Excel Online
-- Microsoft Word Online
-- Microsoft PowerPoint Online
+- Excel for the web
+- Word for the web
+- PowerPoint for the web
 - GitHub Pull Request
 - GitHub Issue
 - Jira 課題

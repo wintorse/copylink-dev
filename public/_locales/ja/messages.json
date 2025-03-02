@@ -1,6 +1,6 @@
 {
   "description": {
-    "message": "ページのタイトルつきリンクをコピーします。Google スプレッドシートなどでは、タイトルの整形や Slack 絵文字に対応しています。"
+    "message": "ショートカットでリンクをコピーします。一部サイトでは、タイトルの整形や Slack 絵文字にも対応。"
   },
   "copyLinkDescription": {
     "message": "リンクをコピー"

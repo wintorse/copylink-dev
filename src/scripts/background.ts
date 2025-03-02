@@ -3,11 +3,33 @@
 try {
   chrome.commands.onCommand.addListener((command) => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs[0].id) {
-        chrome.tabs
-          .sendMessage(tabs[0].id, { command: command })
+      const tabId = tabs[0].id;
+      if (tabId !== undefined) {
+        chrome.scripting
+          .executeScript({
+            target: { tabId: tabId },
+            files: ["scripts/content.js"],
+          })
+          .then(() => {
+            chrome.scripting
+              .executeScript({
+                target: { tabId: tabId },
+                func: (command) => {
+                  window.dispatchEvent(
+                    new CustomEvent("executeCommand", { detail: command })
+                  );
+                },
+                args: [command],
+              })
+              .catch((error) => {
+                console.error(
+                  `Error executing script for command ${command}:`,
+                  error
+                );
+              });
+          })
           .catch((error) => {
-            console.error(`Error sending command ${command}:`, error);
+            console.error(`Error injecting content script:`, error);
           });
       }
     });

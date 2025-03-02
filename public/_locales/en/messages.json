@@ -1,6 +1,6 @@
 {
   "description": {
-    "message": "Copy link with title. For sites such as Google Sheets and GitHub PR, title formatting and Slack emojis are supported."
+    "message": "Copy text links with shortcuts. Some sites also support title formatting and Slack emoji."
   },
   "copyLinkDescription": {
     "message": "Copy link"

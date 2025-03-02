@@ -1,6 +1,6 @@
 {
   "description": {
-    "message": "复制带标题的链接。对于Google Sheets和GitHub PR等网站，支持标题格式和Slack表情符号。"
+    "message": "用快捷方式复制标题链接。 有些网站还支持标题格式和 Slack 表情符号。"
   },
   "copyLinkDescription": {
     "message": "复制链接"

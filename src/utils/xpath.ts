@@ -1,3 +1,10 @@
+/**
+ * Evaluates an XPath query and returns the first element that matches the query.
+ *
+ * @param xpath
+ * @param contextNode
+ * @returns HTMLElement | null
+ */
 export function evaluateXPath(
   xpath: string,
   contextNode: Node = document

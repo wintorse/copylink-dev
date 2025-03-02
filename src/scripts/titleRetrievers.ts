@@ -1,4 +1,4 @@
-import { evaluateXPath } from "../utils/utils";
+import { evaluateXPath } from "../utils/xpath";
 
 /**
  * Retrieves the formatted title of the current document.

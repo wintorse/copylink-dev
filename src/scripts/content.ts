@@ -4,7 +4,6 @@ import type { Command } from "../types/types";
 
 window.addEventListener("executeCommand", (event) => {
   const command = (event as CustomEvent).detail;
-  console.log("Received command", command);
   if (isValidCommand(command)) {
     handleCommand(command);
     return true;

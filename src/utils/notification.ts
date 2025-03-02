@@ -18,7 +18,6 @@ export function createNotification(message: string) {
       if (chrome.runtime.lastError) {
         console.error(chrome.runtime.lastError);
       } else {
-        console.log("Notification created", message, notificationId);
         setTimeout(() => {
           chrome.notifications.clear(notificationId, (wasCleared) => {
             if (chrome.runtime.lastError) {
@@ -27,11 +26,6 @@ export function createNotification(message: string) {
               console.error(
                 `Failed to clear notification with ID: ${notificationId}`
               );
-            } else if (wasCleared) {
-              console.log("Notification cleared", notificationId);
-              chrome.notifications.getAll((notifications) => {
-                console.log("Notifications", notifications);
-              });
             }
           });
         }, 3000);

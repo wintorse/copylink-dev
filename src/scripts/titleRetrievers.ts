@@ -1,5 +1,3 @@
-import { evaluateXPath } from "../utils/xpath";
-
 /**
  * Retrieves the formatted title of the current document.
  *
@@ -28,8 +26,7 @@ export function getFormattedTitle(): string {
   if (window.location.hostname.includes("redmine")) {
     return getRedmineTitle();
   }
-  // if #footer > a has "Redmine" in it, return getRedmineTitle()
-  if (document.querySelector("#footer > a")?.textContent?.includes("Redmine")) {
+  if (document.querySelector("#footer a")?.textContent?.includes("Redmine")) {
     return getRedmineTitle();
   }
   return document.title; // fallback
@@ -37,26 +34,26 @@ export function getFormattedTitle(): string {
 
 function getGoogleDocsTitle(): string {
   const titleElement = document.querySelector<HTMLInputElement>(
-    "#docs-title-widget > input"
+    "#docs-title-widget input"
   );
   return titleElement ? titleElement.value : document.title;
 }
 
 function getGitHubTitle(): string {
-  const titleXpath = `//*[@id="partial-discussion-header"]//h1/bdi`;
-  const idXpath = `//*[@id="partial-discussion-header"]//h1/span`;
-  const titleElement = evaluateXPath(titleXpath);
-  const idElement = evaluateXPath(idXpath) as HTMLSpanElement;
-
+  const titleElement = document.querySelector<HTMLElement>(
+    "#partial-discussion-header h1 bdi"
+  );
+  const idElement = document.querySelector<HTMLSpanElement>(
+    "#partial-discussion-header h1 span"
+  );
   return titleElement && idElement
     ? `${idElement.textContent} ${titleElement.textContent}`
     : document.title;
 }
 
 function getAsanaTitle(): string {
-  const xpath = `//*[@id="TaskPrintView"]/div[2]/div/div/div[2]/div/div[1]/div[1]//textarea`;
-  const titleElement = evaluateXPath(xpath) as HTMLTextAreaElement;
-  return titleElement ? titleElement.value : document.title;
+  const element = document.getElementById("TaskPrintView");
+  return element?.getAttribute("aria-label") || document.title;
 }
 
 function getBacklogTitle(): string {
@@ -69,9 +66,9 @@ function getBacklogTitle(): string {
 }
 
 function getRedmineTitle(): string {
-  const idElement = document.querySelector<HTMLHeadingElement>("#content > h2");
-  const titleXpath = `//*[@id="content"]//h3`;
-  const titleElement = evaluateXPath(titleXpath) as HTMLHeadingElement;
+  const idElement = document.querySelector<HTMLHeadingElement>("#content h2");
+  const titleElement =
+    document.querySelector<HTMLHeadingElement>("#content h3");
   return idElement?.textContent && titleElement?.textContent
     ? `${idElement.textContent}: ${titleElement.textContent}`
     : document.title;
@@ -80,7 +77,7 @@ function getRedmineTitle(): string {
 function getJiraTitle(): string {
   const idElement = document.querySelector<HTMLAnchorElement>("#key-val");
   const titleElement =
-    document.querySelector<HTMLHeadingElement>("#summary-val > h2");
+    document.querySelector<HTMLHeadingElement>("#summary-val h2");
   return idElement?.textContent && titleElement?.textContent
     ? `${idElement.textContent} ${titleElement.textContent}`
     : document.title;

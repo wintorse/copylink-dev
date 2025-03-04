@@ -67,23 +67,19 @@ export function getEmojiName(): Promise<string> {
       }
       if (hostname.includes("backlog")) {
         result = emojiNames.backlogIssue;
-      } else if (hostname.includes("redmine")) {
+      } else if (
+        hostname.includes("redmine") ||
+        document.querySelector("#footer a")?.textContent?.includes("Redmine")
+      ) {
         result = emojiNames.redmineTicket;
       } else if (document.body.id === "jira") {
         result = emojiNames.jiraIssue;
-      } else if (
-        document
-          .querySelector<HTMLDivElement>("body > div:first-child")
-          ?.id.includes("WAC")
-      ) {
-        const iframeId = document.querySelector<HTMLIFrameElement>(
-          "body > div:first-child > div:first-child > iframe"
-        )?.id;
-        if (iframeId?.includes("Excel")) {
+      } else if (document.querySelector("[id^='WacFrame']")) {
+        if (document.querySelector("[id^='WacFrame_Excel']")) {
           result = emojiNames.excel;
-        } else if (iframeId?.includes("Word")) {
+        } else if (document.querySelector("[id^='WacFrame_Word']")) {
           result = emojiNames.word;
-        } else if (iframeId?.includes("PowerPoint")) {
+        } else if (document.querySelector("[id^='WacFrame_PowerPoint']")) {
           result = emojiNames.powerpoint;
         }
       }

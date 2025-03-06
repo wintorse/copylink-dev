@@ -1,20 +1,4 @@
 import type { EmojiNames } from "../types/types";
-const defaultEmojiNames: EmojiNames = {
-  googleSheets: ":google_sheets:",
-  googleDocs: ":google_docs:",
-  googleSlides: ":google_slides:",
-  googleDrive: ":google_drive_2:",
-  excel: ":excel:",
-  word: ":word:",
-  powerpoint: ":powerpoint:",
-  github: ":github:",
-  githubPullRequest: ":open_pull_request:",
-  githubIssue: ":open_issue:",
-  jiraIssue: ":jira:",
-  asanaTask: ":asana:",
-  backlogIssue: ":backlog:",
-  redmineTicket: ":redmine_ticket:",
-} as const;
 /**
  * Retrieves the appropriate emoji name based on the current URL's hostname and pathname, or the document body ID.
  * The emoji names are stored in the browser's local storage under the key "emojiNames".
@@ -22,6 +6,22 @@ const defaultEmojiNames: EmojiNames = {
  * @returns {Promise<string>} A promise that resolves to the corresponding emoji name.
  */
 export function getEmojiName(): Promise<string> {
+  const defaultEmojiNames: EmojiNames = {
+    googleSheets: ":google_sheets:",
+    googleDocs: ":google_docs:",
+    googleSlides: ":google_slides:",
+    googleDrive: ":google_drive_2:",
+    excel: ":excel:",
+    word: ":word:",
+    powerpoint: ":powerpoint:",
+    github: ":github:",
+    githubPullRequest: ":open_pull_request:",
+    githubIssue: ":open_issue:",
+    jiraIssue: ":jira:",
+    asanaTask: ":asana:",
+    backlogIssue: ":backlog:",
+    redmineTicket: ":redmine_ticket:",
+  } as const;
   return new Promise((resolve) => {
     chrome.storage.local.get("emojiNames", function (data) {
       const emojiNames: EmojiNames = data.emojiNames || {

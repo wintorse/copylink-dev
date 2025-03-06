@@ -28,54 +28,111 @@ export async function copyTextLink(command: Command) {
 
   // Copy the title only to the clipboard
   if (command === ValidCommands.COPY_TITLE) {
-    navigator.clipboard
-      .writeText(title)
-      .then(() => {
-        notify(t("copyTitleSuccess"));
-      })
-      .catch((err) => {
-        console.error("Failed to copy title to clipboard", err);
-        notify(t("copyTitleFailure"));
-      });
-    return;
+    if (navigator.clipboard) {
+      navigator.clipboard
+        .writeText(title)
+        .then(() => {
+          notify(t("copyTitleSuccess"));
+        })
+        .catch((err) => {
+          console.error("Failed to copy title to clipboard", err);
+          notify(t("copyTitleFailure"));
+        });
+      return;
+    } else {
+      // Fallback for websites that don't support https
+      const textArea = document.createElement("textarea");
+      textArea.value = title;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      notify(t("copyTitleSuccess"));
+    }
   }
 
   // Writing plain text and HTML to the clipboard allows you to use it as a text link.
   if (command === ValidCommands.COPY_LINK) {
-    navigator.clipboard
-      .write([
-        new ClipboardItem({
-          "text/plain": new Blob([title], { type: "text/plain" }),
-          "text/html": new Blob([html], { type: "text/html" }),
-        }),
-      ])
-      .then(() => {
-        notify(t("copyLinkSuccess"));
-      })
-      .catch((err) => {
-        console.error("Failed to copy link to clipboard", err);
+    if (navigator.clipboard) {
+      navigator.clipboard
+        .write([
+          new ClipboardItem({
+            "text/plain": new Blob([title], { type: "text/plain" }),
+            "text/html": new Blob([html], { type: "text/html" }),
+          }),
+        ])
+        .then(() => {
+          notify(t("copyLinkSuccess"));
+        })
+        .catch((err) => {
+          console.error("Failed to copy link to clipboard", err);
+          notify(t("copyLinkFailure"));
+        });
+    } else {
+      // Fallback for websites that don't support https
+      const target = document.createElement("a");
+      target.setAttribute("href", url);
+      target.textContent = title;
+      document.body.appendChild(target);
+
+      const range = document.createRange();
+      range.selectNode(target);
+      const select = window.getSelection();
+      if (!select) {
         notify(t("copyLinkFailure"));
-      });
+        return;
+      }
+      select.removeAllRanges();
+      select.addRange(range);
+      document.execCommand("copy");
+      select.removeAllRanges();
+      document.body.removeChild(target);
+      notify(t("copyLinkSuccess"));
+    }
   }
 
   const emojiName = await getEmojiName();
 
   // Copy plain text and HTML with Slack emoji name to clipboard
   if (command === ValidCommands.COPY_LINK_FOR_SLACK) {
-    const html = `${emojiName}&nbsp;<a href="${url}">${title}</a>&nbsp;`;
-    navigator.clipboard
-      .write([
-        new ClipboardItem({
-          "text/plain": new Blob([title], { type: "text/plain" }),
-          "text/html": new Blob([html], { type: "text/html" }),
-        }),
-      ])
-      .then(() => {
-        notify(t("copyLinkSuccess"));
-      })
-      .catch((err) => {
-        console.error("Failed to copy link to clipboard", err);
+    if (navigator.clipboard) {
+      const html = `${emojiName}&nbsp;<a href="${url}">${title}</a>&nbsp;`;
+      navigator.clipboard
+        .write([
+          new ClipboardItem({
+            "text/plain": new Blob([title], { type: "text/plain" }),
+            "text/html": new Blob([html], { type: "text/html" }),
+          }),
+        ])
+        .then(() => {
+          notify(t("copyLinkSuccess"));
+        })
+        .catch((err) => {
+          console.error("Failed to copy link to clipboard", err);
+          notify(t("copyLinkFailure"));
+        });
+    } else {
+      // Fallback for websites that don't support https
+      const spanTarget = document.createElement("span");
+      spanTarget.textContent = emojiName + " ";
+      const anchorTarget = document.createElement("a");
+      anchorTarget.setAttribute("href", url);
+      anchorTarget.textContent = title;
+      spanTarget.appendChild(anchorTarget);
+      document.body.appendChild(spanTarget);
+      const range = document.createRange();
+      range.selectNode(spanTarget);
+      const select = window.getSelection();
+      if (!select) {
         notify(t("copyLinkFailure"));
-      });
+        return;
+      }
+      select.removeAllRanges();
+      select.addRange(range);
+      document.execCommand("copy");
+      select.removeAllRanges();
+      document.body.removeChild(spanTarget);
+      notify(t("copyLinkSuccess"));
+    }
   }
 }

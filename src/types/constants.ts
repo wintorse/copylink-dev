@@ -14,7 +14,7 @@ export const defaultEmojiNames: EmojiNames = {
   jiraIssue: ":jira:",
   asanaTask: ":asana:",
   backlogIssue: ":backlog:",
-  redmineIssue: ":redmine_ticket:",
+  redmineTicket: ":redmine_ticket:",
 } as const;
 
 export const emojiElements: { [key in keyof EmojiNames]: string } = {
@@ -31,5 +31,5 @@ export const emojiElements: { [key in keyof EmojiNames]: string } = {
   jiraIssue: "emojiName-jira-issue",
   asanaTask: "emojiName-asana-task",
   backlogIssue: "emojiName-backlog-issue",
-  redmineIssue: "emojiName-redmine-ticket",
+  redmineTicket: "emojiName-redmine-ticket",
 } as const;

@@ -20,5 +20,5 @@ export type EmojiNames = {
   jiraIssue: string;
   asanaTask: string;
   backlogIssue: string;
-  redmineIssue: string;
+  redmineTicket: string;
 };

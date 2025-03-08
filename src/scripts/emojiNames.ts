@@ -20,7 +20,7 @@ export function getEmojiName(): Promise<string> {
     jiraIssue: ":jira:",
     asanaTask: ":asana:",
     backlogIssue: ":backlog:",
-    redmineIssue: ":redmine_ticket:",
+    redmineTicket: ":redmine_ticket:",
   } as const;
   return new Promise((resolve) => {
     chrome.storage.local.get("emojiNames", function (data) {
@@ -71,7 +71,7 @@ export function getEmojiName(): Promise<string> {
         hostname.includes("redmine") ||
         document.querySelector("#footer a")?.textContent?.includes("Redmine")
       ) {
-        result = emojiNames.redmineIssue;
+        result = emojiNames.redmineTicket;
       } else if (document.body.id === "jira") {
         result = emojiNames.jiraIssue;
       } else if (document.querySelector("[id^='WacFrame']")) {

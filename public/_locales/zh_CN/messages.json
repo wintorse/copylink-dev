@@ -1,15 +1,15 @@
 {
   "description": {
-    "message": "用快捷方式复制标题链接。 有些网站还支持标题格式和 Slack 表情符号。"
+    "message": "使用快捷键复制链接。在支持的网站上，可创建带 Slack 表情的链接。"
   },
   "copyLinkDescription": {
     "message": "复制链接"
   },
   "copyLinkForSlackDescription": {
-    "message": "复制带Slack表情符号的链接"
+    "message": "复制Slack格式链接"
   },
   "copyTitleDescription": {
-    "message": "复制标题"
+    "message": "仅复制标题"
   },
   "copyTitleSuccess": {
     "message": "标题已复制到剪贴板"
@@ -30,7 +30,7 @@
     "message": "快捷键设置"
   },
   "openExtensionsPage": {
-    "message": "打开扩展页面，然后点击左侧菜单中的“键盘快捷键”。"
+    "message": "修改快捷键：chrome://extensions/shortcuts"
   },
   "slackEmojiSettings": {
     "message": "Slack表情符号设置"
@@ -77,7 +77,7 @@
   "backlogIssue": {
     "message": "Backlog Issue"
   },
-  "redmineTicket": {
+  "redmineIssue": {
     "message": "Redmine问题"
   }
 }

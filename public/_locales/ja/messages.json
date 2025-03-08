@@ -1,15 +1,15 @@
 {
   "description": {
-    "message": "ショートカットでリンクをコピーします。一部サイトでは、タイトルの整形や Slack 絵文字にも対応。"
+    "message": "ショートカットでリンクをコピー。対応サイトでは、Slack 絵文字つきリンクも作成。"
   },
   "copyLinkDescription": {
     "message": "リンクをコピー"
   },
   "copyLinkForSlackDescription": {
-    "message": "Slack 絵文字つきのリンクをコピー"
+    "message": "Slack 絵文字つきリンクをコピー"
   },
   "copyTitleDescription": {
-    "message": "タイトルをコピー"
+    "message": "タイトルのみコピー"
   },
   "copyTitleSuccess": {
     "message": "タイトルをクリップボードにコピーしました"
@@ -30,7 +30,7 @@
     "message": "ショートカット設定"
   },
   "openExtensionsPage": {
-    "message": "拡張機能ページを開き、左側のメニューから\n「キーボード ショートカット」を開いてください。"
+    "message": "chrome://extensions/shortcuts から設定できます"
   },
   "slackEmojiSettings": {
     "message": "Slack 絵文字設定"
@@ -77,7 +77,7 @@
   "backlogIssue": {
     "message": "Backlog 課題"
   },
-  "redmineTicket": {
+  "redmineIssue": {
     "message": "Redmine チケット"
   }
 }

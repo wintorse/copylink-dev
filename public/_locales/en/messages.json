@@ -1,15 +1,15 @@
 {
   "description": {
-    "message": "Copy text links with shortcuts. Some sites also support title formatting and Slack emoji."
+    "message": "Copy links with shortcuts. On supported sites, create Slack emoji-enhanced links."
   },
   "copyLinkDescription": {
     "message": "Copy link"
   },
   "copyLinkForSlackDescription": {
-    "message": "Copy link with a Slack emoji"
+    "message": "Copy link with Slack emoji"
   },
   "copyTitleDescription": {
-    "message": "Copy title"
+    "message": "Copy title only"
   },
   "copyTitleSuccess": {
     "message": "Title copied to clipboard"
@@ -30,13 +30,13 @@
     "message": "Shortcut Settings"
   },
   "openExtensionsPage": {
-    "message": "Open the Extensions page, and click \nKeyboard Shortcuts in the left-hand menu."
+    "message": "Customize shortcuts at chrome://extensions/shortcuts"
   },
   "slackEmojiSettings": {
     "message": "Slack Emoji Settings"
   },
   "changeEmojiNames": {
-    "message": "Change emoji names"
+    "message": "Update emoji names"
   },
   "googleSheets": {
     "message": "Google Sheets"
@@ -77,7 +77,7 @@
   "backlogIssue": {
     "message": "Backlog Issue"
   },
-  "redmineTicket": {
+  "redmineIssue": {
     "message": "Redmine Issue"
   }
 }

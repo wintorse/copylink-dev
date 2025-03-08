@@ -7,8 +7,6 @@
 </head>
 <body>
     <div class="container">
-        <h1 data-i18n="shortcutSettings">Shortcut Settings</h1>
-        <div data-i18n="openExtensionsPage">Open the Extensions page, and click Keyboard Shortcuts in the left-hand menu.</div>
         <h1 data-i18n="slackEmojiSettings">Slack Emoji Settings</h1>
         <form id="emojiForm">
             <label for="emojiName-google-sheets" data-i18n="googleSheets">Google Sheets</label>
@@ -19,11 +17,11 @@
             <input type="text" id="emojiName-google-slides" placeholder="Emoji Name">
             <label for="emojiName-google-drive" data-i18n="googleDrive">Google Drive</label>
             <input type="text" id="emojiName-google-drive" placeholder="Emoji Name">
-            <label for="emojiName-excel" data-i18n="excel">Microsoft Excel Online</label>
+            <label for="emojiName-excel" data-i18n="excel">Excel for the web</label>
             <input type="text" id="emojiName-excel" placeholder="Emoji Name">
-            <label for="emojiName-word" data-i18n="word">Microsoft Word Online</label>
+            <label for="emojiName-word" data-i18n="word">Word for the web</label>
             <input type="text" id="emojiName-word" placeholder="Emoji Name">
-            <label for="emojiName-powerpoint" data-i18n="powerpoint">Microsoft PowerPoint Online</label>
+            <label for="emojiName-powerpoint" data-i18n="powerpoint">PowerPoint for the web</label>
             <input type="text" id="emojiName-powerpoint" placeholder="Emoji Name">
             <label for="emojiName-github" data-i18n="github">GitHub</label>
             <input type="text" id="emojiName-github" placeholder="Emoji Name">
@@ -37,10 +35,13 @@
             <input type="text" id="emojiName-asana-task" placeholder="Emoji Name">
             <label for="emojiName-backlog-issue" data-i18n="backlogIssue">Backlog Issue</label>
             <input type="text" id="emojiName-backlog-issue" placeholder="Emoji Name">
-            <label for="emojiName-redmine-ticket" data-i18n="redmineTicket">Redmine Ticket</label>
+            <label for="emojiName-redmine-ticket" data-i18n="redmineTicket">Redmine Issue</label>
             <input type="text" id="emojiName-redmine-ticket" placeholder="Emoji Name">
-            <button id="updateEmojiNames" data-i18n="changeEmojiNames">Change emoji names</button>
         </form>
+        <button id="updateEmojiNames" data-i18n="changeEmojiNames">Update emoji names</button>
+        <hr>
+        <h1 data-i18n="shortcutSettings">Shortcut Settings</h1>
+        <div data-i18n="openExtensionsPage">Open the Extensions page, and click Keyboard Shortcuts in the left-hand menu.</div>
     </div>
     <script type="module" src="./scripts/popup.js"></script>
 </body>

@@ -19,6 +19,18 @@ h1 {
 form {
   display: flex;
   flex-direction: column;
+  height: 208px;
+  overflow-y: scroll;
+  padding-right: 4px;
+}
+
+form::-webkit-scrollbar {
+  width: 8px;
+}
+
+form::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
 }
 
 label {
@@ -35,6 +47,8 @@ input[type="text"] {
 }
 
 button {
+  width: 100%;
+  margin-top: 20px;
   padding: 10px;
   font-size: 1em;
   color: white;
@@ -46,4 +60,11 @@ button {
 
 button:hover {
   background-color: #0056b3;
+}
+
+hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid #ccc;
 }

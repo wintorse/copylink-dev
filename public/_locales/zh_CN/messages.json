@@ -1,4 +1,7 @@
 {
+  "name": {
+    "message": "copylink.dev | 使用快捷键复制链接"
+  },
   "description": {
     "message": "使用快捷键复制链接。在支持的网站上，可创建带 Slack 表情的链接。"
   },

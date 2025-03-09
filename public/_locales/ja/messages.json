@@ -1,4 +1,7 @@
 {
+  "name": {
+    "message": "copylink.dev | ショートカットでリンクをコピー"
+  },
   "description": {
     "message": "ショートカットでリンクをコピー。対応サイトでは、Slack 絵文字つきリンクも作成。"
   },

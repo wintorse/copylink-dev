@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "copylink.dev",
+  "name": "__MSG_name__",
   "description": "__MSG_description__",
   "version": "0.4.4",
   "default_locale": "en",

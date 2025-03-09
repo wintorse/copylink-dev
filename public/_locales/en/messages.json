@@ -1,4 +1,7 @@
 {
+  "name": {
+    "message": "copylink.dev | Copy link with shortcuts"
+  },
   "description": {
     "message": "Copy links with shortcuts. On supported sites, create Slack emoji-enhanced links."
   },
@@ -30,7 +33,7 @@
     "message": "Shortcut Settings"
   },
   "openExtensionsPage": {
-    "message": "Customize shortcuts at chrome://extensions/shortcuts"
+    "message": "Customize at chrome://extensions/shortcuts"
   },
   "slackEmojiSettings": {
     "message": "Slack Emoji Settings"

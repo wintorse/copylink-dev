@@ -22,7 +22,7 @@ function isValidCommand(command: string): command is Command {
   );
 }
 
-window.addEventListener("executeCommand", (event) => {
+window.addEventListener("copylinkDevExecuteCommand", (event) => {
   const command = (event as CustomEvent).detail;
   if (isValidCommand(command)) {
     handleCommand(command);

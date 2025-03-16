@@ -16,7 +16,9 @@ try {
                 target: { tabId: tabId },
                 func: (command) => {
                   window.dispatchEvent(
-                    new CustomEvent("executeCommand", { detail: command })
+                    new CustomEvent("copylinkDevExecuteCommand", {
+                      detail: command,
+                    })
                   );
                 },
                 args: [command],

@@ -1,29 +1,10 @@
 import type { EmojiNames } from "../types/types";
-import { emojiElements, defaultEmojiNames } from "../types/constants";
-
-// Retrieve emoji names from storage and update the form inputs
-function getEmojiNames() {
-  chrome.storage.local.get("emojiNames", (data) => {
-    const emojiNames: EmojiNames = data.emojiNames || defaultEmojiNames;
-    updateFormInputs(emojiNames);
-  });
-}
-
-// Update form inputs with the retrieved emoji names
-function updateFormInputs(emojiNames: EmojiNames) {
-  for (const key in emojiElements) {
-    const element = document.getElementById(
-      emojiElements[key as keyof EmojiNames]
-    ) as HTMLInputElement;
-    if (element) {
-      element.value = emojiNames[key as keyof EmojiNames] ?? "";
-    }
-  }
-}
+import { getEmojiElements, getDefaultEmojiName } from "../types/constants";
 
 // Update emoji names in storage based on form inputs
 function updateEmojiNames() {
   const emojiNames: Partial<EmojiNames> = {};
+  const emojiElements = getEmojiElements();
   for (const key in emojiElements) {
     const element = document.getElementById(
       emojiElements[key as keyof EmojiNames]
@@ -47,13 +28,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Get emoji names when the page is loaded and reflect them in the form.
   chrome.storage.local.get("emojiNames", function (data) {
-    if (!data.emojiNames) {
-      chrome.storage.local.set(
-        { emojiNames: defaultEmojiNames },
-        getEmojiNames
-      );
-    } else {
-      getEmojiNames();
+    const emojiElements = getEmojiElements();
+    for (const key in emojiElements) {
+      const element = document.getElementById(
+        emojiElements[key as keyof EmojiNames]
+      ) as HTMLInputElement;
+      if (element) {
+        const emojiName =
+          data.emojiNames?.[key as keyof EmojiNames] ||
+          getDefaultEmojiName(key as keyof EmojiNames);
+        element.value = emojiName;
+      }
     }
   });
 });

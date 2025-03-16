@@ -1,7 +1,6 @@
 import { getFormattedTitle } from "./titleRetrievers";
 import { getEmojiName } from "./emojiNames";
 import { showToast } from "../utils/toast";
-import { ValidCommands } from "../types/types";
 import type { Command } from "../types/types";
 
 /**
@@ -26,8 +25,14 @@ export async function copyTextLink(command: Command) {
     // chrome.runtime.sendMessage({ type: "copylink.dev-notification", message });
   };
 
+  const VALID_COMMANDS = {
+    COPY_LINK: "copy-link",
+    COPY_LINK_FOR_SLACK: "copy-link-for-slack",
+    COPY_TITLE: "copy-title",
+  } as const satisfies { [key: string]: Command };
+
   // Copy the title only to the clipboard
-  if (command === ValidCommands.COPY_TITLE) {
+  if (command === VALID_COMMANDS.COPY_TITLE) {
     if (navigator.clipboard) {
       navigator.clipboard
         .writeText(title)
@@ -52,7 +57,7 @@ export async function copyTextLink(command: Command) {
   }
 
   // Writing plain text and HTML to the clipboard allows you to use it as a text link.
-  if (command === ValidCommands.COPY_LINK) {
+  if (command === VALID_COMMANDS.COPY_LINK) {
     if (navigator.clipboard) {
       navigator.clipboard
         .write([
@@ -94,7 +99,7 @@ export async function copyTextLink(command: Command) {
   const emojiName = await getEmojiName();
 
   // Copy plain text and HTML with Slack emoji name to clipboard
-  if (command === ValidCommands.COPY_LINK_FOR_SLACK) {
+  if (command === VALID_COMMANDS.COPY_LINK_FOR_SLACK) {
     if (navigator.clipboard) {
       const html = `${emojiName}&nbsp;<a href="${url}">${title}</a>&nbsp;`;
       navigator.clipboard

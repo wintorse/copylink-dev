@@ -22,11 +22,14 @@ function isValidCommand(command: string): command is Command {
   );
 }
 
-window.addEventListener("copylinkDevExecuteCommand", (event) => {
-  const command = (event as CustomEvent).detail;
-  if (isValidCommand(command)) {
-    handleCommand(command);
-    return true;
-  }
-  return false;
-});
+if (!window.hasCopylinkDevListener) {
+  window.hasCopylinkDevListener = true;
+  window.addEventListener("copylinkDevExecuteCommand", (event) => {
+    const command = (event as CustomEvent).detail;
+    if (isValidCommand(command)) {
+      handleCommand(command);
+      return true;
+    }
+    return false;
+  });
+}

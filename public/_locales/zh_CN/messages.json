@@ -84,7 +84,10 @@
     "message": "Redmine问题"
   },
   "customWebsites": {
-    "message": "自定义网站的URL正则表达式"
+    "message": "自定义网站和表情符号"
+  },
+  "customWebsitesDescription": {
+    "message": "使用正则表达式指定URL，以便在您喜欢的网站上复制表情符号。"
   },
   "customWebsite1": {
     "message": "自定义网站 1"

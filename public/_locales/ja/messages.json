@@ -84,7 +84,10 @@
     "message": "Redmine チケット"
   },
   "customWebsites": {
-    "message": "URLを正規表現で指定して追加"
+    "message": "Web サイトと絵文字を追加"
+  },
+  "customWebsitesDescription": {
+    "message": "URL を正規表現で指定すると、お好みの Web サイトで指定した絵文字をコピーします。"
   },
   "customWebsite1": {
     "message": "カスタム Web サイト 1"

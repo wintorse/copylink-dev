@@ -84,7 +84,10 @@
     "message": "Redmine Issue"
   },
   "customWebsites": {
-    "message": "Regular expressions of custom websites URLs"
+    "message": "Custom Websites and Emojis"
+  },
+  "customWebsiteDescription": {
+    "message": "Add custom websites to use emojis. You can use regular expressions to match URLs."
   },
   "customWebsite1": {
     "message": "Custom website 1"

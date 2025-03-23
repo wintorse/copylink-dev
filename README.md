@@ -20,6 +20,8 @@ For the following sites, it has the functionality to format titles and also copy
 - Backlog Issue
 - Redmine Issue
 
+Additionally, you can specify your preferred site URLs using regular expressions in the settings screen and set emojis (e.g., https://example\.com).
+
 For other sites, it copies links with `document.title`, which is the title of the current webpage.
 
 ## Installation

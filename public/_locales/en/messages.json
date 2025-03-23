@@ -32,8 +32,8 @@
   "shortcutSettings": {
     "message": "Shortcut Settings"
   },
-  "openExtensionsPage": {
-    "message": "Customize at chrome://extensions/shortcuts"
+  "extensionsLink": {
+    "message": "Customize at <0>chrome://extensions/shortcuts</0>"
   },
   "slackEmojiSettings": {
     "message": "Slack Emoji Settings"
@@ -82,5 +82,23 @@
   },
   "redmineIssue": {
     "message": "Redmine Issue"
+  },
+  "customWebsites": {
+    "message": "Regular expressions of custom websites URLs"
+  },
+  "customWebsite1": {
+    "message": "Custom website 1"
+  },
+  "customWebsite2": {
+    "message": "Custom website 2"
+  },
+  "customWebsite3": {
+    "message": "Custom website 3"
+  },
+  "customWebsite4": {
+    "message": "Custom website 4"
+  },
+  "customWebsite5": {
+    "message": "Custom website 5"
   }
 }

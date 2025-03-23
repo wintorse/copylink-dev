@@ -1,5 +1,9 @@
-import type { EmojiNames } from "../types/types";
-import { getEmojiElements, getDefaultEmojiName } from "../types/constants";
+import type { EmojiNames, CustomRegexes } from "../types/types";
+import {
+  getEmojiElements,
+  getCustomRegexElements,
+  getDefaultEmojiName,
+} from "../types/constants";
 
 // Update emoji names in storage based on form inputs
 function updateEmojiNames() {
@@ -16,6 +20,20 @@ function updateEmojiNames() {
   chrome.storage.local.set({ emojiNames: emojiNames });
 }
 
+function updateCustomRegexes() {
+  const customRegexes: Partial<CustomRegexes> = {};
+  const customRegexElements = getCustomRegexElements();
+  for (const key in customRegexElements) {
+    const element = document.getElementById(
+      customRegexElements[key as keyof CustomRegexes]
+    ) as HTMLInputElement;
+    if (element) {
+      customRegexes[key as keyof CustomRegexes] = element.value;
+    }
+  }
+  chrome.storage.local.set({ copylinkdevCustomRegexes: customRegexes });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // i18n
   const elements = document.querySelectorAll("[data-i18n]");
@@ -26,7 +44,19 @@ document.addEventListener("DOMContentLoaded", () => {
       : el.textContent;
   });
 
-  // Get emoji names when the page is loaded and reflect them in the form.
+  const i18nElement = document.getElementById("extensionsLink");
+  if (i18nElement) {
+    const rawMessage = chrome.i18n.getMessage("extensionsLink");
+    const link = document.createElement("a");
+    link.href = "chrome://extensions/shortcuts";
+    link.textContent = "chrome://extensions/shortcuts";
+    link.target = "_blank";
+
+    // プレースホルダー <0> を <a> 要素に置き換え
+    i18nElement.innerHTML = rawMessage.replace(/<0>(.*?)<\/0>/, link.outerHTML);
+  }
+
+  // Get emoji names and custom regexes when the page is loaded and reflect them in the form.
   chrome.storage.local.get("emojiNames", function (data) {
     const emojiElements = getEmojiElements();
     for (const key in emojiElements) {
@@ -38,11 +68,24 @@ document.addEventListener("DOMContentLoaded", () => {
           data.emojiNames?.[key as keyof EmojiNames] ||
           getDefaultEmojiName(key as keyof EmojiNames);
         element.value = emojiName;
+
+        element.addEventListener("input", updateEmojiNames);
       }
     }
   });
-});
 
-document.getElementById("updateEmojiNames")?.addEventListener("click", () => {
-  updateEmojiNames();
+  chrome.storage.local.get("copylinkdevCustomRegexes", function (data) {
+    const customRegexElements = getCustomRegexElements();
+    for (const key in customRegexElements) {
+      const element = document.getElementById(
+        customRegexElements[key as keyof CustomRegexes]
+      ) as HTMLInputElement;
+      if (element) {
+        element.value =
+          data.copylinkdevCustomRegexes?.[key as keyof CustomRegexes] || "";
+
+        element.addEventListener("input", updateCustomRegexes);
+      }
+    }
+  });
 });

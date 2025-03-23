@@ -32,8 +32,8 @@
   "shortcutSettings": {
     "message": "ショートカット設定"
   },
-  "openExtensionsPage": {
-    "message": "chrome://extensions/shortcuts から設定できます"
+  "extensionsLink": {
+    "message": "<0>chrome://extensions/shortcuts</0> から設定できます"
   },
   "slackEmojiSettings": {
     "message": "Slack 絵文字設定"
@@ -82,5 +82,23 @@
   },
   "redmineIssue": {
     "message": "Redmine チケット"
+  },
+  "customWebsites": {
+    "message": "URLを正規表現で指定して追加"
+  },
+  "customWebsite1": {
+    "message": "カスタム Web サイト 1"
+  },
+  "customWebsite2": {
+    "message": "カスタム Web サイト 2"
+  },
+  "customWebsite3": {
+    "message": "カスタム Web サイト 3"
+  },
+  "customWebsite4": {
+    "message": "カスタム Web サイト 4"
+  },
+  "customWebsite5": {
+    "message": "カスタム Web サイト 5"
   }
 }

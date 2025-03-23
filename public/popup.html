@@ -6,8 +6,13 @@
     <link rel="stylesheet" href="styles/popup.css">
 </head>
 <body>
-    <div class="container">
+    <div class="logo-container">
+        <img src="images/logo.svg" alt="Logo" class="logo">
+        <img src="images/text_logo.svg" alt="Text Logo" class="text-logo">
+    </div>
+    <div class="main-container">
         <h1 data-i18n="slackEmojiSettings">Slack Emoji Settings</h1>
+        <hr>
         <form id="emojiForm">
             <label for="emojiName-google-sheets" data-i18n="googleSheets">Google Sheets</label>
             <input type="text" id="emojiName-google-sheets" placeholder="Emoji Name">
@@ -37,12 +42,34 @@
             <input type="text" id="emojiName-backlog-issue" placeholder="Emoji Name">
             <label for="emojiName-redmine-issue" data-i18n="redmineIssue">Redmine Issue</label>
             <input type="text" id="emojiName-redmine-issue" placeholder="Emoji Name">
+            <h2 data-i18n="customWebsites">Custom Websites</h2>
+            <label for="emojiName-custom-1" data-i18n="customWebsite1">Custom Website 1</label>
+            <input type="text" id="regex-custom-1" placeholder="https://example\.com">
+            <input type="text" id="emojiName-custom-1" placeholder="Emoji Name">
+            <label for="emojiName-custom-2" data-i18n="customWebsite2">Custom Website 2</label>
+            <input type="text" id="regex-custom-2" placeholder="https://example\.com">
+            <input type="text" id="emojiName-custom-2" placeholder="Emoji Name">
+            <label for="emojiName-custom-3" data-i18n="customWebsite3">Custom Website 3</label>
+            <input type="text" id="regex-custom-3" placeholder="https://example\.com">
+            <input type="text" id="emojiName-custom-3" placeholder="Emoji Name">
+            <label for="emojiName-custom-4" data-i18n="customWebsite4">Custom Website 4</label>
+            <input type="text" id="regex-custom-4" placeholder="https://example\.com">
+            <input type="text" id="emojiName-custom-4" placeholder="Emoji Name">
+            <label for="emojiName-custom-5" data-i18n="customWebsite5">Custom Website 5</label>
+            <input type="text" id="regex-custom-5" placeholder="https://example\.com">
+            <input type="text" id="emojiName-custom-5" placeholder="Emoji Name">
         </form>
-        <button id="updateEmojiNames" data-i18n="changeEmojiNames">Update emoji names</button>
-        <hr>
+        <hr class="no-margin">
         <h1 data-i18n="shortcutSettings">Shortcut Settings</h1>
-        <div data-i18n="openExtensionsPage">Open the Extensions page, and click Keyboard Shortcuts in the left-hand menu.</div>
+        <div id="extensionsLink" data-i18n="extensionsLink">Customize at chrome://extensions/shortcuts</div>
     </div>
+    <hr class="no-margin">
+    <footer class="footer">
+        <a href="https://github.com/wintorse/copylink-dev" target="_blank" class="github-link">
+            <img src="images/github-icon.svg" alt="GitHub" class="github-icon">
+            wintorse/copylink-dev
+        </a>
+    </footer>
     <script type="module" src="./scripts/popup.js"></script>
 </body>
 </html>

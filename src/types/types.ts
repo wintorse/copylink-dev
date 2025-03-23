@@ -21,4 +21,17 @@ export type EmojiNames = {
   asanaTask: string;
   backlogIssue: string;
   redmineIssue: string;
+  customWebsite1: string;
+  customWebsite2: string;
+  customWebsite3: string;
+  customWebsite4: string;
+  customWebsite5: string;
+};
+
+export type CustomRegexes = {
+  customRegex1: string;
+  customRegex2: string;
+  customRegex3: string;
+  customRegex4: string;
+  customRegex5: string;
 };

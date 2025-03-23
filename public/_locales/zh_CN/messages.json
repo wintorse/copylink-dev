@@ -32,8 +32,8 @@
   "shortcutSettings": {
     "message": "快捷键设置"
   },
-  "openExtensionsPage": {
-    "message": "修改快捷键：chrome://extensions/shortcuts"
+  "extensionsLink": {
+    "message": "修改快捷键：<0>chrome://extensions/shortcuts</0>"
   },
   "slackEmojiSettings": {
     "message": "Slack表情符号设置"
@@ -82,5 +82,23 @@
   },
   "redmineIssue": {
     "message": "Redmine问题"
+  },
+  "customWebsites": {
+    "message": "自定义网站的URL正则表达式"
+  },
+  "customWebsite1": {
+    "message": "自定义网站 1"
+  },
+  "customWebsite2": {
+    "message": "自定义网站 2"
+  },
+  "customWebsite3": {
+    "message": "自定义网站 3"
+  },
+  "customWebsite4": {
+    "message": "自定义网站 4"
+  },
+  "customWebsite5": {
+    "message": "自定义网站 5"
   }
 }

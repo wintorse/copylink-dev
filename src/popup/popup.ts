@@ -44,18 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
       : el.textContent;
   });
 
-  const i18nElement = document.getElementById("extensionsLink");
-  if (i18nElement) {
-    const rawMessage = chrome.i18n.getMessage("extensionsLink");
-    const link = document.createElement("a");
-    link.href = "chrome://extensions/shortcuts";
-    link.textContent = "chrome://extensions/shortcuts";
-    link.target = "_blank";
-
-    // プレースホルダー <0> を <a> 要素に置き換え
-    i18nElement.innerHTML = rawMessage.replace(/<0>(.*?)<\/0>/, link.outerHTML);
-  }
-
   // Get emoji names and custom regexes when the page is loaded and reflect them in the form.
   chrome.storage.local.get("emojiNames", function (data) {
     const emojiElements = getEmojiElements();

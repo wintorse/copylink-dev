@@ -29,12 +29,6 @@
   "settingsTitle": {
     "message": "Settings"
   },
-  "shortcutSettings": {
-    "message": "Shortcut Settings"
-  },
-  "extensionsLink": {
-    "message": "Customize at <0>chrome://extensions/shortcuts</0>"
-  },
   "slackEmojiSettings": {
     "message": "Slack Emoji Settings"
   },

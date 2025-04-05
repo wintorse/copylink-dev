@@ -29,12 +29,6 @@
   "settingsTitle": {
     "message": "设置"
   },
-  "shortcutSettings": {
-    "message": "快捷键设置"
-  },
-  "extensionsLink": {
-    "message": "修改快捷键：<0>chrome://extensions/shortcuts</0>"
-  },
   "slackEmojiSettings": {
     "message": "Slack表情符号设置"
   },

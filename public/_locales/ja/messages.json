@@ -29,12 +29,6 @@
   "settingsTitle": {
     "message": "設定"
   },
-  "shortcutSettings": {
-    "message": "ショートカット設定"
-  },
-  "extensionsLink": {
-    "message": "<0>chrome://extensions/shortcuts</0> から設定できます"
-  },
   "slackEmojiSettings": {
     "message": "Slack 絵文字設定"
   },

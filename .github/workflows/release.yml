@@ -24,7 +24,7 @@ jobs:
         id: get_version
         run: |
           echo "VERSION=v$(jq -r .version < package.json)" >> $GITHUB_ENV
-          echo "VERSION_FIREFOX=${{ VERSION }}-firefox" >> $GITHUB_ENV
+          echo "VERSION_FIREFOX=${{ env.VERSION }}-firefox" >> $GITHUB_ENV
 
       - name: Build for Chrome
         run: npm run build

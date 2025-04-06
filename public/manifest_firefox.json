@@ -1,0 +1,63 @@
+{
+  "manifest_version": 2,
+  "name": "__MSG_name__",
+  "description": "__MSG_description__",
+  "version": "0.6.0",
+  "default_locale": "en",
+  "icons": {
+    "16": "images/icon-16.png",
+    "32": "images/icon-32.png",
+    "48": "images/icon-48.png",
+    "128": "images/icon-128.png"
+  },
+  "homepage_url": "https://github.com/wintorse/copylink-dev",
+  "applications": {
+    "gecko": {
+      "id": "copylinkdev@wintorse.com",
+      "strict_min_version": "109.0"
+    }
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "web_accessible_resources": [
+    "styles/toast.css"
+  ],
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "images/icon-16.png",
+      "32": "images/icon-32.png",
+      "48": "images/icon-48.png",
+      "128": "images/icon-128.png"
+    }
+  },
+  "commands": {
+    "copy-link": {
+      "suggested_key": {
+        "default": "Alt+L",
+        "mac": "MacCtrl+L"
+      },
+      "description": "__MSG_copyLinkDescription__"
+    },
+    "copy-link-for-slack": {
+      "suggested_key": {
+        "default": "Alt+Shift+L",
+        "mac": "MacCtrl+Shift+L"
+      },
+      "description": "__MSG_copyLinkForSlackDescription__"
+    },
+    "copy-title": {
+      "suggested_key": {
+        "default": "Alt+T",
+        "mac": "MacCtrl+T"
+      },
+      "description": "__MSG_copyTitleDescription__"
+    }
+  },
+  "background": {
+    "scripts": ["scripts/background_firefox.js"]
+  }
+}

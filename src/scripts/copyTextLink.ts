@@ -13,11 +13,70 @@ import type { Command } from "../types/types";
  *
  * The function also displays a toast message indicating the success or failure of the copy operation.
  */
+async function copyToClipboard(
+  text: string,
+  notify: (message: string) => void,
+  successMessage: string,
+  failureMessage: string,
+  html?: string
+) {
+  try {
+    if (navigator.clipboard) {
+      if (html) {
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            "text/plain": new Blob([text], { type: "text/plain" }),
+            "text/html": new Blob([html], { type: "text/html" }),
+          }),
+        ]);
+      } else {
+        await navigator.clipboard.writeText(text);
+      }
+      notify(successMessage);
+    } else {
+      throw new Error("Clipboard API not supported");
+    }
+  } catch (err) {
+    notify(failureMessage);
+    // Fallback for Firefox and HTTP URLs
+    // HTTP URLs are not supported by the Clipboard API
+    // Firefox is said to require a user gesture to copy,
+    // but the shortcuts seem to work when run within five seconds after a click
+    // https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText#browser_compatibility
+    const fallbackElement = html
+      ? createFallbackHtmlElement(html)
+      : createFallbackTextElement(text);
+    document.body.appendChild(fallbackElement);
+    const range = document.createRange();
+    range.selectNode(fallbackElement);
+    const selection = window.getSelection();
+    if (selection) {
+      selection.removeAllRanges();
+      selection.addRange(range);
+      document.execCommand("copy");
+      selection.removeAllRanges();
+    }
+    document.body.removeChild(fallbackElement);
+    notify(successMessage);
+  }
+}
+
+function createFallbackTextElement(text: string): HTMLTextAreaElement {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  return textArea;
+}
+
+function createFallbackHtmlElement(html: string): HTMLElement {
+  const container = document.createElement("div");
+  container.innerHTML = html;
+  return container;
+}
+
 export async function copyTextLink(command: Command) {
   const title = getFormattedTitle();
   const url = document.URL;
   const html = `<a href="${url}">${title}</a>&nbsp;`;
-
   const t = (key: string): string => chrome.i18n.getMessage(key);
 
   const notify = (message: string) => {
@@ -31,113 +90,31 @@ export async function copyTextLink(command: Command) {
     COPY_TITLE: "copy-title",
   } as const satisfies { [key: string]: Command };
 
-  // Copy the title only to the clipboard
   if (command === VALID_COMMANDS.COPY_TITLE) {
-    if (navigator.clipboard) {
-      navigator.clipboard
-        .writeText(title)
-        .then(() => {
-          notify(t("copyTitleSuccess"));
-        })
-        .catch((err) => {
-          console.error("Failed to copy title to clipboard", err);
-          notify(t("copyTitleFailure"));
-        });
-      return;
-    } else {
-      // Fallback for websites that don't support https
-      const textArea = document.createElement("textarea");
-      textArea.value = title;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand("copy");
-      document.body.removeChild(textArea);
-      notify(t("copyTitleSuccess"));
-    }
-  }
-
-  // Writing plain text and HTML to the clipboard allows you to use it as a text link.
-  if (command === VALID_COMMANDS.COPY_LINK) {
-    if (navigator.clipboard) {
-      navigator.clipboard
-        .write([
-          new ClipboardItem({
-            "text/plain": new Blob([title], { type: "text/plain" }),
-            "text/html": new Blob([html], { type: "text/html" }),
-          }),
-        ])
-        .then(() => {
-          notify(t("copyLinkSuccess"));
-        })
-        .catch((err) => {
-          console.error("Failed to copy link to clipboard", err);
-          notify(t("copyLinkFailure"));
-        });
-    } else {
-      // Fallback for websites that don't support https
-      const target = document.createElement("a");
-      target.setAttribute("href", url);
-      target.textContent = title;
-      document.body.appendChild(target);
-
-      const range = document.createRange();
-      range.selectNode(target);
-      const select = window.getSelection();
-      if (!select) {
-        notify(t("copyLinkFailure"));
-        return;
-      }
-      select.removeAllRanges();
-      select.addRange(range);
-      document.execCommand("copy");
-      select.removeAllRanges();
-      document.body.removeChild(target);
-      notify(t("copyLinkSuccess"));
-    }
-  }
-
-  const emojiName = await getEmojiName();
-
-  // Copy plain text and HTML with Slack emoji name to clipboard
-  if (command === VALID_COMMANDS.COPY_LINK_FOR_SLACK) {
-    if (navigator.clipboard) {
-      const html = `${emojiName}&nbsp;<a href="${url}">${title}</a>&nbsp;`;
-      navigator.clipboard
-        .write([
-          new ClipboardItem({
-            "text/plain": new Blob([title], { type: "text/plain" }),
-            "text/html": new Blob([html], { type: "text/html" }),
-          }),
-        ])
-        .then(() => {
-          notify(t("copyLinkSuccess"));
-        })
-        .catch((err) => {
-          console.error("Failed to copy link to clipboard", err);
-          notify(t("copyLinkFailure"));
-        });
-    } else {
-      // Fallback for websites that don't support https
-      const spanTarget = document.createElement("span");
-      spanTarget.textContent = emojiName + " ";
-      const anchorTarget = document.createElement("a");
-      anchorTarget.setAttribute("href", url);
-      anchorTarget.textContent = title;
-      spanTarget.appendChild(anchorTarget);
-      document.body.appendChild(spanTarget);
-      const range = document.createRange();
-      range.selectNode(spanTarget);
-      const select = window.getSelection();
-      if (!select) {
-        notify(t("copyLinkFailure"));
-        return;
-      }
-      select.removeAllRanges();
-      select.addRange(range);
-      document.execCommand("copy");
-      select.removeAllRanges();
-      document.body.removeChild(spanTarget);
-      notify(t("copyLinkSuccess"));
-    }
+    await copyToClipboard(
+      title,
+      notify,
+      t("copyTitleSuccess"),
+      t("copyTitleFailure"),
+      undefined
+    );
+  } else if (command === VALID_COMMANDS.COPY_LINK) {
+    await copyToClipboard(
+      title,
+      notify,
+      t("copyLinkSuccess"),
+      t("copyLinkFailure"),
+      html
+    );
+  } else if (command === VALID_COMMANDS.COPY_LINK_FOR_SLACK) {
+    const emojiName = await getEmojiName();
+    const slackHtml = `${emojiName}&nbsp;<a href="${url}">${title}</a>&nbsp;`;
+    await copyToClipboard(
+      title,
+      notify,
+      t("copyLinkSuccess"),
+      t("copyLinkFailure"),
+      slackHtml
+    );
   }
 }

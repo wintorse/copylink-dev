@@ -1,7 +1,7 @@
 [日本語版 README はこちら](./README-ja.md)
 
 # copylink.dev
-A browser extension that copies text links with shortcuts. Some sites also support title formatting and Slack emoji.
+A browser extension that copies text links with shortcuts. Some websites also support title formatting and Slack emoji.
 
 ## Features
 Provides shortcuts to easily copy text links with titles, such as "[My spreadsheet](https://example.com)".
@@ -20,14 +20,37 @@ Additionally, you can specify your preferred site URLs using regular expressions
 
 For other sites, it copies links with `document.title`, which is the title of the current webpage.
 
-## Installation
+## Installation - Chrome and Chromium-based browsers
 Install from [Chrome Web Store](https://chromewebstore.google.com/detail/copylinkdev/ohkebnhdjdgmfnhcmdpkdfddongdjadp)
 
-Or
-1. Download and unzip the latest zip file from Releases
+Or install from Release:
+1. Download and unzip the latest zip file from [Releases](https://github.com/wintorse/copylink-dev/releases/latest)
 2. Go to [chrome://extensions/](chrome://extensions/)
 3. Enable "Developer mode" in the top right corner
 4. Click "Load unpacked" and select the unzipped folder
+
+Or build from the source code:
+1. Clone this repository
+2. Run `npm i` to install dev dependencies
+3. Run `npm run build`
+4. Go to [chrome://extensions/](chrome://extensions/)
+5. Enable "Developer mode" in the top right corner
+6. Click "Load unpacked" and select the `dist` folder
+
+## Installation - Firefox
+Install from [Firefox Browser Add-Ons](https://addons.mozilla.org/)
+
+Or install from Release:
+1. Download and unzip the latest zip file from [Releases](https://github.com/wintorse/copylink-dev/releases/latest)
+2. Go to [Debugger page](about:debugging#/runtime/this-firefox)
+3. Click "Load Temporary Add-on…" and select any file in the unzipped folder
+
+Or build from the source code:
+1. Clone this repository
+2. Run `npm i` to install dev dependencies
+3. Run `npm run build-firefox`
+4. Go to [Debugger page](about:debugging#/runtime/this-firefox)
+5. Click "Load Temporary Add-on…" and select any file in the `dist` folder
 
 ## Usage
 1. Execute the following shortcuts on website

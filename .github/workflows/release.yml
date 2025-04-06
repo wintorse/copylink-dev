@@ -24,7 +24,7 @@ jobs:
         id: get_version
         run: |
           echo "VERSION=v$(jq -r .version < package.json)" >> $GITHUB_ENV
-          echo "VERSION_firefox=${{ env.VERSION }}-firefox" >> $GITHUB_ENV
+          echo "VERSION_FIREFOX=${{ VERSION }}-firefox" >> $GITHUB_ENV
 
       - name: Build for Chrome
         run: npm run build
@@ -38,7 +38,7 @@ jobs:
       - name: Zip Firefox output
         run: |
           cd dist
-          zip -r ../${{ env.VERSION_firefox }}.zip ./*
+          zip -r ../${{ env.VERSION_FIREFOX }}.zip ./*
 
       - name: Create Release
         id: create_release
@@ -69,6 +69,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ env.VERSION_firefox }}.zip
-          asset_name: copylink-dev_${{ env.VERSION_firefox }}.zip
+          asset_path: ./${{ env.VERSION_FIREFOX }}.zip
+          asset_name: copylink-dev_${{ env.VERSION_FIREFOX }}.zip
           asset_content_type: application/zip

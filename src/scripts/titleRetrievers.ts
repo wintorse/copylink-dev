@@ -47,12 +47,8 @@ function getGoogleDriveTitle(): string {
 }
 
 function getGitHubTitle(): string {
-  const titleElement = document.querySelector<HTMLElement>(
-    "#partial-discussion-header h1 bdi"
-  );
-  const idElement = document.querySelector<HTMLSpanElement>(
-    "#partial-discussion-header h1 span"
-  );
+  const titleElement = document.querySelector<HTMLElement>("h1 bdi");
+  const idElement = document.querySelector<HTMLSpanElement>("h1 span");
   return titleElement && idElement
     ? `${idElement.textContent} ${titleElement.textContent}`
     : document.title;

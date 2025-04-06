@@ -5,7 +5,8 @@
   "main": "src/background.ts",
   "type": "module",
   "scripts": {
-    "build": "tsc && vite build --emptyOutDir"
+    "build": "tsc && vite build --emptyOutDir",
+    "build-firefox": "tsc && vite build --emptyOutDir --minify false --mode firefox"
   },
   "repository": {
     "type": "git",

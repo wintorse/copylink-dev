@@ -22,9 +22,11 @@ jobs:
 
       - name: Get version from package.json
         id: get_version
-        run: |
-          echo "VERSION=v$(jq -r .version < package.json)" >> $GITHUB_ENV
-          echo "VERSION_FIREFOX=${{ env.VERSION }}-firefox" >> $GITHUB_ENV
+        run: echo "VERSION=v$(jq -r .version < package.json)" >> $GITHUB_ENV
+
+      - name: Get version for Firefox
+        id: get_version_firefox
+        run: echo "VERSION_FIREFOX=v$(jq -r .version < package.json)-firefox" >> $GITHUB_ENV
 
       - name: Build for Chrome
         run: npm run build

@@ -9,6 +9,8 @@ export function getFormattedTitle(): string {
   switch (window.location.hostname) {
     case "docs.google.com":
       return getGoogleDocsTitle();
+    case "drive.google.com":
+      return getGoogleDriveTitle();
     case "github.com":
       return getGitHubTitle();
     case "app.asana.com":
@@ -37,6 +39,11 @@ function getGoogleDocsTitle(): string {
     "#docs-title-widget input"
   );
   return titleElement ? titleElement.value : document.title;
+}
+
+function getGoogleDriveTitle(): string {
+  // remove the " - Google Drive" part from document.title(in any language)
+  return document.title.replace(/\s*-\s*[^-]+$/, "");
 }
 
 function getGitHubTitle(): string {

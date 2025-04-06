@@ -47,8 +47,6 @@ export function getEmojiName(): Promise<string> {
         for (let i = 1; i <= customRegexCount; i++) {
           const websiteKey = `customWebsite${i}` as keyof EmojiNames;
           const regexKey = `customRegex${i}` as keyof CustomRegexes;
-          console.log("Matched custom regex", customRegexes[regexKey]);
-          console.log("Emoji name", emojiNames[websiteKey]);
           if (
             emojiNames[websiteKey] &&
             customRegexes[regexKey] &&

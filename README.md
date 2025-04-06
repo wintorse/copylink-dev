@@ -7,25 +7,21 @@ A browser extension that copies text links with shortcuts. Some sites also suppo
 Provides shortcuts to easily copy text links with titles, such as "[My spreadsheet](https://example.com)".
 
 For the following sites, it has the functionality to format titles and also copy links with Slack emojis for pasting into Slack:
-- Google Sheets
-- Google Docs
-- Google Slides
-- Excel for the web
-- Word for the web
-- PowerPoint for the web
-- GitHub Pull Request
-- GitHub Issue
+- Google Sheets / Docs / Slides
+- Google Drive
+- Excel / Word / PowerPoint for the web
+- GitHub Pull Request / Issue
 - Jira Issue
 - Asana Task
 - Backlog Issue
 - Redmine Issue
 
-Additionally, you can specify your preferred site URLs using regular expressions in the settings screen and set emojis (e.g., https://example\.com).
+Additionally, you can specify your preferred site URLs using regular expressions in the settings screen and set emojis (e.g., `https://www\.example\.com`).
 
 For other sites, it copies links with `document.title`, which is the title of the current webpage.
 
 ## Installation
-Install from [Chrome Web Store](https://chromewebstore.google.com/)
+Install from [Chrome Web Store](https://chromewebstore.google.com/detail/copylinkdev/ohkebnhdjdgmfnhcmdpkdfddongdjadp)
 
 Or
 1. Download and unzip the latest zip file from Releases

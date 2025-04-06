@@ -8,25 +8,21 @@
 特に以下のサイトでは、タイトルを整形する機能を備えています。
 
 また Slack にペーストすることを想定して Slack 絵文字とともにコピーすることもできます。
-- Google スプレッドシート
-- Google ドキュメント
-- Google スライド
-- Excel for the web
-- Word for the web
-- PowerPoint for the web
-- GitHub Pull Request
-- GitHub Issue
+- Google スプレッドシート / ドキュメント / スライド
+- Google ドライブ
+- Excel / Wrod / PowerPoint for the web
+- GitHub Pull Request / Issue
 - Jira 課題
 - Asana タスク
 - Backlog 課題
 - Redmine チケット
 
-なお、設定画面からお好みのサイトのURLを正規表現で指定し、絵文字を設定できます(例: `https://example\.com`)。
+なお、設定画面からお好みのサイトのURLを正規表現で指定し、絵文字を設定できます(例: `https://www\.example\.com`)。
 
 その他のサイトでは、`document.title` （ブラウザのタブに表示されるタイトル）のついたリンクをコピーします。
 
 ## インストール
-[Chrome ウェブストア](https://chromewebstore.google.com/)からインストールする
+[Chrome ウェブストア](https://chromewebstore.google.com/detail/copylinkdev/ohkebnhdjdgmfnhcmdpkdfddongdjadp)からインストールする
 
 または
 1. Releases から最新の zip ファイルをダウンロードして解凍する 

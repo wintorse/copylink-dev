@@ -20,7 +20,8 @@
   "permissions": [
     "activeTab",
     "scripting",
-    "storage"
+    "storage",
+    "clipboardWrite"
   ],
   "web_accessible_resources": [
     "styles/toast.css"

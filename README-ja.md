@@ -10,18 +10,18 @@
 また Slack にペーストすることを想定して Slack 絵文字とともにコピーすることもできます。
 - Google スプレッドシート / ドキュメント / スライド
 - Google ドライブ
-- Excel / Wrod / PowerPoint for the web
+- Excel / Word / PowerPoint for the web
 - GitHub Pull Request / Issue
 - Jira 課題
 - Asana タスク
 - Backlog 課題
 - Redmine チケット
 
-なお、設定画面からお好みのサイトのURLを正規表現で指定し、絵文字を設定できます(例: `https://www\.example\.com`)。
+なお、設定画面からお好みのサイトの URL を正規表現で指定し、絵文字を設定できます(例: `https://www\.example\.com`)。
 
 その他のサイトでは、`document.title` （ブラウザのタブに表示されるタイトル）のついたリンクをコピーします。
 
-## インストール - Chrome, Chromiumベースのブラウザ
+## インストール - Chrome
 [Chrome ウェブストア](https://chromewebstore.google.com/detail/copylinkdev/ohkebnhdjdgmfnhcmdpkdfddongdjadp)からインストール
 
 またはリリースからインストール：

@@ -20,7 +20,7 @@ Additionally, you can specify your preferred site URLs using regular expressions
 
 For other sites, it copies links with `document.title`, which is the title of the current webpage.
 
-## Installation - Chrome and Chromium-based browsers
+## Installation - Chrome
 Install from [Chrome Web Store](https://chromewebstore.google.com/detail/copylinkdev/ohkebnhdjdgmfnhcmdpkdfddongdjadp)
 
 Or install from Release:

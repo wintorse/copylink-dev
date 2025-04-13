@@ -39,7 +39,7 @@
 6. 「パッケージ化されていない拡張機能を読み込む」をクリックし、`dist` フォルダを選択する
 
 ## インストール - Firefox
-[Firefox Browser Add-Ons](https://addons.mozilla.org/) からインストール
+[Firefox Browser Add-Ons](https://addons.mozilla.org/firefox/addon/copylink-dev/) からインストール
 
 またはリリースからインストール：
 1. [Releases](https://github.com/wintorse/copylink-dev/releases/latest) ページから最新の Firefox 向け zip ファイルをダウンロードして解凍する

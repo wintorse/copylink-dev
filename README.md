@@ -38,7 +38,7 @@ Or build from the source code:
 6. Click "Load unpacked" and select the `dist` folder
 
 ## Installation - Firefox
-Install from [Firefox Browser Add-Ons](https://addons.mozilla.org/)
+Install from [Firefox Browser Add-Ons](https://addons.mozilla.org/firefox/addon/copylink-dev/)
 
 Or install from Release:
 1. Download and unzip the latest zip file from [Releases](https://github.com/wintorse/copylink-dev/releases/latest)

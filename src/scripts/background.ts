@@ -4,36 +4,38 @@ try {
   chrome.commands.onCommand.addListener((command) => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       const tabId = tabs[0].id;
-      if (tabId !== undefined) {
-        chrome.scripting
-          .executeScript({
-            target: { tabId: tabId },
-            files: ["scripts/content.js"],
-          })
-          .then(() => {
-            chrome.scripting
-              .executeScript({
-                target: { tabId: tabId },
-                func: (command) => {
-                  window.dispatchEvent(
-                    new CustomEvent("copylinkDevExecuteCommand", {
-                      detail: command,
-                    })
-                  );
-                },
-                args: [command],
-              })
-              .catch((error) => {
-                console.error(
-                  `Error executing script for command ${command}:`,
-                  error
-                );
-              });
-          })
-          .catch((error) => {
-            console.error(`Error injecting content script:`, error);
-          });
+      if (tabId === undefined) {
+        console.error("No active tab found.");
+        return;
       }
+      chrome.scripting
+        .executeScript({
+          target: { tabId: tabId },
+          files: ["scripts/content.js"],
+        })
+        .then(() => {
+          chrome.scripting
+            .executeScript({
+              target: { tabId: tabId },
+              func: (command) => {
+                window.dispatchEvent(
+                  new CustomEvent("copylinkDevExecuteCommand", {
+                    detail: command,
+                  })
+                );
+              },
+              args: [command],
+            })
+            .catch((error) => {
+              console.error(
+                `Error executing script for command ${command}:`,
+                error
+              );
+            });
+        })
+        .catch((error) => {
+          console.error(`Error injecting content script:`, error);
+        });
     });
     return true;
   });

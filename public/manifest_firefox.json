@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_name__",
   "description": "__MSG_description__",
-  "version": "0.7.6",
+  "version": "0.7.7",
   "default_locale": "en",
   "icons": {
     "16": "images/icon-16.png",
@@ -60,5 +60,12 @@
   },
   "background": {
     "scripts": ["scripts/background.js"]
+  },
+  "content_scripts": [
+  {
+    "matches": ["<all_urls>"],
+    "js": ["scripts/content.js"],
+    "run_at": "document_idle"
   }
+]
 }

@@ -15,12 +15,15 @@ import type { Command } from "../types/types";
  */
 async function copyToClipboard(
   text: string,
-  notify: (message: string) => void,
   successMessage: string,
   failureMessage: string,
   html?: string,
   fallbackElement?: HTMLElement
 ) {
+  const notify = (message: string) => {
+    showToast(message);
+    // chrome.runtime.sendMessage({ type: "copylink.dev-notification", message });
+  };
   try {
     if (navigator.clipboard) {
       if (html) {
@@ -71,60 +74,65 @@ async function copyToClipboard(
 export async function copyTextLink(command: Command) {
   const title = getFormattedTitle();
   const url = document.URL;
-  const html = `<a href="${url}">${title}</a>&nbsp;`;
   const t = (key: string): string => chrome.i18n.getMessage(key);
 
-  const notify = (message: string) => {
-    showToast(message);
-    // chrome.runtime.sendMessage({ type: "copylink.dev-notification", message });
-  };
-
-  const VALID_COMMANDS = {
-    COPY_LINK: "copy-link",
-    COPY_LINK_FOR_SLACK: "copy-link-for-slack",
-    COPY_TITLE: "copy-title",
-  } as const satisfies { [key: string]: Command };
-
-  if (command === VALID_COMMANDS.COPY_TITLE) {
+  async function handleCopyTitle() {
+    const fallbackElement = document.createElement("p");
+    fallbackElement.textContent = title;
     await copyToClipboard(
       title,
-      notify,
       t("copyTitleSuccess"),
       t("copyTitleFailure"),
-      html
-    );
-  } else if (command === VALID_COMMANDS.COPY_LINK) {
-    const fallbackElement = document.createElement("textarea");
-    fallbackElement.value = title;
-    await copyToClipboard(
-      title,
-      notify,
-      t("copyLinkSuccess"),
-      t("copyLinkFailure"),
-      html,
+      undefined,
       fallbackElement
     );
-  } else if (command === VALID_COMMANDS.COPY_LINK_FOR_SLACK) {
-    const emojiName = await getEmojiName();
-    const html = `${emojiName}&nbsp;<a href="${url}">${title}</a>&nbsp;`;
+  }
 
+  async function handleCopyLink() {
+    const html = `<a href="${url}">${title}</a>&nbsp;`;
     const fallbackElement = document.createElement("span");
-    const emojiText = document.createTextNode(`${emojiName} `);
-    fallbackElement.appendChild(emojiText);
     const anchor = document.createElement("a");
     anchor.setAttribute("href", url);
     anchor.textContent = title;
     fallbackElement.appendChild(anchor);
-    const trailingSpace = document.createTextNode(" ");
-    fallbackElement.appendChild(trailingSpace);
-
+    fallbackElement.appendChild(document.createTextNode("&nbsp;"));
     await copyToClipboard(
       title,
-      notify,
       t("copyLinkSuccess"),
       t("copyLinkFailure"),
       html,
       fallbackElement
     );
+  }
+
+  async function handleCopyLinkForSlack() {
+    const emojiName = await getEmojiName();
+    const html = `${emojiName}&nbsp;<a href="${url}">${title}</a>&nbsp;`;
+    const fallbackElement = document.createElement("span");
+    fallbackElement.appendChild(document.createTextNode(`${emojiName} `));
+    const anchor = document.createElement("a");
+    anchor.setAttribute("href", url);
+    anchor.textContent = title;
+    fallbackElement.appendChild(anchor);
+    fallbackElement.appendChild(document.createTextNode("&nbsp;"));
+    await copyToClipboard(
+      title,
+      t("copyLinkSuccess"),
+      t("copyLinkFailure"),
+      html,
+      fallbackElement
+    );
+  }
+
+  const commandMap: Record<Command, () => Promise<void>> = {
+    "copy-title": handleCopyTitle,
+    "copy-link": handleCopyLink,
+    "copy-link-for-slack": handleCopyLinkForSlack,
+  };
+
+  if (commandMap[command]) {
+    await commandMap[command]();
+  } else {
+    showToast("Unknown command");
   }
 }

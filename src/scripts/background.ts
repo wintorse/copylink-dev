@@ -8,7 +8,6 @@ try {
         console.error("No active tab found.");
         return;
       }
-      console.debug("Executing command:", command, "on tab ID:", tabId);
       chrome.scripting
         .executeScript({
           target: { tabId: tabId },

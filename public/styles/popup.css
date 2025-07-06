@@ -118,13 +118,14 @@ div#extensionsLink {
   text-align: center;
 }
 
-.github-link {
+.link {
   display: inline-flex;
   align-items: center;
 }
 
-.github-icon {
+.icon {
   width: 16px;
   height: 16px;
   margin-right: 6px;
+  margin-left: 6px;
 }

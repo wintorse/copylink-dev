@@ -1,6 +1,12 @@
 import { resolve } from "node:path";
 import { defineConfig, loadEnv } from "vite";
-import { copyFileSync, unlinkSync, existsSync } from "node:fs";
+import {
+  copyFileSync,
+  unlinkSync,
+  existsSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
 
 export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
@@ -51,6 +57,21 @@ export default defineConfig(({ mode }) => {
             if (existsSync(firefoxManifestPath)) {
               copyFileSync(firefoxManifestPath, manifestPath);
               unlinkSync(firefoxManifestPath);
+            }
+
+            // Update popup.html to use Firefox links and icons
+            const popupPath = resolve(distDir, "popup.html");
+            if (existsSync(popupPath)) {
+              let popupContent = readFileSync(popupPath, "utf8");
+
+              // Replace Chrome Web Store link with Firefox Add-ons link
+              popupContent = popupContent.replace(
+                /<a href="https:\/\/chromewebstore\.google\.com\/detail\/ohkebnhdjdgmfnhcmdpkdfddongdjadp\?utm_source=popup" target="_blank" class="link">\s*<img src="images\/chromewebstore-icon\.svg" alt="Chrome Web Store" class="icon">\s*Leave feedback\s*<\/a>/,
+                '<a href="https://addons.mozilla.org/ja/firefox/addon/copylink-dev/" target="_blank" class="link">\n            <img src="images/firefox-icon.svg" alt="Firefox Add-ons" class="icon">\n            Leave feedback\n        </a>'
+              );
+
+              writeFileSync(popupPath, popupContent);
+              console.log("Updated popup.html for Firefox");
             }
           } else {
             // For Chrome: Delete manifest_firefox.json

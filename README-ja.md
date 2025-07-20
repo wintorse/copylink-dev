@@ -1,3 +1,5 @@
+[UserScript 版はこちら](https://gist.github.com/wintorse/10e2ec0206a0f29522cb06c6dafd2611)
+
 # copylink.dev
 ショートカットでタイトルつきのリンクをコピーするブラウザ拡張機能
 一部サイトではタイトルの整形や Slack 絵文字にも対応

@@ -1,5 +1,7 @@
 [日本語版 README はこちら](./README-ja.md)
 
+[Also available as a UserScript!](https://gist.github.com/wintorse/10e2ec0206a0f29522cb06c6dafd2611)
+
 # copylink.dev
 A browser extension that copies text links with shortcuts. Some websites also support title formatting and Slack emoji.
 

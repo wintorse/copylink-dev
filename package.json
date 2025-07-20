@@ -19,9 +19,9 @@
   },
   "homepage": "https://github.com/wintorse/copylink-dev#readme",
   "devDependencies": {
-    "@types/chrome": "^0.0.329",
-    "@types/node": "^24.0.10",
+    "@types/chrome": "^0.1.1",
+    "@types/node": "^24.0.15",
     "typescript": "^5.8.3",
-    "vite": "^7.0.0"
+    "vite": "^7.0.5"
   }
 }

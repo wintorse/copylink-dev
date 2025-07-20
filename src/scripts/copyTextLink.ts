@@ -114,7 +114,6 @@ export async function copyTextLink(command: Command) {
     anchor.setAttribute("href", url);
     anchor.textContent = title;
     fallbackElement.appendChild(anchor);
-    fallbackElement.appendChild(document.createTextNode("&nbsp;"));
     await copyToClipboard(
       title,
       t("copyLinkSuccess"),

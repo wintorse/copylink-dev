@@ -1,6 +1,6 @@
 {
   "name": "copylink.dev",
-  "version": "0.7.9",
+  "version": "1.0.0",
   "description": "Browser extension that provides shortcuts to copy links. On supported sites, it creates Slack emoji-enhanced links.",
   "main": "src/background.ts",
   "type": "module",

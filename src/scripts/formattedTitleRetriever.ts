@@ -22,9 +22,6 @@ export function getFormattedTitle(): string {
   if (document.body.id === "jira") {
     return getJiraTitle();
   }
-  if (document.body.id.startsWith("Wac")) {
-    return getMSOnlineTitle();
-  }
   if (window.location.hostname.includes("redmine")) {
     return getRedmineTitle();
   }
@@ -83,13 +80,5 @@ function getJiraTitle(): string {
     document.querySelector<HTMLHeadingElement>("#summary-val h2");
   return idElement?.textContent && titleElement?.textContent
     ? `${idElement.textContent} ${titleElement.textContent}`
-    : document.title;
-}
-
-function getMSOnlineTitle(): string {
-  const titleElement =
-    document.querySelector<HTMLDivElement>("#documentTitle")?.children[0];
-  return titleElement && titleElement.textContent
-    ? titleElement.textContent
     : document.title;
 }

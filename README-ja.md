@@ -10,7 +10,6 @@
 また Slack にペーストすることを想定して Slack 絵文字とともにコピーすることもできます。
 - Google スプレッドシート / ドキュメント / スライド
 - Google ドライブ
-- Excel / Word / PowerPoint for the web
 - GitHub Pull Request / Issue
 - Jira 課題
 - Asana タスク
@@ -22,7 +21,7 @@
 その他のサイトでは、`document.title` （ブラウザのタブに表示されるタイトル）のついたリンクをコピーします。
 
 ## インストール - Chrome
-[Chrome ウェブストア](https://chromewebstore.google.com/detail/copylinkdev/ohkebnhdjdgmfnhcmdpkdfddongdjadp)からインストール
+[Chrome ウェブストア](https://chromewebstore.google.com/detail/ohkebnhdjdgmfnhcmdpkdfddongdjadp)からインストール
 
 またはリリースからインストール：
 1. [Releases](https://github.com/wintorse/copylink-dev/releases/latest) ページから最新の zip ファイルをダウンロードして解凍する 

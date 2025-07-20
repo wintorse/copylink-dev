@@ -13,9 +13,6 @@ export function getEmojiName(): Promise<string> {
       googleDocs: ":google_docs:",
       googleSlides: ":google_slides:",
       googleDrive: ":google_drive_2:",
-      excel: ":excel:",
-      word: ":word:",
-      powerpoint: ":powerpoint:",
       github: ":github:",
       githubPullRequest: ":open_pull_request:",
       githubIssue: ":open_issue:",
@@ -112,14 +109,6 @@ export function getEmojiName(): Promise<string> {
             emojiNames.redmineIssue || getDefaultEmojiName("redmineIssue");
         } else if (document.body.id === "jira") {
           result = emojiNames.jiraIssue || getDefaultEmojiName("jiraIssue");
-        } else if (document.querySelector("[id^='WacFrame']")) {
-          if (document.querySelector("[id^='WacFrame_Excel']")) {
-            result = emojiNames.excel || getDefaultEmojiName("excel");
-          } else if (document.querySelector("[id^='WacFrame_Word']")) {
-            result = emojiNames.word || getDefaultEmojiName("word");
-          } else if (document.querySelector("[id^='WacFrame_PowerPoint']")) {
-            result = emojiNames.powerpoint || getDefaultEmojiName("powerpoint");
-          }
         }
         resolve(result);
       }

@@ -9,7 +9,6 @@ Provides shortcuts to easily copy text links with titles, such as "[My spreadshe
 For the following sites, it has the functionality to format titles and also copy links with Slack emojis for pasting into Slack:
 - Google Sheets / Docs / Slides
 - Google Drive
-- Excel / Word / PowerPoint for the web
 - GitHub Pull Request / Issue
 - Jira Issue
 - Asana Task
@@ -21,7 +20,7 @@ Additionally, you can specify your preferred site URLs using regular expressions
 For other sites, it copies links with `document.title`, which is the title of the current webpage.
 
 ## Installation - Chrome
-Install from [Chrome Web Store](https://chromewebstore.google.com/detail/copylinkdev/ohkebnhdjdgmfnhcmdpkdfddongdjadp)
+Install from [Chrome Web Store](https://chromewebstore.google.com/detail/ohkebnhdjdgmfnhcmdpkdfddongdjadp)
 
 Or install from Release:
 1. Download and unzip the latest zip file from [Releases](https://github.com/wintorse/copylink-dev/releases/latest)

@@ -2,8 +2,11 @@
 
 [Also available as a UserScript!](https://gist.github.com/wintorse/10e2ec0206a0f29522cb06c6dafd2611)
 
+> [!NOTE]
+Since around May 2025, this extension has not been working on Arc due to a suspected issue with the browser. Specifically, `chrome.commands.onCommand.addListener` event is not being triggered only in Arc, including other Chrome extensions that uses keyboard shortcuts. You can use the UserScript version linked above instead.
+
 # copylink.dev
-A browser extension that copies text links with shortcuts. Some websites also support title formatting and Slack emoji.
+A browser extension that copies text links with shortcuts. On supported websites, title formatting and Slack emoji-enhanced links are available.
 
 ## Features
 Provides shortcuts to easily copy text links with titles, such as "[My spreadsheet](https://example.com)".

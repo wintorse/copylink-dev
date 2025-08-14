@@ -1,4 +1,9 @@
+[English](./README.md)
+
 [UserScript 版はこちら](https://gist.github.com/wintorse/10e2ec0206a0f29522cb06c6dafd2611)
+
+> [!NOTE]
+2025 年 5 月ごろから本拡張機能は Arc ブラウザで動作していません。こちらについては Arc の不具合かと思われます。具体的には、`chrome.commands.onCommand.addListener` イベントが Arc でのみトリガーされず、これはキーボードショートカットを用いる他の Chrome 拡張機能でも同様となっています。上記 UserScript 版 は Arc でもご利用いただけます。
 
 # copylink.dev
 ショートカットでタイトルつきのリンクをコピーするブラウザ拡張機能

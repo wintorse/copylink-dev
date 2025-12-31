@@ -1,6 +1,47 @@
-import type { EmojiNames } from "./types";
+import type { EmojiKeys, EmojiNames, CustomRegexes } from "./types";
 
-export function getEmojiElements() {
+export const VALID_COMMANDS = {
+  COPY_LINK: "copy-link",
+  COPY_LINK_FOR_SLACK: "copy-link-for-slack",
+  COPY_TITLE: "copy-title",
+} as const;
+
+export const EMOJI_KEYS = [
+  "googleSheets",
+  "googleDocs",
+  "googleSlides",
+  "googleDrive",
+  "github",
+  "githubPullRequest",
+  "githubIssue",
+  "jiraIssue",
+  "asanaTask",
+  "backlogIssue",
+  "redmineIssue",
+  "customWebsite1",
+  "customWebsite2",
+  "customWebsite3",
+  "customWebsite4",
+  "customWebsite5",
+] as const;
+
+export const CUSTOM_EMOJI_KEYS = [
+  "customWebsite1",
+  "customWebsite2",
+  "customWebsite3",
+  "customWebsite4",
+  "customWebsite5",
+] as const satisfies EmojiKeys[];
+
+export const CUSTOM_REGEX_KEYS = [
+  "customRegex1",
+  "customRegex2",
+  "customRegex3",
+  "customRegex4",
+  "customRegex5",
+] as const;
+
+export function getEmojiElements(): EmojiNames {
   return {
     googleSheets: "emojiName-google-sheets",
     googleDocs: "emojiName-google-docs",
@@ -21,7 +62,7 @@ export function getEmojiElements() {
   } as const;
 }
 
-export function getCustomRegexElements() {
+export function getCustomRegexElements(): CustomRegexes {
   return {
     customRegex1: "regex-custom-1",
     customRegex2: "regex-custom-2",
@@ -31,7 +72,7 @@ export function getCustomRegexElements() {
   } as const;
 }
 
-export function getDefaultEmojiName(key: keyof EmojiNames): string {
+export function getDefaultEmojiName(key: EmojiKeys): string {
   const defaultEmojiNames: EmojiNames = {
     googleSheets: ":google_sheets:",
     googleDocs: ":google_docs:",

@@ -1,4 +1,5 @@
 import type { EmojiNames, CustomRegexes } from "../types/types";
+import { CUSTOM_EMOJI_KEYS, CUSTOM_REGEX_KEYS } from "../types/constants";
 
 /**
  * Retrieves the appropriate emoji name based on the current URL's hostname and pathname, or the document contents.
@@ -40,14 +41,16 @@ export function getEmojiName(): Promise<string> {
         const href = window.location.href;
         const hostname = window.location.hostname;
         const pathname = window.location.pathname;
-        const customRegexCount = Object.keys(customRegexes).length;
-        for (let i = 1; i <= customRegexCount; i++) {
-          const websiteKey = `customWebsite${i}` as keyof EmojiNames;
-          const regexKey = `customRegex${i}` as keyof CustomRegexes;
+
+        for (let i = 0; i < CUSTOM_REGEX_KEYS.length; i++) {
+          const websiteKey = CUSTOM_EMOJI_KEYS[i];
+          const regexKey = CUSTOM_REGEX_KEYS[i];
+          const regexPattern = customRegexes[regexKey];
+
           if (
             emojiNames[websiteKey] &&
-            customRegexes[regexKey] &&
-            new RegExp(customRegexes[regexKey]).test(href)
+            regexPattern &&
+            new RegExp(regexPattern).test(href)
           ) {
             resolve(emojiNames[websiteKey] || getDefaultEmojiName(websiteKey));
             return;

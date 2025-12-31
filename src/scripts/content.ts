@@ -17,9 +17,7 @@ function getValidCommands() {
 
 function isValidCommand(command: string): command is Command {
   const validCommands = getValidCommands();
-  return (Object.values(validCommands) as ReadonlyArray<string>).includes(
-    command
-  );
+  return Object.values(validCommands).some((c) => c === command);
 }
 
 if (!window.hasCopylinkDevListener) {

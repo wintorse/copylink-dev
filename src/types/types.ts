@@ -1,34 +1,15 @@
-export const ValidCommands = {
-  COPY_LINK: "copy-link",
-  COPY_LINK_FOR_SLACK: "copy-link-for-slack",
-  COPY_TITLE: "copy-title",
-} as const;
+import {
+  VALID_COMMANDS,
+  EMOJI_KEYS,
+  CUSTOM_REGEX_KEYS,
+} from "../types/constants";
 
-export type Command = (typeof ValidCommands)[keyof typeof ValidCommands];
+export type Command = (typeof VALID_COMMANDS)[keyof typeof VALID_COMMANDS];
 
-export type EmojiNames = {
-  googleSheets: string;
-  googleDocs: string;
-  googleSlides: string;
-  googleDrive: string;
-  github: string;
-  githubPullRequest: string;
-  githubIssue: string;
-  jiraIssue: string;
-  asanaTask: string;
-  backlogIssue: string;
-  redmineIssue: string;
-  customWebsite1: string;
-  customWebsite2: string;
-  customWebsite3: string;
-  customWebsite4: string;
-  customWebsite5: string;
-};
+export type EmojiKeys = (typeof EMOJI_KEYS)[number];
 
-export type CustomRegexes = {
-  customRegex1: string;
-  customRegex2: string;
-  customRegex3: string;
-  customRegex4: string;
-  customRegex5: string;
-};
+export type EmojiNames = { [key in EmojiKeys]: string };
+
+export type CustomRegexKeys = (typeof CUSTOM_REGEX_KEYS)[number];
+
+export type CustomRegexes = { [key in CustomRegexKeys]: string };

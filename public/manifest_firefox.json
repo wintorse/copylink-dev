@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "__MSG_name__",
   "description": "__MSG_description__",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "default_locale": "en",
   "icons": {
     "16": "images/icon-16.png",
@@ -13,8 +13,8 @@
   "homepage_url": "https://github.com/wintorse/copylink-dev",
   "browser_specific_settings": {
     "gecko": {
-     "id": "copylink-dev@example.com",
-       "strict_min_version": "127.0"
+      "id": "copylink-dev@example.com",
+        "strict_min_version": "127.0"
     }
   },
   "permissions": [
@@ -62,10 +62,10 @@
     "scripts": ["scripts/background.js"]
   },
   "content_scripts": [
-  {
-    "matches": ["<all_urls>"],
-    "js": ["scripts/content.js"],
-    "run_at": "document_idle"
-  }
-]
+    {
+      "matches": ["<all_urls>"],
+      "js": ["scripts/content.js"],
+      "run_at": "document_idle"
+    }
+  ]
 }

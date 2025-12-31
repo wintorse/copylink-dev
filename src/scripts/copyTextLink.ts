@@ -1,4 +1,4 @@
-import { getFormattedTitle } from "./formattedTitleRetriever";
+import { getFormattedTitle } from "./getFormattedTitle";
 import { getEmojiName } from "./getEmojiName";
 import { showToast } from "../utils/toast";
 import type { Command } from "../types/types";

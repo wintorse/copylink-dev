@@ -54,28 +54,34 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Get emoji names and custom regexes when the page is loaded and reflect them in the form.
-  chrome.storage.local.get("emojiNames", function (data) {
-    const emojiElements = getEmojiElements();
-    for (const key of EMOJI_KEYS) {
-      const element = document.getElementById(emojiElements[key]);
-      if (element instanceof HTMLInputElement) {
-        const emojiName = data.emojiNames?.[key] || getDefaultEmojiName(key);
-        element.value = emojiName;
+  chrome.storage.local.get(
+    "emojiNames",
+    function (data: { emojiNames?: Partial<EmojiNameRecord> }) {
+      const emojiElements = getEmojiElements();
+      for (const key of EMOJI_KEYS) {
+        const element = document.getElementById(emojiElements[key]);
+        if (element instanceof HTMLInputElement) {
+          const emojiName = data.emojiNames?.[key] || getDefaultEmojiName(key);
+          element.value = emojiName;
 
-        element.addEventListener("input", updateEmojiNames);
+          element.addEventListener("input", updateEmojiNames);
+        }
       }
     }
-  });
+  );
 
-  chrome.storage.local.get("copylinkdevCustomRegexes", function (data) {
-    const customRegexElements = getCustomRegexElements();
-    for (const key of CUSTOM_REGEX_KEYS) {
-      const element = document.getElementById(customRegexElements[key]);
-      if (element instanceof HTMLInputElement) {
-        element.value = data.copylinkdevCustomRegexes?.[key] || "";
+  chrome.storage.local.get(
+    "copylinkdevCustomRegexes",
+    function (data: { copylinkdevCustomRegexes?: Partial<CustomRegexes> }) {
+      const customRegexElements = getCustomRegexElements();
+      for (const key of CUSTOM_REGEX_KEYS) {
+        const element = document.getElementById(customRegexElements[key]);
+        if (element instanceof HTMLInputElement) {
+          element.value = data.copylinkdevCustomRegexes?.[key] || "";
 
-        element.addEventListener("input", updateCustomRegexes);
+          element.addEventListener("input", updateCustomRegexes);
+        }
       }
     }
-  });
+  );
 });

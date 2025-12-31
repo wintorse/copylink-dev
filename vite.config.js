@@ -8,6 +8,8 @@ import {
   writeFileSync,
 } from "node:fs";
 
+// NOTE: The content script is built with a separate config in `vite.content.config.js`.
+// We split configs so the content script can be authored with `import` syntax but bundled into a classic script.
 export default defineConfig(({ mode }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
   const isFirefoxAddOn = process.env.VITE_IS_FIREFOX_ADDON === "true";
@@ -31,7 +33,6 @@ export default defineConfig(({ mode }) => {
             : {
                 background: resolve(__dirname, "src/scripts/background.ts"),
               }),
-          content: resolve(__dirname, "src/scripts/content.ts"),
           popup: resolve(__dirname, "src/popup/popup.ts"),
         },
         output: {

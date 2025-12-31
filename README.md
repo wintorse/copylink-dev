@@ -19,6 +19,7 @@ For the following sites, it has the functionality to format titles and also copy
 - Asana Task
 - Backlog Issue
 - Redmine Issue
+- ReDoc
 
 Additionally, you can specify your preferred site URLs using regular expressions in the settings screen and set emojis (e.g., `https://www\.example\.com`).
 

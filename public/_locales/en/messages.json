@@ -68,6 +68,9 @@
   "redmineIssue": {
     "message": "Redmine Issue"
   },
+  "reDoc": {
+    "message": "ReDoc"
+  },
   "customWebsites": {
     "message": "Custom Websites and Emojis"
   },

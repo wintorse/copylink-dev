@@ -22,6 +22,7 @@
 - Asana タスク
 - Backlog 課題
 - Redmine チケット
+- ReDoc
 
 なお、設定画面からお好みのサイトの URL を正規表現で指定し、絵文字を設定できます(例: `https://www\.example\.com`)。
 

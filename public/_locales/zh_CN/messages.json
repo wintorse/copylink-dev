@@ -68,6 +68,9 @@
   "redmineIssue": {
     "message": "Redmine问题"
   },
+  "reDoc": {
+    "message": "ReDoc"
+  },
   "customWebsites": {
     "message": "自定义网站和表情符号"
   },

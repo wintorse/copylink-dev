@@ -94,6 +94,11 @@ export function getEmojiName(): Promise<string> {
             emojiNames.redmineIssue || DEFAULT_EMOJI_NAMES["redmineIssue"];
         } else if (document.body.id === "jira") {
           result = emojiNames.jiraIssue || DEFAULT_EMOJI_NAMES["jiraIssue"];
+        } else if (
+          document.title.includes("ReDoc") ||
+          document.querySelector(".redoc-wrap")
+        ) {
+          result = emojiNames.reDoc || DEFAULT_EMOJI_NAMES["reDoc"];
         }
         resolve(result);
       }

@@ -68,6 +68,9 @@
   "redmineIssue": {
     "message": "Redmine チケット"
   },
+  "reDoc": {
+    "message": "ReDoc"
+  },
   "customWebsites": {
     "message": "Web サイトと絵文字を追加"
   },

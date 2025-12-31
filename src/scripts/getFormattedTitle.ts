@@ -1,7 +1,7 @@
 /**
  * Retrieves the formatted title of the current document.
  *
- *  If the site is not supported, it falls back to returning `document.title`.
+ * If the site is not supported, it falls back to returning `document.title`.
  *
  * @returns {string} The formatted title of the current document.
  */
@@ -27,6 +27,12 @@ export function getFormattedTitle(): string {
   }
   if (document.querySelector("#footer a")?.textContent?.includes("Redmine")) {
     return getRedmineTitle();
+  }
+  if (
+    document.title.includes("ReDoc") ||
+    document.querySelector(".redoc-wrap")
+  ) {
+    return getReDocTitle();
   }
   return document.title; // fallback
 }
@@ -84,4 +90,36 @@ function getJiraTitle(): string {
   return idElement?.textContent && titleElement?.textContent
     ? `${idElement.textContent} ${titleElement.textContent}`
     : document.title;
+}
+
+function getReDocTitle(): string {
+  const hash = window.location.hash.slice(1);
+
+  if (!hash) {
+    // return the main title
+    return document.querySelector("h1")?.textContent || document.title;
+  }
+
+  // Find an a tag that has the value of the anchor in its href attribute.
+  // Looking for href="#xxx" or href="/path#xxx"
+  const anchor = document.querySelector(
+    `a[href="#${hash}"], a[href*="#${hash}"]`
+  );
+
+  if (!anchor) {
+    return document.title;
+  }
+
+  // Find the parent h2 tag
+  let parent = anchor.parentElement;
+  while (parent && parent.tagName !== "H2") {
+    parent = parent.parentElement;
+  }
+
+  if (parent && parent.tagName === "H2") {
+    return parent.textContent.trim();
+  }
+
+  // Fallback if no h2 tag is found
+  return document.title;
 }

@@ -1,4 +1,4 @@
-import type { EmojiNames, CustomRegexes } from "../types/types";
+import type { EmojiName, EmojiNameRecord, CustomRegexes } from "../types/types";
 
 import {
   getEmojiElements,
@@ -8,14 +8,24 @@ import {
   CUSTOM_REGEX_KEYS,
 } from "../types/constants";
 
+// check if value is in `:${string}:` format
+const isEmojiFormat = (value: string): value is EmojiName => {
+  return /^:.*:$/.test(value);
+};
+
 // Update emoji names in storage based on form inputs
 function updateEmojiNames() {
-  const emojiNames: Partial<EmojiNames> = {};
+  const emojiNames: Partial<EmojiNameRecord> = {};
   const emojiElements = getEmojiElements();
   for (const key of EMOJI_KEYS) {
     const element = document.getElementById(emojiElements[key]);
     if (element instanceof HTMLInputElement) {
-      emojiNames[key] = element.value;
+      const value = element.value.trim();
+      if (isEmojiFormat(value)) {
+        emojiNames[key] = value;
+      } else {
+        emojiNames[key] = `:${value}:`;
+      }
     }
   }
   chrome.storage.local.set({ emojiNames: emojiNames });

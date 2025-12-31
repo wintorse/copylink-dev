@@ -1,5 +1,9 @@
-import type { EmojiNames, CustomRegexes } from "../types/types";
-import { CUSTOM_EMOJI_KEYS, CUSTOM_REGEX_KEYS } from "../types/constants";
+import type { CustomRegexes, EmojiNameRecord } from "../types/types";
+import {
+  DEFAULT_EMOJI_NAMES,
+  CUSTOM_EMOJI_KEYS,
+  CUSTOM_REGEX_KEYS,
+} from "../types/constants";
 
 /**
  * Retrieves the appropriate emoji name based on the current URL's hostname and pathname, or the document contents.
@@ -8,33 +12,11 @@ import { CUSTOM_EMOJI_KEYS, CUSTOM_REGEX_KEYS } from "../types/constants";
  * @returns {Promise<string>} A promise that resolves to the corresponding emoji name.
  */
 export function getEmojiName(): Promise<string> {
-  function getDefaultEmojiName(key: keyof EmojiNames): string {
-    const defaultEmojiNames: EmojiNames = {
-      googleSheets: ":google_sheets:",
-      googleDocs: ":google_docs:",
-      googleSlides: ":google_slides:",
-      googleDrive: ":google_drive_2:",
-      github: ":github:",
-      githubPullRequest: ":open_pull_request:",
-      githubIssue: ":open_issue:",
-      jiraIssue: ":jira:",
-      asanaTask: ":asana:",
-      backlogIssue: ":backlog:",
-      redmineIssue: ":redmine_ticket:",
-      customWebsite1: ":link:",
-      customWebsite2: ":link:",
-      customWebsite3: ":link:",
-      customWebsite4: ":link:",
-      customWebsite5: ":link:",
-    };
-    return defaultEmojiNames[key];
-  }
-
   return new Promise((resolve) => {
     chrome.storage.local.get(
       ["emojiNames", "copylinkdevCustomRegexes"],
       function (data) {
-        const emojiNames: Partial<EmojiNames> = data.emojiNames || {};
+        const emojiNames: Partial<EmojiNameRecord> = data.emojiNames || {};
         const customRegexes: Partial<CustomRegexes> =
           data.copylinkdevCustomRegexes || {};
         let result = "";
@@ -52,7 +34,7 @@ export function getEmojiName(): Promise<string> {
             regexPattern &&
             new RegExp(regexPattern).test(href)
           ) {
-            resolve(emojiNames[websiteKey] || getDefaultEmojiName(websiteKey));
+            resolve(emojiNames[websiteKey] || DEFAULT_EMOJI_NAMES[websiteKey]);
             return;
           }
         }
@@ -62,56 +44,56 @@ export function getEmojiName(): Promise<string> {
               case "spreadsheets":
                 result =
                   emojiNames.googleSheets ||
-                  getDefaultEmojiName("googleSheets");
+                  DEFAULT_EMOJI_NAMES["googleSheets"];
                 break;
               case "document":
                 result =
-                  emojiNames.googleDocs || getDefaultEmojiName("googleDocs");
+                  emojiNames.googleDocs || DEFAULT_EMOJI_NAMES["googleDocs"];
                 break;
               case "presentation":
                 result =
                   emojiNames.googleSlides ||
-                  getDefaultEmojiName("googleSlides");
+                  DEFAULT_EMOJI_NAMES["googleSlides"];
                 break;
               default:
                 result =
-                  emojiNames.googleDrive || getDefaultEmojiName("googleDrive");
+                  emojiNames.googleDrive || DEFAULT_EMOJI_NAMES["googleDrive"];
             }
             break;
           case "drive.google.com":
             result =
-              emojiNames.googleDrive || getDefaultEmojiName("googleDrive");
+              emojiNames.googleDrive || DEFAULT_EMOJI_NAMES["googleDrive"];
             break;
           case "github.com":
             switch (pathname.split("/")[3]) {
               case "pull":
                 result =
                   emojiNames.githubPullRequest ||
-                  getDefaultEmojiName("githubPullRequest");
+                  DEFAULT_EMOJI_NAMES["githubPullRequest"];
                 break;
               case "issues":
                 result =
-                  emojiNames.githubIssue || getDefaultEmojiName("githubIssue");
+                  emojiNames.githubIssue || DEFAULT_EMOJI_NAMES["githubIssue"];
                 break;
               default:
-                result = emojiNames.github || getDefaultEmojiName("github");
+                result = emojiNames.github || DEFAULT_EMOJI_NAMES["github"];
             }
             break;
           case "app.asana.com":
-            result = emojiNames.asanaTask || getDefaultEmojiName("asanaTask");
+            result = emojiNames.asanaTask || DEFAULT_EMOJI_NAMES["asanaTask"];
             break;
         }
         if (hostname.includes("backlog")) {
           result =
-            emojiNames.backlogIssue || getDefaultEmojiName("backlogIssue");
+            emojiNames.backlogIssue || DEFAULT_EMOJI_NAMES["backlogIssue"];
         } else if (
           hostname.includes("redmine") ||
           document.querySelector("#footer a")?.textContent?.includes("Redmine")
         ) {
           result =
-            emojiNames.redmineIssue || getDefaultEmojiName("redmineIssue");
+            emojiNames.redmineIssue || DEFAULT_EMOJI_NAMES["redmineIssue"];
         } else if (document.body.id === "jira") {
-          result = emojiNames.jiraIssue || getDefaultEmojiName("jiraIssue");
+          result = emojiNames.jiraIssue || DEFAULT_EMOJI_NAMES["jiraIssue"];
         }
         resolve(result);
       }

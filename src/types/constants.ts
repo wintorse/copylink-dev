@@ -1,4 +1,9 @@
-import type { EmojiKeys, EmojiNames, CustomRegexes } from "./types";
+import type {
+  EmojiKeys,
+  EmojiNameRecord,
+  EmojiElementRecord,
+  CustomRegexes,
+} from "./types";
 
 export const VALID_COMMANDS = {
   COPY_LINK: "copy-link",
@@ -41,25 +46,46 @@ export const CUSTOM_REGEX_KEYS = [
   "customRegex5",
 ] as const;
 
-export function getEmojiElements(): EmojiNames {
-  return {
-    googleSheets: "emojiName-google-sheets",
-    googleDocs: "emojiName-google-docs",
-    googleSlides: "emojiName-google-slides",
-    googleDrive: "emojiName-google-drive",
-    github: "emojiName-github",
-    githubPullRequest: "emojiName-github-pull-request",
-    githubIssue: "emojiName-github-issue",
-    jiraIssue: "emojiName-jira-issue",
-    asanaTask: "emojiName-asana-task",
-    backlogIssue: "emojiName-backlog-issue",
-    redmineIssue: "emojiName-redmine-issue",
-    customWebsite1: "emojiName-custom-1",
-    customWebsite2: "emojiName-custom-2",
-    customWebsite3: "emojiName-custom-3",
-    customWebsite4: "emojiName-custom-4",
-    customWebsite5: "emojiName-custom-5",
-  } as const;
+export const DEFAULT_EMOJI_NAMES: EmojiNameRecord = {
+  googleSheets: ":google_sheets:",
+  googleDocs: ":google_docs:",
+  googleSlides: ":google_slides:",
+  googleDrive: ":google_drive_2:",
+  github: ":github:",
+  githubPullRequest: ":open_pull_request:",
+  githubIssue: ":open_issue:",
+  jiraIssue: ":jira:",
+  asanaTask: ":asana:",
+  backlogIssue: ":backlog:",
+  redmineIssue: ":redmine_ticket:",
+  customWebsite1: ":link:",
+  customWebsite2: ":link:",
+  customWebsite3: ":link:",
+  customWebsite4: ":link:",
+  customWebsite5: ":link:",
+} as const;
+
+const EMOJI_ELEMENT_RECORD: EmojiElementRecord = {
+  googleSheets: "emojiName-google-sheets",
+  googleDocs: "emojiName-google-docs",
+  googleSlides: "emojiName-google-slides",
+  googleDrive: "emojiName-google-drive",
+  github: "emojiName-github",
+  githubPullRequest: "emojiName-github-pull-request",
+  githubIssue: "emojiName-github-issue",
+  jiraIssue: "emojiName-jira-issue",
+  asanaTask: "emojiName-asana-task",
+  backlogIssue: "emojiName-backlog-issue",
+  redmineIssue: "emojiName-redmine-issue",
+  customWebsite1: "emojiName-custom-1",
+  customWebsite2: "emojiName-custom-2",
+  customWebsite3: "emojiName-custom-3",
+  customWebsite4: "emojiName-custom-4",
+  customWebsite5: "emojiName-custom-5",
+} as const;
+
+export function getEmojiElements(): EmojiElementRecord {
+  return EMOJI_ELEMENT_RECORD;
 }
 
 export function getCustomRegexElements(): CustomRegexes {
@@ -73,23 +99,5 @@ export function getCustomRegexElements(): CustomRegexes {
 }
 
 export function getDefaultEmojiName(key: EmojiKeys): string {
-  const defaultEmojiNames: EmojiNames = {
-    googleSheets: ":google_sheets:",
-    googleDocs: ":google_docs:",
-    googleSlides: ":google_slides:",
-    googleDrive: ":google_drive_2:",
-    github: ":github:",
-    githubPullRequest: ":open_pull_request:",
-    githubIssue: ":open_issue:",
-    jiraIssue: ":jira:",
-    asanaTask: ":asana:",
-    backlogIssue: ":backlog:",
-    redmineIssue: ":redmine_ticket:",
-    customWebsite1: ":link:",
-    customWebsite2: ":link:",
-    customWebsite3: ":link:",
-    customWebsite4: ":link:",
-    customWebsite5: ":link:",
-  } as const;
-  return defaultEmojiNames[key];
+  return DEFAULT_EMOJI_NAMES[key];
 }

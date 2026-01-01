@@ -6,6 +6,7 @@ import {
   getDefaultEmojiName,
   EMOJI_KEYS,
   CUSTOM_REGEX_KEYS,
+  DEFAULT_EMOJI_NAMES,
 } from "../types/constants";
 
 // check if value is in `:${string}:` format
@@ -29,7 +30,9 @@ const updateEmojiNames = () => {
     const element = document.getElementById(emojiElements[key]);
     if (element instanceof HTMLInputElement) {
       const value = element.value.trim();
-      if (isEmojiFormat(value)) {
+      if (!value) {
+        emojiNames[key] = DEFAULT_EMOJI_NAMES[key];
+      } else if (isEmojiFormat(value)) {
         emojiNames[key] = value;
       } else {
         emojiNames[key] = `:${value}:`;
@@ -70,25 +73,22 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Get emoji names and custom regexes when the page is loaded and reflect them in the form.
-  chrome.storage.local.get(
-    "emojiNames",
-    (data: EmojiNamesStorageData) => {
-      if (chrome.runtime.lastError) {
-        console.error(chrome.runtime.lastError);
-        return;
-      }
-      const emojiElements = getEmojiElements();
-      for (const key of EMOJI_KEYS) {
-        const element = document.getElementById(emojiElements[key]);
-        if (element instanceof HTMLInputElement) {
-          const emojiName = data.emojiNames?.[key] || getDefaultEmojiName(key);
-          element.value = emojiName;
+  chrome.storage.local.get("emojiNames", (data: EmojiNamesStorageData) => {
+    if (chrome.runtime.lastError) {
+      console.error(chrome.runtime.lastError);
+      return;
+    }
+    const emojiElements = getEmojiElements();
+    for (const key of EMOJI_KEYS) {
+      const element = document.getElementById(emojiElements[key]);
+      if (element instanceof HTMLInputElement) {
+        const emojiName = data.emojiNames?.[key] || getDefaultEmojiName(key);
+        element.value = emojiName;
 
-          element.addEventListener("input", updateEmojiNames);
-        }
+        element.addEventListener("input", updateEmojiNames);
       }
     }
-  );
+  });
 
   chrome.storage.local.get(
     "copylinkdevCustomRegexes",

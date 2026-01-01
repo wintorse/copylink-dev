@@ -24,14 +24,13 @@ export const getEmojiName = (): Promise<string> =>
         const emojiNames: Partial<EmojiNameRecord> = data.emojiNames || {};
         const customRegexes: Partial<CustomRegexes> =
           data.copylinkdevCustomRegexes || {};
-        let result = "";
         const href = window.location.href;
         const hostname = window.location.hostname;
         const pathname = window.location.pathname;
+        const pathParts = pathname.split("/");
 
-        for (let i = 0; i < CUSTOM_REGEX_KEYS.length; i++) {
-          const websiteKey = CUSTOM_EMOJI_KEYS[i];
-          const regexKey = CUSTOM_REGEX_KEYS[i];
+        for (const [index, regexKey] of CUSTOM_REGEX_KEYS.entries()) {
+          const websiteKey = CUSTOM_EMOJI_KEYS[index];
           const regexPattern = customRegexes[regexKey];
 
           if (
@@ -44,71 +43,102 @@ export const getEmojiName = (): Promise<string> =>
           }
         }
 
-        switch (hostname) {
-          case "docs.google.com":
-            switch (pathname.split("/")[1]) {
-              case "spreadsheets":
-                result =
-                  emojiNames.googleSheets ||
-                  DEFAULT_EMOJI_NAMES["googleSheets"];
-                break;
-              case "document":
-                result =
-                  emojiNames.googleDocs || DEFAULT_EMOJI_NAMES["googleDocs"];
-                break;
-              case "presentation":
-                result =
-                  emojiNames.googleSlides ||
-                  DEFAULT_EMOJI_NAMES["googleSlides"];
-                break;
-              default:
-                result =
-                  emojiNames.googleDrive || DEFAULT_EMOJI_NAMES["googleDrive"];
-            }
-            break;
-          case "drive.google.com":
-            result =
-              emojiNames.googleDrive || DEFAULT_EMOJI_NAMES["googleDrive"];
-            break;
-          case "github.com":
-            switch (pathname.split("/")[3]) {
-              case "pull":
-                result =
-                  emojiNames.githubPullRequest ||
-                  DEFAULT_EMOJI_NAMES["githubPullRequest"];
-                break;
-              case "issues":
-                result =
-                  emojiNames.githubIssue || DEFAULT_EMOJI_NAMES["githubIssue"];
-                break;
-              default:
-                result = emojiNames.github || DEFAULT_EMOJI_NAMES["github"];
-            }
-            break;
-          case "app.asana.com":
-            result = emojiNames.asanaTask || DEFAULT_EMOJI_NAMES["asanaTask"];
-            break;
+        // Fast-path: the extension's main use case (e.g. Google Sheets) should
+        // resolve without doing any heavier DOM queries.
+        if (hostname === "docs.google.com") {
+          switch (pathParts[1]) {
+            case "spreadsheets":
+              resolve(
+                emojiNames.googleSheets || DEFAULT_EMOJI_NAMES["googleSheets"]
+              );
+              return;
+            case "document":
+              resolve(
+                emojiNames.googleDocs || DEFAULT_EMOJI_NAMES["googleDocs"]
+              );
+              return;
+            case "presentation":
+              resolve(
+                emojiNames.googleSlides || DEFAULT_EMOJI_NAMES["googleSlides"]
+              );
+              return;
+            default:
+              resolve(
+                emojiNames.googleDrive || DEFAULT_EMOJI_NAMES["googleDrive"]
+              );
+              return;
+          }
+        }
+
+        if (hostname === "drive.google.com") {
+          resolve(emojiNames.googleDrive || DEFAULT_EMOJI_NAMES["googleDrive"]);
+          return;
+        }
+
+        if (hostname === "github.com") {
+          switch (pathParts[3]) {
+            case "pull":
+              resolve(
+                emojiNames.githubPullRequest ||
+                  DEFAULT_EMOJI_NAMES["githubPullRequest"]
+              );
+              return;
+            case "issues":
+              resolve(
+                emojiNames.githubIssue || DEFAULT_EMOJI_NAMES["githubIssue"]
+              );
+              return;
+            default:
+              resolve(emojiNames.github || DEFAULT_EMOJI_NAMES["github"]);
+              return;
+          }
+        }
+
+        if (hostname === "app.asana.com") {
+          resolve(emojiNames.asanaTask || DEFAULT_EMOJI_NAMES["asanaTask"]);
+          return;
         }
 
         if (hostname.includes("backlog")) {
-          result =
-            emojiNames.backlogIssue || DEFAULT_EMOJI_NAMES["backlogIssue"];
-        } else if (
-          hostname.includes("redmine") ||
-          document.querySelector("#footer a")?.textContent?.includes("Redmine")
-        ) {
-          result =
-            emojiNames.redmineIssue || DEFAULT_EMOJI_NAMES["redmineIssue"];
-        } else if (document.body.id === "jira") {
-          result = emojiNames.jiraIssue || DEFAULT_EMOJI_NAMES["jiraIssue"];
-        } else if (
-          document.title.includes("ReDoc") ||
-          document.querySelector(".redoc-wrap")
-        ) {
-          result = emojiNames.reDoc || DEFAULT_EMOJI_NAMES["reDoc"];
+          resolve(
+            emojiNames.backlogIssue || DEFAULT_EMOJI_NAMES["backlogIssue"]
+          );
+          return;
         }
 
-        resolve(result);
+        if (hostname.includes("redmine")) {
+          resolve(
+            emojiNames.redmineIssue || DEFAULT_EMOJI_NAMES["redmineIssue"]
+          );
+          return;
+        }
+
+        const footerHasRedmine =
+          document
+            .querySelector("#footer a")
+            ?.textContent?.includes("Redmine") || false;
+        if (footerHasRedmine) {
+          resolve(
+            emojiNames.redmineIssue || DEFAULT_EMOJI_NAMES["redmineIssue"]
+          );
+          return;
+        }
+
+        if (document.body.id === "jira") {
+          resolve(emojiNames.jiraIssue || DEFAULT_EMOJI_NAMES["jiraIssue"]);
+          return;
+        }
+
+        if (document.title.includes("ReDoc")) {
+          resolve(emojiNames.reDoc || DEFAULT_EMOJI_NAMES["reDoc"]);
+          return;
+        }
+
+        if (document.querySelector(".redoc-wrap")) {
+          resolve(emojiNames.reDoc || DEFAULT_EMOJI_NAMES["reDoc"]);
+          return;
+        }
+        resolve("");
       }
     );
   });

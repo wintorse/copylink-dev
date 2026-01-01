@@ -13,8 +13,16 @@ const isEmojiFormat = (value: string): value is EmojiName => {
   return /^:.*:$/.test(value);
 };
 
+type EmojiNamesStorageData = {
+  emojiNames?: Partial<EmojiNameRecord>;
+};
+
+type CustomRegexesStorageData = {
+  copylinkdevCustomRegexes?: Partial<CustomRegexes>;
+};
+
 // Update emoji names in storage based on form inputs
-function updateEmojiNames() {
+const updateEmojiNames = () => {
   const emojiNames: Partial<EmojiNameRecord> = {};
   const emojiElements = getEmojiElements();
   for (const key of EMOJI_KEYS) {
@@ -28,10 +36,14 @@ function updateEmojiNames() {
       }
     }
   }
-  chrome.storage.local.set({ emojiNames: emojiNames });
-}
+  chrome.storage.local.set({ emojiNames: emojiNames }, () => {
+    if (chrome.runtime.lastError) {
+      console.error(chrome.runtime.lastError);
+    }
+  });
+};
 
-function updateCustomRegexes() {
+const updateCustomRegexes = () => {
   const customRegexes: Partial<CustomRegexes> = {};
   const customRegexElements = getCustomRegexElements();
   for (const key of CUSTOM_REGEX_KEYS) {
@@ -40,8 +52,12 @@ function updateCustomRegexes() {
       customRegexes[key] = element.value;
     }
   }
-  chrome.storage.local.set({ copylinkdevCustomRegexes: customRegexes });
-}
+  chrome.storage.local.set({ copylinkdevCustomRegexes: customRegexes }, () => {
+    if (chrome.runtime.lastError) {
+      console.error(chrome.runtime.lastError);
+    }
+  });
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   // i18n
@@ -56,7 +72,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Get emoji names and custom regexes when the page is loaded and reflect them in the form.
   chrome.storage.local.get(
     "emojiNames",
-    function (data: { emojiNames?: Partial<EmojiNameRecord> }) {
+    (data: EmojiNamesStorageData) => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError);
+        return;
+      }
       const emojiElements = getEmojiElements();
       for (const key of EMOJI_KEYS) {
         const element = document.getElementById(emojiElements[key]);
@@ -72,7 +92,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   chrome.storage.local.get(
     "copylinkdevCustomRegexes",
-    function (data: { copylinkdevCustomRegexes?: Partial<CustomRegexes> }) {
+    (data: CustomRegexesStorageData) => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError);
+        return;
+      }
       const customRegexElements = getCustomRegexElements();
       for (const key of CUSTOM_REGEX_KEYS) {
         const element = document.getElementById(customRegexElements[key]);

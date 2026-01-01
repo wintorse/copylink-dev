@@ -5,17 +5,22 @@ import {
   CUSTOM_REGEX_KEYS,
 } from "../types/constants";
 
+type StorageData = {
+  emojiNames?: Partial<EmojiNameRecord>;
+  copylinkdevCustomRegexes?: Partial<CustomRegexes>;
+};
+
 /**
  * Retrieves the appropriate emoji name based on the current URL's hostname and pathname, or the document contents.
  * The emoji names are stored in the browser's local storage.
  *
  * @returns {Promise<string>} A promise that resolves to the corresponding emoji name.
  */
-export function getEmojiName(): Promise<string> {
-  return new Promise((resolve) => {
+export const getEmojiName = (): Promise<string> =>
+  new Promise((resolve) => {
     chrome.storage.local.get(
       ["emojiNames", "copylinkdevCustomRegexes"],
-      function (data) {
+      (data: StorageData) => {
         const emojiNames: Partial<EmojiNameRecord> = data.emojiNames || {};
         const customRegexes: Partial<CustomRegexes> =
           data.copylinkdevCustomRegexes || {};
@@ -38,6 +43,7 @@ export function getEmojiName(): Promise<string> {
             return;
           }
         }
+
         switch (hostname) {
           case "docs.google.com":
             switch (pathname.split("/")[1]) {
@@ -83,6 +89,7 @@ export function getEmojiName(): Promise<string> {
             result = emojiNames.asanaTask || DEFAULT_EMOJI_NAMES["asanaTask"];
             break;
         }
+
         if (hostname.includes("backlog")) {
           result =
             emojiNames.backlogIssue || DEFAULT_EMOJI_NAMES["backlogIssue"];
@@ -100,8 +107,8 @@ export function getEmojiName(): Promise<string> {
         ) {
           result = emojiNames.reDoc || DEFAULT_EMOJI_NAMES["reDoc"];
         }
+
         resolve(result);
       }
     );
   });
-}

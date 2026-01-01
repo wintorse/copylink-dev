@@ -3,7 +3,7 @@
  *
  * @param {string} message
  */
-export function createNotification(message: string) {
+export const createNotification = (message: string) => {
   const notificationId = "copylink.dev-notification";
   chrome.notifications.create(
     notificationId,
@@ -32,4 +32,4 @@ export function createNotification(message: string) {
       }
     }
   );
-}
+};

@@ -87,20 +87,16 @@ const EMOJI_ELEMENT_RECORD: EmojiElementRecord = {
   customWebsite5: "emojiName-custom-5",
 } as const;
 
-export function getEmojiElements(): EmojiElementRecord {
-  return EMOJI_ELEMENT_RECORD;
-}
+export const getEmojiElements = (): EmojiElementRecord => EMOJI_ELEMENT_RECORD;
 
-export function getCustomRegexElements(): CustomRegexes {
-  return {
+export const getCustomRegexElements = (): CustomRegexes =>
+  ({
     customRegex1: "regex-custom-1",
     customRegex2: "regex-custom-2",
     customRegex3: "regex-custom-3",
     customRegex4: "regex-custom-4",
     customRegex5: "regex-custom-5",
-  } as const;
-}
+  } as const);
 
-export function getDefaultEmojiName(key: EmojiKeys): string {
-  return DEFAULT_EMOJI_NAMES[key];
-}
+export const getDefaultEmojiName = (key: EmojiKeys): string =>
+  DEFAULT_EMOJI_NAMES[key];

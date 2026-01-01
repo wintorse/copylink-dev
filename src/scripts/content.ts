@@ -7,18 +7,17 @@ declare global {
   }
 }
 
-function getValidCommands() {
-  return {
+const getValidCommands = () =>
+  ({
     COPY_LINK: "copy-link",
     COPY_LINK_FOR_SLACK: "copy-link-for-slack",
     COPY_TITLE: "copy-title",
-  } as const;
-}
+  } as const);
 
-function isValidCommand(command: string): command is Command {
+const isValidCommand = (command: string): command is Command => {
   const validCommands = getValidCommands();
   return Object.values(validCommands).some((c) => c === command);
-}
+};
 
 if (!window.hasCopylinkDevListener) {
   window.hasCopylinkDevListener = true;

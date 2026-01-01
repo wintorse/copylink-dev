@@ -6,10 +6,10 @@ import { copyTextLink } from "./copyTextLink";
  *
  * @param {Command} command - The command to be executed.
  */
-export function handleCommand(command: Command): void {
+export const handleCommand = (command: Command): void => {
   try {
     copyTextLink(command);
   } catch (error) {
     console.error(error);
   }
-}
+};

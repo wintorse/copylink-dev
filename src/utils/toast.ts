@@ -3,7 +3,7 @@
  *
  * @param {string} message
  */
-export function showToast(message: string) {
+export const showToast = (message: string) => {
   // load CSS file for toast
   const link = document.createElement("link");
   link.rel = "stylesheet";
@@ -40,4 +40,4 @@ export function showToast(message: string) {
       }, 310);
     }, 3000);
   };
-}
+};

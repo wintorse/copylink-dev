@@ -13,13 +13,13 @@ import type { Command } from "../types/types";
  *
  * The function also displays a toast message indicating the success or failure of the copy operation.
  */
-async function copyToClipboard(
+const copyToClipboard = async (
   text: string,
   successMessage: string,
   failureMessage: string,
   html?: string,
   fallbackElement?: HTMLElement
-) {
+) => {
   const notify = (message: string) => {
     showToast(message);
     // chrome.runtime.sendMessage({ type: "copylink.dev-notification", message });
@@ -62,7 +62,7 @@ async function copyToClipboard(
     document.body.removeChild(fallbackElement);
     notify(successMessage);
   }
-}
+};
 
 /**
  * Copies text or a link to the clipboard based on the provided argument.
@@ -71,12 +71,12 @@ async function copyToClipboard(
  *
  * The function also displays a toast message indicating the success or failure of the copy operation.
  */
-export async function copyTextLink(command: Command) {
+export const copyTextLink = async (command: Command) => {
   const title = getFormattedTitle();
   const url = document.URL;
   const t = (key: string): string => chrome.i18n.getMessage(key);
 
-  async function handleCopyTitle() {
+  const handleCopyTitle = async () => {
     const fallbackElement = document.createElement("p");
     fallbackElement.textContent = title;
     await copyToClipboard(
@@ -86,9 +86,9 @@ export async function copyTextLink(command: Command) {
       undefined,
       fallbackElement
     );
-  }
+  };
 
-  async function handleCopyLink() {
+  const handleCopyLink = async () => {
     const html = `<a href="${url}">${title}</a>&nbsp;`;
     const fallbackElement = document.createElement("span");
     const anchor = document.createElement("a");
@@ -103,9 +103,9 @@ export async function copyTextLink(command: Command) {
       html,
       fallbackElement
     );
-  }
+  };
 
-  async function handleCopyLinkForSlack() {
+  const handleCopyLinkForSlack = async () => {
     const emojiName = await getEmojiName();
     const html = `${emojiName}&nbsp;<a href="${url}">${title}</a>&nbsp;`;
     const fallbackElement = document.createElement("span");
@@ -121,7 +121,7 @@ export async function copyTextLink(command: Command) {
       html,
       fallbackElement
     );
-  }
+  };
 
   const commandMap: Record<Command, () => Promise<void>> = {
     "copy-title": handleCopyTitle,
@@ -134,4 +134,4 @@ export async function copyTextLink(command: Command) {
   } else {
     showToast("Unknown command");
   }
-}
+};

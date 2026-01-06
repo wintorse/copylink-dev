@@ -52,6 +52,13 @@
         "mac": "MacCtrl+T"
       },
       "description": "__MSG_copyTitleDescription__"
+    },
+    "copy-google-sheets-range": {
+      "suggested_key": {
+        "default": "Alt+R",
+        "mac": "MacCtrl+R"
+      },
+      "description": "__MSG_copyGoogleSheetsRangeDescription__"
     }
   },
   "background": {

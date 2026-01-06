@@ -26,6 +26,15 @@
   "copyLinkFailure": {
     "message": "Failed to copy link to clipboard"
   },
+  "copyGoogleSheetsRangeDescription": {
+    "message": "Copy Google Sheets selected range link with Slack emoji"
+  },
+  "copyGoogleSheetsRangeSuccess": {
+    "message": "Selected range link copied to clipboard"
+  },
+  "copyGoogleSheetsRangeFailure": {
+    "message": "Failed to copy selected range link to clipboard"
+  },
   "settingsTitle": {
     "message": "Settings"
   },

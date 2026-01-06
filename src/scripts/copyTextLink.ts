@@ -1,5 +1,6 @@
 import { getFormattedTitle } from "./getFormattedTitle";
 import { getEmojiName } from "./getEmojiName";
+import { getGoogleSheetsRangeInfo } from "./getGoogleSheetsRangeLink";
 import { showToast } from "../utils/toast";
 import type { Command } from "../types/types";
 
@@ -123,10 +124,37 @@ export const copyTextLink = async (command: Command) => {
     );
   };
 
+  const handleCopyGoogleSheetsRange = async () => {
+    const rangeInfo = getGoogleSheetsRangeInfo();
+    if (!rangeInfo) {
+      showToast(t("copyGoogleSheetsRangeFailure"));
+      return;
+    }
+    const emojiName = await getEmojiName();
+    const sheetTitle = getFormattedTitle();
+    const linkText = sheetTitle;
+    const text = `${emojiName} ${linkText}`;
+    const html = `${emojiName}&nbsp;<a href="${rangeInfo.link}">${linkText}</a>&nbsp;`;
+    const fallbackElement = document.createElement("span");
+    fallbackElement.appendChild(document.createTextNode(`${emojiName} `));
+    const anchor = document.createElement("a");
+    anchor.setAttribute("href", rangeInfo.link);
+    anchor.textContent = linkText;
+    fallbackElement.appendChild(anchor);
+    await copyToClipboard(
+      text,
+      t("copyGoogleSheetsRangeSuccess"),
+      t("copyGoogleSheetsRangeFailure"),
+      html,
+      fallbackElement
+    );
+  };
+
   const commandMap: Record<Command, () => Promise<void>> = {
     "copy-title": handleCopyTitle,
     "copy-link": handleCopyLink,
     "copy-link-for-slack": handleCopyLinkForSlack,
+    "copy-google-sheets-range": handleCopyGoogleSheetsRange,
   };
 
   if (commandMap[command]) {

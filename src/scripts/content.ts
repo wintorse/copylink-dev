@@ -12,6 +12,7 @@ const getValidCommands = () =>
     COPY_LINK: "copy-link",
     COPY_LINK_FOR_SLACK: "copy-link-for-slack",
     COPY_TITLE: "copy-title",
+    COPY_GOOGLE_SHEETS_RANGE: "copy-google-sheets-range",
   } as const);
 
 const isValidCommand = (command: string): command is Command => {

@@ -20,7 +20,7 @@
   "homepage": "https://github.com/wintorse/copylink-dev#readme",
   "devDependencies": {
     "@types/chrome": "^0.1.32",
-    "@types/node": "^24.10.4",
+    "@types/node": "^25.0.8",
     "typescript": "^5.9.3",
     "vite": "^7.3.0"
   }

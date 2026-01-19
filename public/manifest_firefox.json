@@ -14,18 +14,11 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "copylink-dev@example.com",
-        "strict_min_version": "127.0"
+      "strict_min_version": "127.0"
     }
   },
-  "permissions": [
-    "activeTab",
-    "scripting",
-    "storage",
-    "clipboardWrite"
-  ],
-  "web_accessible_resources": [
-    "styles/toast.css"
-  ],
+  "permissions": ["activeTab", "scripting", "storage", "clipboardWrite"],
+  "web_accessible_resources": ["styles/toast.css"],
   "browser_action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -56,6 +49,13 @@
         "mac": "MacCtrl+T"
       },
       "description": "__MSG_copyTitleDescription__"
+    },
+    "copy-google-sheets-range": {
+      "suggested_key": {
+        "default": "Alt+R",
+        "mac": "MacCtrl+R"
+      },
+      "description": "__MSG_copyGoogleSheetsRangeDescription__"
     }
   },
   "background": {

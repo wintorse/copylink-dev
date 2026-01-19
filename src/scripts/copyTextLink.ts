@@ -135,18 +135,11 @@ export const copyTextLink = async (command: Command) => {
     const linkText = sheetTitle;
     const text = `${emojiName} ${linkText}`;
     const html = `${emojiName}&nbsp;<a href="${rangeInfo.link}">${linkText}</a>&nbsp;`;
-    const fallbackElement = document.createElement("span");
-    fallbackElement.appendChild(document.createTextNode(`${emojiName} `));
-    const anchor = document.createElement("a");
-    anchor.setAttribute("href", rangeInfo.link);
-    anchor.textContent = linkText;
-    fallbackElement.appendChild(anchor);
     await copyToClipboard(
       text,
       t("copyGoogleSheetsRangeSuccess"),
       t("copyGoogleSheetsRangeFailure"),
       html,
-      fallbackElement
     );
   };
 

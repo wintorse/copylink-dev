@@ -26,6 +26,15 @@
   "copyLinkFailure": {
     "message": "复制链接到剪贴板失败"
   },
+  "copyGoogleSheetsRangeDescription": {
+    "message": "复制Google表格范围链接（带Slack表情）"
+  },
+  "copyGoogleSheetsRangeSuccess": {
+    "message": "指向此范围的链接已复制到剪贴板"
+  },
+  "copyGoogleSheetsRangeFailure": {
+    "message": "复制Google表格范围链接到剪贴板失败"
+  },
   "settingsTitle": {
     "message": "设置"
   },

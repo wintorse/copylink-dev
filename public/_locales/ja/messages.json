@@ -30,7 +30,7 @@
     "message": "Google スプレッドシートの選択した範囲のリンクを Slack 絵文字つきでコピー"
   },
   "copyGoogleSheetsRangeSuccess": {
-    "message": "選択した範囲のリンクをクリップボードにコピーしました"
+    "message": "この範囲のリンクをクリップボードにコピーしました"
   },
   "copyGoogleSheetsRangeFailure": {
     "message": "選択した範囲のリンクのコピーに失敗しました"

@@ -54,34 +54,21 @@ const getJiraTitle = (): string => {
 };
 
 const getReDocTitle = (): string => {
-  const hash = window.location.hash.slice(1);
-
-  if (!hash) {
-    // return the main title
-    return document.querySelector("h1")?.textContent || document.title;
-  }
-
-  // Find an a tag that has the value of the anchor in its href attribute.
-  // Looking for href="#xxx" or href="/path#xxx"
-  const anchor = document.querySelector(
-    `a[href="#${hash}"], a[href*="#${hash}"]`
+  // Find the active label element (class contains 'active')
+  const activeLabel = document.querySelector<HTMLLabelElement>(
+    "label[class*='active']"
   );
 
-  if (!anchor) {
-    return document.title;
+  if (activeLabel) {
+    // Get all span elements within the active label
+    const spans = activeLabel.querySelectorAll("span");
+    // Return the textContent of the second span (index 1)
+    if (spans.length >= 2) {
+      return spans[1].textContent?.trim() || document.title;
+    }
   }
 
-  // Find the parent h2 tag
-  let parent = anchor.parentElement;
-  while (parent && parent.tagName !== "H2") {
-    parent = parent.parentElement;
-  }
-
-  if (parent && parent.tagName === "H2") {
-    return parent.textContent.trim();
-  }
-
-  // Fallback if no h2 tag is found
+  // Fallback if no active label or second span is found
   return document.title;
 };
 

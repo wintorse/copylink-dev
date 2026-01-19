@@ -26,6 +26,15 @@
   "copyLinkFailure": {
     "message": "リンクのコピーに失敗しました"
   },
+  "copyGoogleSheetsRangeDescription": {
+    "message": "Google スプレッドシートの選択した範囲のリンクを Slack 絵文字つきでコピー"
+  },
+  "copyGoogleSheetsRangeSuccess": {
+    "message": "この範囲のリンクをクリップボードにコピーしました"
+  },
+  "copyGoogleSheetsRangeFailure": {
+    "message": "選択した範囲のリンクのコピーに失敗しました"
+  },
   "settingsTitle": {
     "message": "設定"
   },

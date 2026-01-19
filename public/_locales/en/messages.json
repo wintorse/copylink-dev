@@ -33,7 +33,7 @@
     "message": "Link to this range copied to clipboard"
   },
   "copyGoogleSheetsRangeFailure": {
-    "message": "Failed to copy selected range link to clipboard"
+    "message": "Failed to copy link to the selected range to clipboard"
   },
   "settingsTitle": {
     "message": "Settings"

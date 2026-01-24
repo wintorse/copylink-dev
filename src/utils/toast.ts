@@ -1,10 +1,6 @@
 import { showToastCore } from "../shared/ui/toast";
 
 /**
- * Chrome extension wrapper for toast rendering. Provides platform-specific URL resolver.
+ * Chrome extension wrapper for toast rendering. No additional CSS needed because the shared core handles styling.
  */
-export const showToast = (message: string) =>
-  showToastCore(message, {
-    document,
-    getCssHref: () => chrome.runtime.getURL("../styles/toast.css"),
-  });
+export const showToast = (message: string) => showToastCore(message, document);

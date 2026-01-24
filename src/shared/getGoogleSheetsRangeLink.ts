@@ -15,7 +15,9 @@ export const getGoogleSheetsRangeInfo = (): {
   const gid = hashParams.get("gid") || "0";
 
   // 2. Get the range string (e.g., A1 or A1:B5) from the name box
-  const nameBox = document.getElementById("t-name-box") as HTMLInputElement | null;
+  const nameBox = document.getElementById(
+    "t-name-box",
+  ) as HTMLInputElement | null;
   let rangeString = "";
 
   if (nameBox && nameBox.value) {
@@ -33,4 +35,3 @@ export const getGoogleSheetsRangeInfo = (): {
 
   return { rangeString, link: finalLink };
 };
-

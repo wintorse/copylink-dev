@@ -1,9 +1,9 @@
-import { getFormattedTitle } from "./getFormattedTitle";
 import { getEmojiName } from "./getEmojiName";
-import { getGoogleSheetsRangeInfo } from "./getGoogleSheetsRangeLink";
 import { showToast } from "../utils/toast";
 import { copyToClipboardShared } from "../shared/clipboard/copyToClipboardShared";
 import { copyTextLinkCore } from "../shared/clipboard/copyTextLinkCore";
+import { getFormattedTitle } from "../shared/getFormattedTitle";
+import { getGoogleSheetsRangeInfo } from "../shared/getGoogleSheetsRangeLink";
 import type { Command } from "../types/types";
 
 export const copyTextLink = async (command: Command) => {

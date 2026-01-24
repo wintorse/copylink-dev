@@ -1,18 +1,16 @@
-import type { EmojiName, EmojiNameRecord, CustomRegexes } from "../types/types";
+import type { EmojiNameRecord, CustomRegexes } from "../types/types";
 
 import {
   getEmojiElements,
   getCustomRegexElements,
-  getDefaultEmojiName,
   EMOJI_KEYS,
   CUSTOM_REGEX_KEYS,
-  DEFAULT_EMOJI_NAMES,
 } from "../types/constants";
-
-// check if value is in `:${string}:` format
-const isEmojiFormat = (value: string): value is EmojiName => {
-  return /^:.*:$/.test(value);
-};
+import {
+  buildCustomRegexes,
+  buildEmojiNames,
+  getInitialEmojiValues,
+} from "../shared/popup/emojiSettings";
 
 type EmojiNamesStorageData = {
   emojiNames?: Partial<EmojiNameRecord>;
@@ -22,39 +20,42 @@ type CustomRegexesStorageData = {
   copylinkdevCustomRegexes?: Partial<CustomRegexes>;
 };
 
-// Update emoji names in storage based on form inputs
-const updateEmojiNames = () => {
-  const emojiNames: Partial<EmojiNameRecord> = {};
+const collectEmojiInputs = (): Partial<Record<string, string>> => {
+  const values: Partial<Record<string, string>> = {};
   const emojiElements = getEmojiElements();
   for (const key of EMOJI_KEYS) {
     const element = document.getElementById(emojiElements[key]);
     if (element instanceof HTMLInputElement) {
-      const value = element.value.trim();
-      if (!value) {
-        emojiNames[key] = DEFAULT_EMOJI_NAMES[key];
-      } else if (isEmojiFormat(value)) {
-        emojiNames[key] = value;
-      } else {
-        emojiNames[key] = `:${value}:`;
-      }
+      values[key] = element.value;
     }
   }
-  chrome.storage.local.set({ emojiNames: emojiNames }, () => {
+  return values;
+};
+
+// Update emoji names in storage based on form inputs
+const updateEmojiNames = () => {
+  const emojiNames = buildEmojiNames(collectEmojiInputs());
+  chrome.storage.local.set({ emojiNames }, () => {
     if (chrome.runtime.lastError) {
       console.error(chrome.runtime.lastError);
     }
   });
 };
 
-const updateCustomRegexes = () => {
-  const customRegexes: Partial<CustomRegexes> = {};
+const collectRegexInputs = (): Partial<Record<string, string>> => {
+  const values: Partial<Record<string, string>> = {};
   const customRegexElements = getCustomRegexElements();
   for (const key of CUSTOM_REGEX_KEYS) {
     const element = document.getElementById(customRegexElements[key]);
     if (element instanceof HTMLInputElement) {
-      customRegexes[key] = element.value;
+      values[key] = element.value;
     }
   }
+  return values;
+};
+
+const updateCustomRegexes = () => {
+  const customRegexes = buildCustomRegexes(collectRegexInputs());
   chrome.storage.local.set({ copylinkdevCustomRegexes: customRegexes }, () => {
     if (chrome.runtime.lastError) {
       console.error(chrome.runtime.lastError);
@@ -79,12 +80,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
     const emojiElements = getEmojiElements();
+    const values = getInitialEmojiValues(data.emojiNames);
     for (const key of EMOJI_KEYS) {
       const element = document.getElementById(emojiElements[key]);
       if (element instanceof HTMLInputElement) {
-        const emojiName = data.emojiNames?.[key] || getDefaultEmojiName(key);
-        element.value = emojiName;
-
+        element.value = values[key];
         element.addEventListener("input", updateEmojiNames);
       }
     }
@@ -106,6 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
           element.addEventListener("input", updateCustomRegexes);
         }
       }
-    }
+    },
   );
 });

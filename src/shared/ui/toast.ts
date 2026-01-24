@@ -5,41 +5,24 @@ export type ToastOptions = {
    * This allows consumers (e.g., userscript) to add buttons/links next to the message.
    */
   renderContent?: (container: HTMLElement, message: string) => void;
+  /**
+   * Optional external CSS for reuse (e.g., extension bundle). When omitted, only minimal inline animation styles apply.
+   */
+  getCssHref?: () => string;
 };
 
 const CLASSES = {
-  wrapper: "copylink-dev-toast-wrapper",
   visible: "visible",
   message: "copylink-dev-toast",
 };
 
 const toastStyle = `
-  :host {
-    all: initial;
-  }
-  .${CLASSES.wrapper} {
-    position: fixed;
-    bottom: 24px;
-    left: 24px;
-    z-index: 2147483647;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-  }
   .${CLASSES.message} {
-    font-family: inherit;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    border-radius: 8px;
-    padding: 10px 16px;
     opacity: 0;
     transform: translate3d(0, 24px, 0);
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    display: inline-flex;
-    gap: 8px;
-    align-items: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  .${CLASSES.wrapper}.${CLASSES.visible} .${CLASSES.message} {
+  :host(.${CLASSES.visible}) .${CLASSES.message} {
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
@@ -50,9 +33,18 @@ export const showToastCore = (
   document: Document,
   options?: ToastOptions,
 ) => {
-  const wrapper = document.createElement("div");
-  wrapper.className = CLASSES.wrapper;
-  const shadow = wrapper.attachShadow({ mode: "open" });
+  const host = document.createElement("div");
+  const shadow = host.attachShadow({ mode: "open" });
+  // Optionally load external CSS (e.g., extension bundle) before animating
+  const externalCss = options?.getCssHref
+    ? (() => {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = options.getCssHref();
+        shadow.appendChild(link);
+        return link;
+      })()
+    : undefined;
   const style = document.createElement("style");
   style.textContent = toastStyle;
   const toast = document.createElement("div");
@@ -64,18 +56,29 @@ export const showToastCore = (
   }
   shadow.appendChild(style);
   shadow.appendChild(toast);
-  document.body.appendChild(wrapper);
+  document.body.appendChild(host);
 
-  requestAnimationFrame(() => {
-    wrapper.classList.add(CLASSES.visible);
+  // Ensure animation triggers after styles are ready (handles first paint with external CSS)
+  const waitForStyleLoad = (link?: HTMLLinkElement) =>
+    new Promise<void>((resolve) => {
+      if (!link) return resolve();
+      if (link.sheet) return resolve();
+      link.addEventListener("load", () => resolve(), { once: true });
+      link.addEventListener("error", () => resolve(), { once: true });
+    });
+
+  waitForStyleLoad(externalCss).then(() => {
+    requestAnimationFrame(() => {
+      host.classList.add(CLASSES.visible);
+    });
   });
 
   const duration = options?.durationMs ?? 3000;
   setTimeout(() => {
-    wrapper.classList.remove(CLASSES.visible);
+    host.classList.remove(CLASSES.visible);
     setTimeout(() => {
       style.remove();
-      wrapper.remove();
+      host.remove();
     }, 200);
   }, duration);
 };

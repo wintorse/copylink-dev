@@ -131,6 +131,13 @@ export const copyTextLinkCore = async (
   }
 
   if (command === "copy-google-sheets-range") {
+    const isGoogleSheetsUrl = /:\/\/docs\.google\.com\/spreadsheets\//.test(
+      url,
+    );
+    if (!isGoogleSheetsUrl) {
+      return;
+    }
+
     const rangeInfo = getGoogleSheetsRangeInfo();
     if (!rangeInfo) {
       deps.notify(t("copyGoogleSheetsRangeFailure"));

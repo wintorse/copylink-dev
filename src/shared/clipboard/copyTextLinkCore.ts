@@ -21,7 +21,9 @@ export type CopyTextLinkDeps = {
   ) => Promise<CopyResult>;
 };
 
-const createFallbackElement = (spec: FallbackSpec): HTMLElement | undefined => {
+export const createFallbackElement = (
+  spec: FallbackSpec,
+): HTMLElement | undefined => {
   if (spec.type === "title") {
     const el = document.createElement("p");
     el.textContent = spec.title;

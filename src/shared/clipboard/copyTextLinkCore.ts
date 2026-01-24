@@ -19,7 +19,42 @@ export type CopyTextLinkDeps = {
     html?: string,
     fallbackElement?: HTMLElement,
   ) => Promise<CopyResult>;
-  createFallbackElement: (spec: FallbackSpec) => HTMLElement | undefined;
+};
+
+const createFallbackElement = (spec: FallbackSpec): HTMLElement | undefined => {
+  if (spec.type === "title") {
+    const el = document.createElement("p");
+    el.textContent = spec.title;
+    return el;
+  }
+  if (spec.type === "link") {
+    const el = document.createElement("span");
+    const anchor = document.createElement("a");
+    anchor.setAttribute("href", spec.url);
+    anchor.textContent = spec.title;
+    el.appendChild(anchor);
+    el.appendChild(document.createTextNode("\u00A0"));
+    return el;
+  }
+  if (spec.type === "linkWithEmoji") {
+    const el = document.createElement("span");
+    el.appendChild(document.createTextNode(`${spec.emojiName} `));
+    const anchor = document.createElement("a");
+    anchor.setAttribute("href", spec.url);
+    anchor.textContent = spec.title;
+    el.appendChild(anchor);
+    return el;
+  }
+  if (spec.type === "sheetsRange") {
+    const el = document.createElement("span");
+    el.appendChild(document.createTextNode(`${spec.emojiName} `));
+    const anchor = document.createElement("a");
+    anchor.setAttribute("href", spec.link);
+    anchor.textContent = spec.text;
+    el.appendChild(anchor);
+    return el;
+  }
+  return undefined;
 };
 
 export const copyTextLinkCore = async (
@@ -47,7 +82,7 @@ export const copyTextLinkCore = async (
     failureKey: string,
   ) => {
     const fallbackElement = fallbackSpec
-      ? deps.createFallbackElement(fallbackSpec)
+      ? createFallbackElement(fallbackSpec)
       : undefined;
     const result = await deps.copy(text, html, fallbackElement);
     if (result.success) {

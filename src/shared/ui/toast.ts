@@ -6,7 +6,7 @@ export type ToastOptions = {
    */
   renderContent?: (container: HTMLElement, message: string) => void;
   /**
-   * Optional external CSS for reuse (e.g., extension bundle). When omitted, inline styles are used.
+   * Optional external CSS for reuse (e.g., extension bundle). When omitted, only minimal inline animation styles apply.
    */
   getCssHref?: () => string;
 };
@@ -17,36 +17,10 @@ const CLASSES = {
 };
 
 const toastStyle = `
-  :host {
-    all: initial;
-    position: fixed;
-    bottom: 24px;
-    left: 24px;
-    z-index: 3000;
-    pointer-events: none;
-    display: flex;
-    align-items: center;
-  }
   .${CLASSES.message} {
-    position: relative;
-    padding: 14px 16px;
-    max-height: calc(100% - 48px);
-    max-width: 568px;
-    min-height: 20px;
-    border-radius: 4px;
-    background-color: rgb(30, 30, 30);
-    box-shadow: 0 4px 8px 3px rgba(60, 64, 67, 0.15);
-    font-family: 'Google Sans', Roboto, Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    text-align: left;
-    color: #f2f2f2;
     opacity: 0;
     transform: translate3d(0, 24px, 0);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    display: inline-flex;
-    gap: 8px;
-    align-items: center;
   }
   :host(.${CLASSES.visible}) .${CLASSES.message} {
     opacity: 1;
@@ -61,12 +35,16 @@ export const showToastCore = (
 ) => {
   const host = document.createElement("div");
   const shadow = host.attachShadow({ mode: "open" });
-  if (options?.getCssHref) {
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = options.getCssHref();
-    shadow.appendChild(link);
-  }
+  // Optionally load external CSS (e.g., extension bundle) before animating
+  const externalCss = options?.getCssHref
+    ? (() => {
+        const link = document.createElement("link");
+        link.rel = "stylesheet";
+        link.href = options.getCssHref();
+        shadow.appendChild(link);
+        return link;
+      })()
+    : undefined;
   const style = document.createElement("style");
   style.textContent = toastStyle;
   const toast = document.createElement("div");
@@ -80,8 +58,19 @@ export const showToastCore = (
   shadow.appendChild(toast);
   document.body.appendChild(host);
 
-  requestAnimationFrame(() => {
-    host.classList.add(CLASSES.visible);
+  // Ensure animation triggers after styles are ready (handles first paint with external CSS)
+  const waitForStyleLoad = (link?: HTMLLinkElement) =>
+    new Promise<void>((resolve) => {
+      if (!link) return resolve();
+      if (link.sheet) return resolve();
+      link.addEventListener("load", () => resolve(), { once: true });
+      link.addEventListener("error", () => resolve(), { once: true });
+    });
+
+  waitForStyleLoad(externalCss).then(() => {
+    requestAnimationFrame(() => {
+      host.classList.add(CLASSES.visible);
+    });
   });
 
   const duration = options?.durationMs ?? 3000;

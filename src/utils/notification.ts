@@ -1,35 +1,34 @@
+import { buildNotificationConfig } from "../shared/ui/notification";
+
 /**
- * Displays a notification.
- *
- * @param {string} message
+ * Chrome extension wrapper for notifications. Uses shared config builder and injects runtime URLs.
  */
 export const createNotification = (message: string) => {
-  const notificationId = "copylink.dev-notification";
+  const config = buildNotificationConfig(message);
   chrome.notifications.create(
-    notificationId,
+    config.id,
     {
       type: "basic",
-      iconUrl: chrome.runtime.getURL("images/icon-128.png"),
-      title: "copylink.dev",
-      message: message,
+      iconUrl: chrome.runtime.getURL(config.iconPath),
+      title: config.title,
+      message: config.message,
       silent: true,
     },
     () => {
       if (chrome.runtime.lastError) {
         console.error(chrome.runtime.lastError);
-      } else {
-        setTimeout(() => {
-          chrome.notifications.clear(notificationId, (wasCleared) => {
-            if (chrome.runtime.lastError) {
-              console.error(chrome.runtime.lastError);
-            } else if (!wasCleared) {
-              console.error(
-                `Failed to clear notification with ID: ${notificationId}`
-              );
-            }
-          });
-        }, 3000);
+        return;
       }
-    }
+      if (!config.autoClearMs) return;
+      setTimeout(() => {
+        chrome.notifications.clear(config.id, (wasCleared) => {
+          if (chrome.runtime.lastError) {
+            console.error(chrome.runtime.lastError);
+          } else if (!wasCleared) {
+            console.error(`Failed to clear notification with ID: ${config.id}`);
+          }
+        });
+      }, config.autoClearMs);
+    },
   );
 };

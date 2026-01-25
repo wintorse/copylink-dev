@@ -9,7 +9,7 @@ import {
   CUSTOM_REGEX_KEYS,
   DEFAULT_EMOJI_NAMES,
   EMOJI_KEYS,
-} from "../../types/constants";
+} from "../constants";
 
 export const isEmojiFormat = (value: string): value is EmojiName =>
   /^:.*:$/.test(value);

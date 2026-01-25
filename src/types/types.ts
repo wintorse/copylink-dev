@@ -2,7 +2,7 @@ import {
   VALID_COMMANDS,
   EMOJI_KEYS,
   CUSTOM_REGEX_KEYS,
-} from "../types/constants";
+} from "../shared/constants";
 
 export type Command = (typeof VALID_COMMANDS)[keyof typeof VALID_COMMANDS];
 

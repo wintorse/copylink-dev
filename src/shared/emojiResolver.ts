@@ -3,7 +3,7 @@ import {
   CUSTOM_EMOJI_KEYS,
   CUSTOM_REGEX_KEYS,
   DEFAULT_EMOJI_NAMES,
-} from "../types/constants";
+} from "./constants";
 
 export type PageContext = {
   href: string;

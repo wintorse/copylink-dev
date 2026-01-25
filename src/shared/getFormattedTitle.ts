@@ -1,6 +1,6 @@
 const getGoogleDocsTitle = (): string => {
   const titleElement = document.querySelector<HTMLInputElement>(
-    "#docs-title-widget input"
+    "#docs-title-widget input",
   );
   return titleElement ? titleElement.value : document.title;
 };
@@ -14,7 +14,7 @@ const getGitHubTitle = (): string => {
   const titleElement =
     document.querySelector<HTMLElement>("h1 > *:first-child");
   const idElement = document.querySelector<HTMLSpanElement>(
-    "h1 > *:nth-child(2)"
+    "h1 > *:nth-child(2)",
   );
   return titleElement && idElement
     ? `${idElement.textContent} ${titleElement.textContent}`
@@ -28,10 +28,10 @@ const getAsanaTitle = (): string => {
 
 const getBacklogTitle = (): string => {
   const titleElement = document.querySelector<HTMLDivElement>(
-    "#summary > span.title-group__title-text > div"
+    "#summary > span.title-group__title-text > div",
   );
   return titleElement
-    ? titleElement.textContent ?? document.title
+    ? (titleElement.textContent ?? document.title)
     : document.title;
 };
 
@@ -56,7 +56,7 @@ const getJiraTitle = (): string => {
 const getReDocTitle = (): string => {
   // Find the active label element (class contains 'active')
   const activeLabel = document.querySelector<HTMLLabelElement>(
-    "label[class*='active']"
+    "label[class*='active']",
   );
 
   if (activeLabel) {

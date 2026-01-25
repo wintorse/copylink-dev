@@ -3,7 +3,7 @@ import type {
   EmojiNameRecord,
   EmojiElementRecord,
   CustomRegexes,
-} from "./types";
+} from "../types/types";
 
 export const VALID_COMMANDS = {
   COPY_LINK: "copy-link",
@@ -97,7 +97,7 @@ export const getCustomRegexElements = (): CustomRegexes =>
     customRegex3: "regex-custom-3",
     customRegex4: "regex-custom-4",
     customRegex5: "regex-custom-5",
-  } as const);
+  }) as const;
 
 export const getDefaultEmojiName = (key: EmojiKeys): string =>
   DEFAULT_EMOJI_NAMES[key];

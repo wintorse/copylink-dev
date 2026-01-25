@@ -5,7 +5,7 @@ import {
   getCustomRegexElements,
   EMOJI_KEYS,
   CUSTOM_REGEX_KEYS,
-} from "../types/constants";
+} from "../shared/constants";
 import {
   buildCustomRegexes,
   buildEmojiNames,

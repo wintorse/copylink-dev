@@ -52,7 +52,7 @@ export const createFallbackElement = (
     el.appendChild(document.createTextNode(`${spec.emojiName} `));
     const anchor = document.createElement("a");
     anchor.setAttribute("href", spec.link);
-    anchor.textContent = spec.text;
+    anchor.textContent = spec.title;
     el.appendChild(anchor);
     return el;
   }
@@ -121,7 +121,9 @@ export const copyTextLinkCore = async (
     const emojiName = await getEmojiName();
     const html = `${emojiName}&nbsp;<a href="${url}">${title}</a>&nbsp;`;
     await runCopy(
-      title,
+      // secret feature: Markdown format in plain text
+      // If you copy-paste it into IDEs or plain text editors, it appears as a Markdown link.
+      `[${title}](${url})`,
       html,
       { type: "linkWithEmoji", title, url, emojiName },
       "copyLinkSuccess",
@@ -134,6 +136,7 @@ export const copyTextLinkCore = async (
     const isGoogleSheetsUrl = /:\/\/docs\.google\.com\/spreadsheets\//.test(
       url,
     );
+    // If not a Google Sheets URL, do nothing
     if (!isGoogleSheetsUrl) {
       return;
     }

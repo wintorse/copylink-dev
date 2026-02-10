@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "build": "tsc && vite build --emptyOutDir && vite build --config vite.content.config.js",
-    "build-firefox": "tsc && vite build --emptyOutDir --minify false --mode firefox && vite build --config vite.content.config.js --minify false --mode firefox"
+    "build-firefox": "tsc && vite build --emptyOutDir --minify false --mode firefox && vite build --config vite.content.config.js --minify false --mode firefox",
+    "lint": "oxlint --type-aware",
+    "lint:fix": "oxlint --fix"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,8 @@
   "devDependencies": {
     "@types/chrome": "^0.1.36",
     "@types/node": "^25.0.10",
+    "oxlint": "^1.43.0",
+    "oxlint-tsgolint": "^0.11.4",
     "typescript": "^5.9.3",
     "vite": "^7.3.1"
   }

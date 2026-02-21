@@ -13,7 +13,7 @@ const getValidCommands = () =>
     COPY_LINK_FOR_SLACK: "copy-link-for-slack",
     COPY_TITLE: "copy-title",
     COPY_GOOGLE_SHEETS_RANGE: "copy-google-sheets-range",
-  } as const);
+  }) as const;
 
 const isValidCommand = (command: string): command is Command => {
   const validCommands = getValidCommands();
@@ -22,10 +22,10 @@ const isValidCommand = (command: string): command is Command => {
 
 if (!window.hasCopylinkDevListener) {
   window.hasCopylinkDevListener = true;
-  window.addEventListener("copylinkDevExecuteCommand", (event) => {
+  window.addEventListener("copylinkDevExecuteCommand", async (event) => {
     const command = (event as CustomEvent).detail;
     if (isValidCommand(command)) {
-      handleCommand(command);
+      await handleCommand(command);
       return true;
     }
     return false;

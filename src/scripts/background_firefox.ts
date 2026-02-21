@@ -8,7 +8,7 @@ try {
         chrome.tabs.executeScript(tabId, { file: "scripts/content.js" }, () => {
           if (chrome.runtime.lastError) {
             console.error(
-              `Error injecting content script: ${chrome.runtime.lastError.message}`
+              `Error injecting content script: ${chrome.runtime.lastError.message}`,
             );
             return;
           }
@@ -26,10 +26,10 @@ try {
             () => {
               if (chrome.runtime.lastError) {
                 console.error(
-                  `Error executing script for command ${command}: ${chrome.runtime.lastError.message}`
+                  `Error executing script for command ${command}: ${chrome.runtime.lastError.message}`,
                 );
               }
-            }
+            },
           );
         });
       }

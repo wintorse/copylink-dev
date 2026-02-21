@@ -21,7 +21,7 @@ try {
                 window.dispatchEvent(
                   new CustomEvent("copylinkDevExecuteCommand", {
                     detail: command,
-                  })
+                  }),
                 );
               },
               args: [command],
@@ -29,7 +29,7 @@ try {
             .catch((error) => {
               console.error(
                 `Error executing script for command ${command}:`,
-                error
+                error,
               );
             });
         })

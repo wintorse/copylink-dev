@@ -19,8 +19,12 @@ export const normalizeEmojiValue = (
   defaultValue: EmojiName,
 ): EmojiName => {
   const trimmed = value.trim();
-  if (!trimmed) return defaultValue;
-  if (isEmojiFormat(trimmed)) return trimmed;
+  if (!trimmed) {
+    return defaultValue;
+  }
+  if (isEmojiFormat(trimmed)) {
+    return trimmed;
+  }
   return `:${trimmed}:`;
 };
 

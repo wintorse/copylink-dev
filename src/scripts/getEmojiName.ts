@@ -23,6 +23,7 @@ const buildPageContext = (): PageContext => ({
  * Retrieves the appropriate emoji name based on the current URL or document snapshot.
  * Platform dependencies (storage, DOM, i18n) are handled in this wrapper; the
  * core resolution logic lives in `shared/emojiResolver`.
+ * @returns Resolved emoji name.
  */
 export const getEmojiName = (): Promise<string> =>
   new Promise((resolve) => {

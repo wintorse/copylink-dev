@@ -65,11 +65,17 @@ export default defineConfig(({ mode }) => {
             if (existsSync(popupPath)) {
               let popupContent = readFileSync(popupPath, "utf8");
 
-              // Replace Chrome Web Store link with Firefox Add-ons link
-              popupContent = popupContent.replace(
-                /<a href="https:\/\/chromewebstore\.google\.com\/detail\/ohkebnhdjdgmfnhcmdpkdfddongdjadp\?utm_source=popup" target="_blank" class="link">\s*<img src="images\/chromewebstore-icon\.svg" alt="Chrome Web Store" class="icon">\s*Leave feedback\s*<\/a>/,
-                '<a href="https://addons.mozilla.org/ja/firefox/addon/copylink-dev/" target="_blank" class="link">\n            <img src="images/firefox-icon.svg" alt="Firefox Add-ons" class="icon">\n            Leave feedback\n        </a>',
-              );
+              // Replace Chrome Web Store feedback link with Firefox Add-ons link
+              popupContent = popupContent
+                .replace(
+                  /https:\/\/chromewebstore\.google\.com\/detail\/ohkebnhdjdgmfnhcmdpkdfddongdjadp\?utm_source=popup/g,
+                  "https://addons.mozilla.org/ja/firefox/addon/copylink-dev/",
+                )
+                .replace(
+                  /images\/chromewebstore-icon\.svg/g,
+                  "images/firefox-icon.svg",
+                )
+                .replace(/alt="Chrome Web Store"/g, 'alt="Firefox Add-ons"');
 
               writeFileSync(popupPath, popupContent);
               console.log("Updated popup.html for Firefox");

@@ -23,7 +23,7 @@ const getGitHubTitle = (): string => {
 
 const getAsanaTitle = (): string => {
   const element = document.getElementById("TaskPrintView");
-  return element?.getAttribute("aria-label") || document.title;
+  return element?.getAttribute("aria-label") ?? document.title;
 };
 
 const getBacklogTitle = (): string => {
@@ -39,8 +39,10 @@ const getRedmineTitle = (): string => {
   const idElement = document.querySelector<HTMLHeadingElement>("#content h2");
   const titleElement =
     document.querySelector<HTMLHeadingElement>("#content h3");
-  return idElement?.textContent && titleElement?.textContent
-    ? `${idElement.textContent}: ${titleElement.textContent}`
+  const issueId = idElement?.textContent;
+  const issueTitle = titleElement?.textContent;
+  return issueId !== null && issueId !== undefined && issueTitle !== null
+    ? `${issueId}: ${issueTitle}`
     : document.title;
 };
 
@@ -48,8 +50,10 @@ const getJiraTitle = (): string => {
   const idElement = document.querySelector<HTMLAnchorElement>("#key-val");
   const titleElement =
     document.querySelector<HTMLHeadingElement>("#summary-val h2");
-  return idElement?.textContent && titleElement?.textContent
-    ? `${idElement.textContent} ${titleElement.textContent}`
+  const issueId = idElement?.textContent;
+  const issueTitle = titleElement?.textContent;
+  return issueId !== null && issueId !== undefined && issueTitle !== null
+    ? `${issueId} ${issueTitle}`
     : document.title;
 };
 
@@ -64,7 +68,7 @@ const getReDocTitle = (): string => {
     const spans = activeLabel.querySelectorAll("span");
     // Return the textContent of the second span (index 1)
     if (spans.length >= 2) {
-      return spans[1].textContent?.trim() || document.title;
+      return spans[1].textContent?.trim() ?? document.title;
     }
   }
 
@@ -99,12 +103,15 @@ export const getFormattedTitle = (): string => {
   if (window.location.hostname.includes("redmine")) {
     return getRedmineTitle();
   }
-  if (document.querySelector("#footer a")?.textContent?.includes("Redmine")) {
+  if (
+    document.querySelector("#footer a")?.textContent?.includes("Redmine") ===
+    true
+  ) {
     return getRedmineTitle();
   }
   if (
     document.title.includes("ReDoc") ||
-    document.querySelector(".redoc-wrap")
+    document.querySelector(".redoc-wrap") !== null
   ) {
     return getReDocTitle();
   }

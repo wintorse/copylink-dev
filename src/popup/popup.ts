@@ -67,9 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const elements = document.querySelectorAll("[data-i18n]");
   elements.forEach((el) => {
     const messageKey = el.getAttribute("data-i18n");
-    el.textContent = messageKey
-      ? chrome.i18n.getMessage(messageKey)
-      : el.textContent;
+    el.textContent =
+      messageKey !== null ? chrome.i18n.getMessage(messageKey) : el.textContent;
   });
 
   // Get emoji names and custom regexes when the page is loaded and reflect them in the form.
@@ -100,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       for (const key of CUSTOM_REGEX_KEYS) {
         const element = document.getElementById(customRegexElements[key]);
         if (element instanceof HTMLInputElement) {
-          element.value = data.copylinkdevCustomRegexes?.[key] || "";
+          element.value = data.copylinkdevCustomRegexes?.[key] ?? "";
 
           element.addEventListener("input", updateCustomRegexes);
         }

@@ -61,7 +61,7 @@ export const getInitialEmojiValues = (
   if (stored) {
     for (const key of EMOJI_KEYS) {
       const value = stored[key];
-      if (value) {
+      if (value !== undefined && value.length > 0) {
         result[key] = normalizeEmojiValue(value, defaults[key]);
       }
     }

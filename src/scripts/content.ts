@@ -20,7 +20,7 @@ const isValidCommand = (command: string): command is Command => {
   return Object.values(validCommands).some((c) => c === command);
 };
 
-if (!window.hasCopylinkDevListener) {
+if (window.hasCopylinkDevListener !== true) {
   window.hasCopylinkDevListener = true;
   window.addEventListener("copylinkDevExecuteCommand", async (event) => {
     const command = (event as CustomEvent).detail;

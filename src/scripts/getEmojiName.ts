@@ -13,9 +13,9 @@ const buildPageContext = (): PageContext => ({
   pathname: window.location.pathname,
   documentBodyId: document.body.id,
   documentTitle: document.title,
-  hasRedmineFooter: !!document
-    .querySelector("#footer a")
-    ?.textContent?.includes("Redmine"),
+  hasRedmineFooter:
+    document.querySelector("#footer a")?.textContent?.includes("Redmine") ??
+    false,
   hasRedocWrap: !!document.querySelector(".redoc-wrap"),
 });
 

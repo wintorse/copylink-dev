@@ -61,8 +61,12 @@ export const showToastCore = async (
   // Ensure animation triggers after styles are ready (handles first paint with external CSS)
   const waitForStyleLoad = (link?: HTMLLinkElement) =>
     new Promise<void>((resolve) => {
-      if (!link) return resolve();
-      if (link.sheet) return resolve();
+      if (!link) {
+        return resolve();
+      }
+      if (link.sheet) {
+        return resolve();
+      }
       link.addEventListener("load", () => resolve(), { once: true });
       link.addEventListener("error", () => resolve(), { once: true });
     });

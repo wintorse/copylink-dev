@@ -6,9 +6,9 @@ import { copyTextLink } from "./copyTextLink";
  *
  * @param {Command} command - The command to be executed.
  */
-export const handleCommand = (command: Command): void => {
+export const handleCommand = async (command: Command): Promise<void> => {
   try {
-    copyTextLink(command);
+    await copyTextLink(command);
   } catch (error) {
     console.error(error);
   }

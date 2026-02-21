@@ -28,7 +28,7 @@ const toastStyle = `
   }
 `;
 
-export const showToastCore = (
+export const showToastCore = async (
   message: string,
   document: Document,
   options?: ToastOptions,
@@ -67,12 +67,10 @@ export const showToastCore = (
       link.addEventListener("error", () => resolve(), { once: true });
     });
 
-  waitForStyleLoad(externalCss).then(() => {
-    requestAnimationFrame(() => {
-      host.classList.add(CLASSES.visible);
-    });
+  await waitForStyleLoad(externalCss);
+  requestAnimationFrame(() => {
+    host.classList.add(CLASSES.visible);
   });
-
   const duration = options?.durationMs ?? 3000;
   setTimeout(() => {
     host.classList.remove(CLASSES.visible);

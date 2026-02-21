@@ -27,7 +27,7 @@ export default defineConfig(({ mode }) => {
             ? {
                 background: resolve(
                   __dirname,
-                  "src/scripts/background_firefox.ts"
+                  "src/scripts/background_firefox.ts",
                 ),
               }
             : {
@@ -68,7 +68,7 @@ export default defineConfig(({ mode }) => {
               // Replace Chrome Web Store link with Firefox Add-ons link
               popupContent = popupContent.replace(
                 /<a href="https:\/\/chromewebstore\.google\.com\/detail\/ohkebnhdjdgmfnhcmdpkdfddongdjadp\?utm_source=popup" target="_blank" class="link">\s*<img src="images\/chromewebstore-icon\.svg" alt="Chrome Web Store" class="icon">\s*Leave feedback\s*<\/a>/,
-                '<a href="https://addons.mozilla.org/ja/firefox/addon/copylink-dev/" target="_blank" class="link">\n            <img src="images/firefox-icon.svg" alt="Firefox Add-ons" class="icon">\n            Leave feedback\n        </a>'
+                '<a href="https://addons.mozilla.org/ja/firefox/addon/copylink-dev/" target="_blank" class="link">\n            <img src="images/firefox-icon.svg" alt="Firefox Add-ons" class="icon">\n            Leave feedback\n        </a>',
               );
 
               writeFileSync(popupPath, popupContent);

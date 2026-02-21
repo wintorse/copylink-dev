@@ -41,10 +41,7 @@
     // "eslint/sort-imports": "error"
     "constructor-super": "error",
     "curly": "error",
-    "eqeqeq": [
-      "error",
-      "always"
-    ],
+    "eqeqeq": ["error", "always"],
     "for-direction": "error",
     "import/no-default-export": "off",
     "jsdoc/check-access": "error",
@@ -96,9 +93,7 @@
     "jsx-a11y/no-noninteractive-tabindex": [
       "error",
       {
-        "roles": [
-          "tabpanel"
-        ],
+        "roles": ["tabpanel"],
         "tags": []
       }
     ],
@@ -169,10 +164,7 @@
     "no-with": "error",
     "react/display-name": "error",
     "react/exhaustive-deps": "error",
-    "react/jsx-boolean-value": [
-      "error",
-      "never"
-    ],
+    "react/jsx-boolean-value": ["error", "never"],
     "react/jsx-curly-brace-presence": [
       "error",
       {

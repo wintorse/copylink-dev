@@ -21,7 +21,9 @@ export const createNotification = (message: string) => {
         console.error(chrome.runtime.lastError);
         return;
       }
-      if (!config.autoClearMs) return;
+      if (!config.autoClearMs) {
+        return;
+      }
       setTimeout(() => {
         chrome.notifications.clear(config.id, (wasCleared) => {
           if (chrome.runtime.lastError) {

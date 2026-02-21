@@ -145,7 +145,7 @@
     "no-prototype-builtins": "error",
     "no-redeclare": "error",
     "no-regex-spaces": "error",
-    // "no-restricted-imports": "error",
+    "no-restricted-imports": "error",
     "no-self-assign": "error",
     "no-setter-return": "error",
     "no-shadow-restricted-names": "error",

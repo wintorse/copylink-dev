@@ -149,7 +149,7 @@ export const copyTextLinkCore = async (
     const emojiName = await getEmojiName();
     const html = `${emojiName}&nbsp;<a href="${rangeInfo.link}">${title}</a>&nbsp;`;
     await runCopy(
-      title,
+      `[${title}](${rangeInfo.link})`,
       html,
       { type: "sheetsRange", title, link: rangeInfo.link, emojiName },
       "copyGoogleSheetsRangeSuccess",

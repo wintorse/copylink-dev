@@ -1,4 +1,4 @@
-import { Command } from "../types/types";
+import type { Command } from "../types/types";
 import { copyTextLink } from "./copyTextLink";
 
 /**

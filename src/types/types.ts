@@ -1,4 +1,4 @@
-import {
+import type {
   VALID_COMMANDS,
   EMOJI_KEYS,
   CUSTOM_REGEX_KEYS,

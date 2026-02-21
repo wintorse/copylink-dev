@@ -1,12 +1,12 @@
-import { resolve } from "node:path";
-import { defineConfig, loadEnv } from "vite";
 import {
   copyFileSync,
-  unlinkSync,
   existsSync,
   readFileSync,
+  unlinkSync,
   writeFileSync,
 } from "node:fs";
+import { defineConfig, loadEnv } from "vite";
+import { resolve } from "node:path";
 
 // NOTE: The content script is built with a separate config in `vite.content.config.js`.
 // We split configs so the content script can be authored with `import` syntax but bundled into a classic script.

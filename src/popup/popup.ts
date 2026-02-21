@@ -1,11 +1,10 @@
-import type { EmojiNameRecord, CustomRegexes } from "../types/types";
-
 import {
-  getEmojiElements,
-  getCustomRegexElements,
-  EMOJI_KEYS,
   CUSTOM_REGEX_KEYS,
+  EMOJI_KEYS,
+  getCustomRegexElements,
+  getEmojiElements,
 } from "../shared/constants";
+import type { CustomRegexes, EmojiNameRecord } from "../types/types";
 import {
   buildCustomRegexes,
   buildEmojiNames,

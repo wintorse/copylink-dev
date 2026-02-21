@@ -1,5 +1,5 @@
-import { handleCommand } from "./commands";
 import type { Command } from "../types/types";
+import { handleCommand } from "./commands";
 
 declare global {
   interface Window {

@@ -1,9 +1,9 @@
-import type { CustomRegexes, EmojiNameRecord } from "../types/types";
 import {
   CUSTOM_EMOJI_KEYS,
   CUSTOM_REGEX_KEYS,
   DEFAULT_EMOJI_NAMES,
 } from "./constants";
+import type { CustomRegexes, EmojiNameRecord } from "../types/types";
 
 export type PageContext = {
   href: string;

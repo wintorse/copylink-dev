@@ -1,8 +1,8 @@
 import type {
+  CustomRegexes,
+  EmojiElementRecord,
   EmojiKeys,
   EmojiNameRecord,
-  EmojiElementRecord,
-  CustomRegexes,
 } from "../types/types";
 
 export const VALID_COMMANDS = {

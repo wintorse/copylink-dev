@@ -1,15 +1,15 @@
-import type {
-  CustomRegexes,
-  CustomRegexKeys,
-  EmojiKeys,
-  EmojiName,
-  EmojiNameRecord,
-} from "../../types/types";
 import {
   CUSTOM_REGEX_KEYS,
   DEFAULT_EMOJI_NAMES,
   EMOJI_KEYS,
 } from "../constants";
+import type {
+  CustomRegexKeys,
+  CustomRegexes,
+  EmojiKeys,
+  EmojiName,
+  EmojiNameRecord,
+} from "../../types/types";
 
 export const isEmojiFormat = (value: string): value is EmojiName =>
   /^:.*:$/.test(value);

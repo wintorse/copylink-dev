@@ -1,6 +1,6 @@
 import type { CustomRegexes, EmojiNameRecord } from "../types/types";
+import { type PageContext, resolveEmojiName } from "../shared/emojiResolver";
 import { DEFAULT_EMOJI_NAMES } from "../shared/constants";
-import { resolveEmojiName, type PageContext } from "../shared/emojiResolver";
 
 type StorageData = {
   emojiNames?: Partial<EmojiNameRecord>;

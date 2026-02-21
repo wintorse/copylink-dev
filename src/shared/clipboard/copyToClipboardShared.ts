@@ -5,6 +5,10 @@ export type CopyResult = { success: boolean; error?: unknown };
  * - Tries `navigator.clipboard` first.
  * - Falls back to `execCommand('copy')` on the provided `fallbackElement` when available.
  * - Returns a boolean result and keeps UI concerns (toast/i18n) at the call site.
+ * @param text Plain-text content to copy.
+ * @param html Optional HTML content to copy.
+ * @param fallbackElement Optional element used for legacy copy fallback.
+ * @returns Copy operation result.
  */
 export const copyToClipboardShared = async (
   text: string,
@@ -45,7 +49,7 @@ export const copyToClipboardShared = async (
       selection.addRange(range);
       try {
         success = document.execCommand("copy");
-      } catch (err) {
+      } catch {
         success = false;
       }
       selection.removeAllRanges();

@@ -2,25 +2,32 @@
   "name": "copylink.dev",
   "version": "1.4.0",
   "description": "Browser extension that provides shortcuts to copy links. On supported sites, it creates Slack emoji-enhanced links.",
-  "main": "src/background.ts",
-  "type": "module",
-  "scripts": {
-    "build": "tsc && vite build --emptyOutDir && vite build --config vite.content.config.js",
-    "build-firefox": "tsc && vite build --emptyOutDir --minify false --mode firefox && vite build --config vite.content.config.js --minify false --mode firefox"
+  "homepage": "https://github.com/wintorse/copylink-dev#readme",
+  "bugs": {
+    "url": "https://github.com/wintorse/copylink-dev/issues"
   },
+  "license": "MIT",
+  "author": "wintorse",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wintorse/copylink-dev.git"
   },
-  "author": "wintorse",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/wintorse/copylink-dev/issues"
+  "type": "module",
+  "main": "src/background.ts",
+  "scripts": {
+    "build": "tsc && vite build --emptyOutDir && vite build --config vite.content.config.js",
+    "build-firefox": "tsc && vite build --emptyOutDir --minify false --mode firefox && vite build --config vite.content.config.js --minify false --mode firefox",
+    "lint": "oxlint --type-aware",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
   },
-  "homepage": "https://github.com/wintorse/copylink-dev#readme",
   "devDependencies": {
-    "@types/chrome": "^0.1.36",
-    "@types/node": "^25.0.10",
+    "@types/chrome": "^0.1.37",
+    "@types/node": "^25.3.0",
+    "oxfmt": "^0.34.0",
+    "oxlint": "^1.49.0",
+    "oxlint-tsgolint": "^0.14.2",
     "typescript": "^5.9.3",
     "vite": "^7.3.1"
   }

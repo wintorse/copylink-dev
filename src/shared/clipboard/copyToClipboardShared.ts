@@ -20,8 +20,8 @@ export const copyToClipboardShared = async (
     if (typeof html === "string" && "ClipboardItem" in window) {
       await navigator.clipboard.write([
         new ClipboardItem({
-          "text/plain": text,
-          "text/html": html,
+          "text/plain": new Blob([text], { type: "text/plain" }),
+          "text/html": new Blob([html], { type: "text/html" }),
         }),
       ]);
     } else {

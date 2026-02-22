@@ -10,6 +10,17 @@ chrome.commands.onCommand.addListener((command) => {
       return;
     }
 
+    const tabUrl = tab.url;
+    if (tabUrl === undefined || tabUrl === "") {
+      console.error("Tab URL is undefined.");
+      return;
+    }
+
+    if (!tabUrl.startsWith("http://") && !tabUrl.startsWith("https://")) {
+      console.error("Invalid URL scheme.");
+      return;
+    }
+
     // Inject the content script dynamically via activeTab + scripting permission.
     // The guard inside content.ts prevents duplicate listener registration.
     try {

@@ -14,6 +14,8 @@
 
 # copylink.dev
 
+![copylink.dev promotion image](docs/promo.png)
+
 A browser extension that copies text links to clipboard with shortcuts. On supported websites, title formatting and Slack emoji-enhanced links are available.
 You can quickly create highly readable links by pasting them into Slack or some other platforms.
 Also, unlike plain URLs, they will show up when searching by title, which improves searchability.

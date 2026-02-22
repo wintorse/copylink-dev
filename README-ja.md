@@ -14,6 +14,8 @@
 
 # copylink.dev
 
+![copylink.dev promotion image](docs/promo.png)
+
 ショートカットでタイトルつきのリンクをコピーするブラウザ拡張機能
 一部サイトではタイトルの整形や Slack 絵文字にも対応
 

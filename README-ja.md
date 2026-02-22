@@ -24,6 +24,8 @@
 
 ## 機能
 
+<video controls src="docs/simple-demo-jp.mp4" title="demo video of copylink.dev"></video>
+
 「[◯◯◯◯設計書](https://example.com)」のような、タイトルのついたリンク（テキストリンク）をクリップボードにコピーするショートカットを提供します。
 
 Slackなどにペーストすることで可読性の高いリンクを手早く作成できます。

@@ -24,6 +24,8 @@ On supported websites, title formatting and Slack emoji-enhanced links are avail
 
 ## Features
 
+<video controls src="docs/simple-demo.mp4" title="demo video of copylink.dev"></video>
+
 Provides shortcuts to easily copy text links with titles, such as "[My spreadsheet](https://example.com)".
 
 You can quickly create highly readable links by pasting them into Slack or some other platforms.

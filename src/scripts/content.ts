@@ -14,10 +14,18 @@ const isValidCommand = (command: string): command is Command => {
   return Object.values(validCommands).some((c) => c === command);
 };
 
-chrome.runtime.onMessage.addListener((message) => {
+chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   if (message.type === "execute-command" && isValidCommand(message.command)) {
-    handleCommand(message.command).catch(console.error);
-    return true; // Keep message port open for async response
+    handleCommand(message.command)
+      .then((result) => {
+        sendResponse({ success: true, result });
+      })
+      .catch((error) => {
+        console.error(error);
+        sendResponse({
+          success: false,
+          error: error instanceof Error ? error.message : String(error),
+        });
+      });
   }
-  return false;
 });

@@ -14,7 +14,9 @@
 
 # copylink.dev
 
-![copylink.dev promotion image](docs/promo.png)
+<p align="center">
+  <img src="docs/promo.png" alt="copylink.dev promotion image" width="480">
+</p>
 
 ショートカットでタイトルつきのリンクをコピーするブラウザ拡張機能
 一部サイトではタイトルの整形や Slack 絵文字にも対応

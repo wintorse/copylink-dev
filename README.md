@@ -14,7 +14,9 @@
 
 # copylink.dev
 
-![copylink.dev promotion image](docs/promo.png)
+<p align="center">
+  <img src="docs/promo.png" alt="copylink.dev promotion image" width="480">
+</p>
 
 A browser extension that copies text links to clipboard with shortcuts. On supported websites, title formatting and Slack emoji-enhanced links are available.
 You can quickly create highly readable links by pasting them into Slack or some other platforms.

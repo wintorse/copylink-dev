@@ -24,7 +24,9 @@
 
 ## 機能
 
-<video src="docs/simple-demo-jp.mp4" title="demo video of copylink.dev"></video>
+<p align="center">
+  <video controls width="480" src="docs/simple-demo-jp.mp4" title="demo video of copylink.dev"></video>
+</p>
 
 「[◯◯◯◯設計書](https://example.com)」のような、タイトルのついたリンク（テキストリンク）をクリップボードにコピーするショートカットを提供します。
 

@@ -1,4 +1,6 @@
 .copylink-dev-toast {
+  display: flex;
+  align-items: center;
   position: fixed;
   bottom: 24px;
   left: 24px;

@@ -24,6 +24,11 @@
 
 ## 機能
 
+<div align="center">
+  <video controls src="https://github.com/user-attachments/assets/6661399d-2d33-4bdd-8520-7852559c4e3c" width="480"></video>
+</div>
+<br>
+
 「[◯◯◯◯設計書](https://example.com)」のような、タイトルのついたリンク（テキストリンク）をクリップボードにコピーするショートカットを提供します。
 
 Slackなどにペーストすることで可読性の高いリンクを手早く作成できます。

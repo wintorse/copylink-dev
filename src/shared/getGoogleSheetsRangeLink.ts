@@ -16,9 +16,7 @@ export const getGoogleSheetsRangeInfo = (): {
   const gid = gidParam !== null && gidParam.length > 0 ? gidParam : "0";
 
   // 2. Get the range string (e.g., A1 or A1:B5) from the name box
-  const nameBox = document.getElementById(
-    "t-name-box",
-  ) as HTMLInputElement | null;
+  const nameBox = document.querySelector<HTMLInputElement>("#t-name-box");
   let rangeString = "";
 
   if (nameBox !== null && nameBox.value.length > 0) {

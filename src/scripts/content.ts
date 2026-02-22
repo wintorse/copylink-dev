@@ -5,6 +5,10 @@ declare global {
   interface Window {
     hasCopylinkDevListener?: boolean;
   }
+
+  interface WindowEventMap {
+    copylinkDevExecuteCommand: CustomEvent<string>;
+  }
 }
 
 const getValidCommands = () =>
@@ -22,9 +26,8 @@ const isValidCommand = (command: string): command is Command => {
 
 if (window.hasCopylinkDevListener !== true) {
   window.hasCopylinkDevListener = true;
-  window.addEventListener("copylinkDevExecuteCommand", (event: Event) => {
-    const customEvent = event as CustomEvent<string>;
-    const command = customEvent.detail;
+  window.addEventListener("copylinkDevExecuteCommand", (event) => {
+    const command = event.detail;
     if (isValidCommand(command)) {
       handleCommand(command).catch(console.error);
     }

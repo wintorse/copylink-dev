@@ -1,24 +1,41 @@
 [English](./README.md)
 
-[UserScript 版はこちら](https://gist.github.com/wintorse/10e2ec0206a0f29522cb06c6dafd2611)
+[UserScript 版はこちら](https://github.com/wintorse/copylink-dev-user-js)
 
 > [!NOTE]
-> 2025 年 5 月ごろから本拡張機能は Arc ブラウザで動作していません。こちらについては Arc の不具合かと思われます。具体的には、`chrome.commands.onCommand.addListener` イベントが Arc でのみトリガーされず、これはキーボードショートカットを用いる他の Chrome 拡張機能でも同様となっています。上記 UserScript 版 は Arc でもご利用いただけます。
+> **Arc ブラウザをご利用の方へ**: 2025年5月頃から、Arc ブラウザでキーボードショートカットが動作しなくなりました。ショートカットを「グローバル」モードに設定することで解決できます:
+> 1. 拡張機能アイコンを右クリック → 「拡張機能を管理」
+> 2. 「キーボードショートカット」に移動
+> 3. 各ショートカットを「グローバル」モードに設定
+>
+> ⚠️ **注意**: グローバルショートカットは他のアプリケーションのショートカットと競合する可能性があります。
+>
+> グローバルショートカットを使用したくない場合は、[UserScript 版](https://github.com/wintorse/copylink-dev-user-js)をご利用ください。
 
 # copylink.dev
 
-ショートカットでタイトルつきのリンクをコピーするブラウザ拡張機能
-一部サイトではタイトルの整形や Slack 絵文字にも対応
+<p align="center">
+  <img src="docs/promo.png" alt="copylink.dev promotion image" width="480">
+</p>
+
+ショートカットでタイトルつきのリンクをコピーするブラウザ拡張機能。
+
+一部サイトではタイトルの整形や Slack 絵文字にも対応。
 
 ## 機能
 
+<div align="center">
+  <video controls src="https://github.com/user-attachments/assets/6661399d-2d33-4bdd-8520-7852559c4e3c" width="480"></video>
+</div>
+<br>
+
 「[◯◯◯◯設計書](https://example.com)」のような、タイトルのついたリンク（テキストリンク）をクリップボードにコピーするショートカットを提供します。
+
 Slackなどにペーストすることで可読性の高いリンクを手早く作成できます。
-また、素の URL と異なりタイトルで検索した際にヒットするため、検索性を向上できます。
+また、素の URL と異なりタイトルで検索した際にもヒットするため、検索性を向上できます。
 
 特に以下のサイトでは、タイトルを整形する機能を備えています。
-
-また Slack にペーストすることを想定して Slack 絵文字とともにコピーすることもできます。
+また Slack ユーザー向けに Slack 絵文字とともにコピーすることもできます。
 
 - Google スプレッドシート / ドキュメント / スライド
 - Google ドライブ

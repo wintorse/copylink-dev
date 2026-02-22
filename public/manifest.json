@@ -11,7 +11,14 @@
     "128": "images/icon-128.png"
   },
   "homepage_url": "https://github.com/wintorse/copylink-dev",
-  "permissions": ["activeTab", "scripting", "storage"],
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["scripts/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
   "web_accessible_resources": [
     {
       "resources": ["styles/toast.css"],

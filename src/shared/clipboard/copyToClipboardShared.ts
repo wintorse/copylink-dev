@@ -40,6 +40,7 @@ export const copyToClipboardShared = async (
       selection.removeAllRanges();
       selection.addRange(range);
       try {
+        // oxlint-disable-next-line no-deprecated --- Required for legacy copy support
         success = document.execCommand("copy");
       } catch {
         success = false;

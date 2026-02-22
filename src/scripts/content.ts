@@ -22,12 +22,11 @@ const isValidCommand = (command: string): command is Command => {
 
 if (window.hasCopylinkDevListener !== true) {
   window.hasCopylinkDevListener = true;
-  window.addEventListener("copylinkDevExecuteCommand", async (event) => {
-    const command = (event as CustomEvent).detail;
+  window.addEventListener("copylinkDevExecuteCommand", (event: Event) => {
+    const customEvent = event as CustomEvent<string>;
+    const command = customEvent.detail;
     if (isValidCommand(command)) {
-      await handleCommand(command);
-      return true;
+      handleCommand(command).catch(console.error);
     }
-    return false;
   });
 }

@@ -13,7 +13,7 @@ export const copyTextLink = async (command: Command) => {
     getFormattedTitle,
     getGoogleSheetsRangeInfo,
     getUrl: () => document.URL,
-    notify: showToast,
+    notify: (message: string) => { void showToast(message); },
     copy: copyToClipboardShared,
   });
 };

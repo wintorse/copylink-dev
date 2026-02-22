@@ -13,28 +13,24 @@ try {
           target: { tabId: tabId },
           files: ["scripts/content.js"],
         })
-        .then(() => {
-          chrome.scripting
-            .executeScript({
-              target: { tabId: tabId },
-              func: (command) => {
-                window.dispatchEvent(
-                  new CustomEvent("copylinkDevExecuteCommand", {
-                    detail: command,
-                  }),
-                );
-              },
-              args: [command],
-            })
-            .catch((error) => {
-              console.error(
-                `Error executing script for command ${command}:`,
-                error,
+        .then(() =>
+          chrome.scripting.executeScript({
+            target: { tabId: tabId },
+            func: (command) => {
+              window.dispatchEvent(
+                new CustomEvent("copylinkDevExecuteCommand", {
+                  detail: command,
+                }),
               );
-            });
-        })
+            },
+            args: [command],
+          }),
+        )
         .catch((error) => {
-          console.error(`Error injecting content script:`, error);
+          console.error(
+            `Error executing script for command ${command}:`,
+            error,
+          );
         });
     });
     return true;

@@ -1,13 +1,27 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
   "ignorePatterns": [],
-  "plugins": ["eslint", "oxc", "unicorn", "jsdoc", "typescript", "import"],
+  "plugins": [
+    "eslint",
+    "oxc",
+    "unicorn",
+    "jsdoc",
+    "typescript",
+    "import",
+    "promise"
+  ],
   "rules": {
     // "eslint/sort-imports": "error"
     "eslint/constructor-super": "error",
     "eslint/curly": "error",
     "eslint/eqeqeq": ["error", "always"],
     "eslint/for-direction": "error",
+    "eslint/func-style": [
+      "error",
+      "declaration",
+      { "allowArrowFunctions": true }
+    ],
+    "eslint/max-depth": ["error", 4],
     "eslint/no-array-constructor": "error",
     "eslint/no-async-promise-executor": "error",
     "eslint/no-case-declarations": "error",
@@ -24,6 +38,7 @@
     "eslint/no-dupe-else-if": "error",
     "eslint/no-dupe-keys": "error",
     "eslint/no-duplicate-case": "error",
+    "eslint/no-duplicate-imports": "error",
     "eslint/no-empty": "error",
     "eslint/no-empty-character-class": "error",
     "eslint/no-empty-pattern": "error",
@@ -71,11 +86,14 @@
     "eslint/require-yield": "error",
     "eslint/use-isnan": "error",
     "eslint/valid-typeof": "error",
+    "import/no-amd": "error",
+    "import/no-commonjs": "error",
+    "import/no-cycle": "error",
     "import/no-default-export": "off",
     "jsdoc/check-access": "error",
     "jsdoc/check-param-names": "error",
     "jsdoc/check-property-names": "error",
-    "jsdoc/check-tag-names": "off",
+    "jsdoc/check-tag-names": "error",
     "jsdoc/empty-tags": "error",
     "jsdoc/implements-on-classes": "error",
     "jsdoc/no-defaults": "error",
@@ -89,6 +107,10 @@
     "jsdoc/require-returns": "error",
     "jsdoc/require-returns-description": "error",
     "jsdoc/require-yields": "error",
+    "oxc/no-const-enum": "error",
+    "promise/no-callback-in-promise": "error",
+    "promise/no-nesting": "error",
+    "promise/valid-params": "error",
     "typescript/array-type": [
       "error",
       {
@@ -98,12 +120,14 @@
     ],
     "typescript/ban-ts-comment": "error",
     "typescript/consistent-type-imports": "error",
+    "typescript/no-deprecated": "error",
     "typescript/no-duplicate-enum-values": "error",
     "typescript/no-empty-object-type": "error",
     "typescript/no-explicit-any": "error",
     "typescript/no-extra-non-null-assertion": "error",
     "typescript/no-floating-promises": "error",
     "typescript/no-misused-new": "error",
+    "typescript/no-misused-promises": "error",
     "typescript/no-namespace": "error",
     "typescript/no-non-null-asserted-optional-chain": "error",
     "typescript/no-non-null-assertion": "error",
@@ -112,10 +136,18 @@
     "typescript/no-unnecessary-type-constraint": "error",
     "typescript/no-unsafe-declaration-merging": "error",
     "typescript/no-unsafe-function-type": "error",
+    "typescript/no-unsafe-type-assertion": "warn",
     "typescript/no-wrapper-object-types": "error",
     "typescript/prefer-as-const": "error",
+    "typescript/prefer-for-of": "error",
     "typescript/prefer-namespace-keyword": "error",
+    "typescript/prefer-nullish-coalescing": "error",
+    "typescript/require-await": "error",
     "typescript/strict-boolean-expressions": "error",
-    "typescript/triple-slash-reference": "error"
+    "typescript/switch-exhaustiveness-check": "error",
+    "typescript/triple-slash-reference": "error",
+    "unicorn/no-lonely-if": "error",
+    "unicorn/no-useless-undefined": "error",
+    "unicorn/prefer-array-find": "error"
   }
 }

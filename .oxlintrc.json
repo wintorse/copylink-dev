@@ -11,7 +11,6 @@
     "promise"
   ],
   "rules": {
-    // "eslint/sort-imports": "error"
     "eslint/constructor-super": "error",
     "eslint/curly": "error",
     "eslint/eqeqeq": ["error", "always"],
@@ -84,6 +83,7 @@
     "eslint/no-useless-escape": "error",
     "eslint/no-with": "error",
     "eslint/require-yield": "error",
+    "eslint/sort-imports": "error",
     "eslint/use-isnan": "error",
     "eslint/valid-typeof": "error",
     "import/no-amd": "error",

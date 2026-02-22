@@ -89,7 +89,7 @@
     "import/no-amd": "error",
     "import/no-commonjs": "error",
     "import/no-cycle": "error",
-    "import/no-default-export": "off",
+    "import/no-default-export": "error",
     "jsdoc/check-access": "error",
     "jsdoc/check-param-names": "error",
     "jsdoc/check-property-names": "error",
@@ -149,5 +149,13 @@
     "unicorn/no-lonely-if": "error",
     "unicorn/no-useless-undefined": "error",
     "unicorn/prefer-array-find": "error"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["vite.config.[jt]s", "vite.content.config.[jt]s"],
+      "rules": {
+        "import/no-default-export": "off"
+      }
+    }
+  ]
 }

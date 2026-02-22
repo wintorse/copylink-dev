@@ -5,7 +5,7 @@ export type FallbackSpec =
   | { type: "title"; title: string }
   | { type: "link"; title: string; url: string }
   | { type: "linkWithEmoji"; title: string; url: string; emojiName: string }
-  | { type: "sheetsRange"; text: string; link: string; emojiName: string };
+  | { type: "sheetsRange"; title: string; link: string; emojiName: string };
 
 export type CopyTextLinkDeps = {
   t: (key: string) => string;
@@ -13,7 +13,7 @@ export type CopyTextLinkDeps = {
   getFormattedTitle: () => string;
   getGoogleSheetsRangeInfo: () => { link: string } | null;
   getUrl: () => string;
-  notify: (message: string) => void;
+  notify: (message: string) => Promise<void>;
   copy: (
     text: string,
     html?: string,
@@ -52,7 +52,7 @@ export const createFallbackElement = (
     el.appendChild(document.createTextNode(`${spec.emojiName} `));
     const anchor = document.createElement("a");
     anchor.setAttribute("href", spec.link);
-    anchor.textContent = spec.text;
+    anchor.textContent = spec.title;
     el.appendChild(anchor);
     return el;
   }
@@ -88,9 +88,9 @@ export const copyTextLinkCore = async (
       : undefined;
     const result = await deps.copy(text, html, fallbackElement);
     if (result.success) {
-      notifySuccess(successKey);
+      await notifySuccess(successKey);
     } else {
-      notifyFailure(failureKey);
+      await notifyFailure(failureKey);
     }
   };
 
@@ -121,7 +121,9 @@ export const copyTextLinkCore = async (
     const emojiName = await getEmojiName();
     const html = `${emojiName}&nbsp;<a href="${url}">${title}</a>&nbsp;`;
     await runCopy(
-      title,
+      // secret feature: Markdown format in plain text
+      // If you copy-paste it into IDEs or plain text editors, it appears as a Markdown link.
+      `[${title}](${url})`,
       html,
       { type: "linkWithEmoji", title, url, emojiName },
       "copyLinkSuccess",
@@ -134,27 +136,27 @@ export const copyTextLinkCore = async (
     const isGoogleSheetsUrl = /:\/\/docs\.google\.com\/spreadsheets\//.test(
       url,
     );
+    // If not a Google Sheets URL, do nothing
     if (!isGoogleSheetsUrl) {
       return;
     }
 
     const rangeInfo = getGoogleSheetsRangeInfo();
     if (!rangeInfo) {
-      deps.notify(t("copyGoogleSheetsRangeFailure"));
+      await deps.notify(t("copyGoogleSheetsRangeFailure"));
       return;
     }
     const emojiName = await getEmojiName();
-    const text = `${emojiName} ${title}`;
     const html = `${emojiName}&nbsp;<a href="${rangeInfo.link}">${title}</a>&nbsp;`;
     await runCopy(
-      text,
+      `[${title}](${rangeInfo.link})`,
       html,
-      { type: "sheetsRange", text, link: rangeInfo.link, emojiName },
+      { type: "sheetsRange", title, link: rangeInfo.link, emojiName },
       "copyGoogleSheetsRangeSuccess",
       "copyGoogleSheetsRangeFailure",
     );
     return;
   }
 
-  deps.notify("Unknown command");
+  await deps.notify("Unknown command");
 };

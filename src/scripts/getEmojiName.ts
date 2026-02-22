@@ -1,6 +1,6 @@
 import type { CustomRegexes, EmojiNameRecord } from "../types/types";
+import { type PageContext, resolveEmojiName } from "../shared/emojiResolver";
 import { DEFAULT_EMOJI_NAMES } from "../shared/constants";
-import { resolveEmojiName, type PageContext } from "../shared/emojiResolver";
 
 type StorageData = {
   emojiNames?: Partial<EmojiNameRecord>;
@@ -13,9 +13,9 @@ const buildPageContext = (): PageContext => ({
   pathname: window.location.pathname,
   documentBodyId: document.body.id,
   documentTitle: document.title,
-  hasRedmineFooter: !!document
-    .querySelector("#footer a")
-    ?.textContent?.includes("Redmine"),
+  hasRedmineFooter:
+    document.querySelector("#footer a")?.textContent?.includes("Redmine") ??
+    false,
   hasRedocWrap: !!document.querySelector(".redoc-wrap"),
 });
 
@@ -23,6 +23,7 @@ const buildPageContext = (): PageContext => ({
  * Retrieves the appropriate emoji name based on the current URL or document snapshot.
  * Platform dependencies (storage, DOM, i18n) are handled in this wrapper; the
  * core resolution logic lives in `shared/emojiResolver`.
+ * @returns Resolved emoji name.
  */
 export const getEmojiName = (): Promise<string> =>
   new Promise((resolve) => {

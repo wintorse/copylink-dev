@@ -3,8 +3,13 @@ export type CopyResult = { success: boolean; error?: unknown };
 /**
  * Platform-neutral clipboard helper with optional HTML and fallback element.
  * - Tries `navigator.clipboard` first.
- * - Falls back to `execCommand('copy')` on the provided `fallbackElement` when available.
+ * - Falls back to `execCommand('copy')` + `copy` event handling on the provided `fallbackElement` when available.
+ *   In fallback mode, sets `text/plain` and optionally `text/html` via `ClipboardEvent.clipboardData`.
  * - Returns a boolean result and keeps UI concerns (toast/i18n) at the call site.
+ * @param text Plain-text content to copy.
+ * @param html Optional HTML content to copy.
+ * @param fallbackElement Optional element used for legacy copy fallback.
+ * @returns Copy operation result.
  */
 export const copyToClipboardShared = async (
   text: string,
@@ -12,45 +17,75 @@ export const copyToClipboardShared = async (
   fallbackElement?: HTMLElement,
 ): Promise<CopyResult> => {
   try {
-    if (navigator.clipboard) {
-      if (html && "ClipboardItem" in window) {
-        const ClipboardItemCtor = (
-          window as typeof window & {
-            ClipboardItem: typeof ClipboardItem;
-          }
-        ).ClipboardItem;
-        await navigator.clipboard.write([
-          new ClipboardItemCtor({
-            "text/plain": new Blob([text], { type: "text/plain" }),
-            "text/html": new Blob([html], { type: "text/html" }),
-          }),
-        ]);
-      } else {
-        await navigator.clipboard.writeText(text);
-      }
-      return { success: true };
+    if (typeof html === "string" && "ClipboardItem" in window) {
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          "text/plain": new Blob([text], { type: "text/plain" }),
+          "text/html": new Blob([html], { type: "text/html" }),
+        }),
+      ]);
+    } else {
+      await navigator.clipboard.writeText(text);
     }
-    throw new Error("Clipboard API not available");
+    return { success: true };
   } catch (error) {
     if (!fallbackElement) {
       return { success: false, error };
     }
-    document.body.appendChild(fallbackElement);
-    const range = document.createRange();
-    range.selectNode(fallbackElement);
     const selection = window.getSelection();
-    let success = false;
+    const previousRanges: Array<Range> = [];
     if (selection) {
-      selection.removeAllRanges();
-      selection.addRange(range);
-      try {
-        success = document.execCommand("copy");
-      } catch (err) {
-        success = false;
+      for (let i = 0; i < selection.rangeCount; i += 1) {
+        previousRanges.push(selection.getRangeAt(i).cloneRange());
       }
-      selection.removeAllRanges();
     }
-    document.body.removeChild(fallbackElement);
+
+    let success = false;
+    let copiedViaClipboardData = false;
+    let listenerAttached = false;
+    const onCopy = (event: ClipboardEvent): void => {
+      const clipboardData = event.clipboardData;
+      if (!clipboardData) {
+        return;
+      }
+      event.preventDefault();
+      clipboardData.setData("text/plain", text);
+      if (typeof html === "string") {
+        clipboardData.setData("text/html", html);
+      }
+      copiedViaClipboardData = true;
+    };
+    try {
+      document.addEventListener("copy", onCopy);
+      listenerAttached = true;
+      document.body.appendChild(fallbackElement);
+      if (selection) {
+        const range = document.createRange();
+        range.selectNode(fallbackElement);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        try {
+          // oxlint-disable-next-line no-deprecated --- Required for copy support in HTTP pages
+          const commandSuccess = document.execCommand("copy");
+          success = copiedViaClipboardData || commandSuccess;
+        } catch {
+          success = false;
+        }
+      }
+    } finally {
+      if (selection) {
+        selection.removeAllRanges();
+        for (const range of previousRanges) {
+          selection.addRange(range);
+        }
+      }
+      if (listenerAttached) {
+        document.removeEventListener("copy", onCopy);
+      }
+      if (fallbackElement.isConnected) {
+        document.body.removeChild(fallbackElement);
+      }
+    }
     return { success, error };
   }
 };

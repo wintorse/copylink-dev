@@ -6,7 +6,6 @@
     "module": "ESNext",
     "rootDir": "./src",
     "moduleResolution": "node",
-    "baseUrl": "src",
     "resolveJsonModule": true,
     "removeComments": true,
     "esModuleInterop": true,

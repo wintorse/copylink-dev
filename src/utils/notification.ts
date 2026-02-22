@@ -2,6 +2,8 @@ import { buildNotificationConfig } from "../shared/ui/notification";
 
 /**
  * Chrome extension wrapper for notifications. Uses shared config builder and injects runtime URLs.
+ * @param message Notification message to display.
+ * @returns No return value.
  */
 export const createNotification = (message: string) => {
   const config = buildNotificationConfig(message);
@@ -19,7 +21,9 @@ export const createNotification = (message: string) => {
         console.error(chrome.runtime.lastError);
         return;
       }
-      if (!config.autoClearMs) return;
+      if (config.autoClearMs === undefined) {
+        return;
+      }
       setTimeout(() => {
         chrome.notifications.clear(config.id, (wasCleared) => {
           if (chrome.runtime.lastError) {

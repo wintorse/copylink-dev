@@ -1,8 +1,8 @@
 import type {
+  CustomRegexes,
+  EmojiElementRecord,
   EmojiKeys,
   EmojiNameRecord,
-  EmojiElementRecord,
-  CustomRegexes,
 } from "../types/types";
 
 export const VALID_COMMANDS = {
@@ -38,7 +38,7 @@ export const CUSTOM_EMOJI_KEYS = [
   "customWebsite3",
   "customWebsite4",
   "customWebsite5",
-] as const satisfies EmojiKeys[];
+] as const satisfies Array<EmojiKeys>;
 
 export const CUSTOM_REGEX_KEYS = [
   "customRegex1",

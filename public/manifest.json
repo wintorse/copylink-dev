@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_name__",
   "description": "__MSG_description__",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "default_locale": "en",
   "icons": {
     "16": "images/icon-16.png",
@@ -11,10 +11,13 @@
     "128": "images/icon-128.png"
   },
   "homepage_url": "https://github.com/wintorse/copylink-dev",
-  "permissions": [
-    "activeTab",
-    "scripting",
-    "storage"
+  "permissions": ["storage"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["scripts/content.js"],
+      "run_at": "document_idle"
+    }
   ],
   "web_accessible_resources": [
     {

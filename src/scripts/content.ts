@@ -27,5 +27,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
           error: error instanceof Error ? error.message : String(error),
         });
       });
+    return true; // Keep the message port open for async response
   }
+  return false;
 });

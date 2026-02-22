@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-misused-promises -- async listener returns a Promise to keep the MV3 service worker alive; @types/chrome incorrectly types the return as void
+// oxlint-disable-next-line typescript/no-misused-promises -- async listener returns a Promise to keep the MV3 service worker alive; @types/chrome incorrectly types the return as void
 chrome.commands.onCommand.addListener(async (command) => {
   // Get the active tab in the current window
   const [tab] = await chrome.tabs.query({

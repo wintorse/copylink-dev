@@ -1,4 +1,5 @@
 import type { Command } from "../types/types";
+import { VALID_COMMANDS } from "../shared/constants";
 import { handleCommand } from "./commands";
 
 // Guard against duplicate injection when using chrome.scripting.executeScript()
@@ -6,17 +7,8 @@ const g = globalThis as Record<string, unknown>;
 if (g.__copylinkDevInjected !== true) {
   g.__copylinkDevInjected = true;
 
-  const getValidCommands = () =>
-    ({
-      COPY_LINK: "copy-link",
-      COPY_LINK_FOR_SLACK: "copy-link-for-slack",
-      COPY_TITLE: "copy-title",
-      COPY_GOOGLE_SHEETS_RANGE: "copy-google-sheets-range",
-    }) as const;
-
   const isValidCommand = (command: string): command is Command => {
-    const validCommands = getValidCommands();
-    return Object.values(validCommands).some((c) => c === command);
+    return Object.values(VALID_COMMANDS).some((c) => c === command);
   };
 
   // Listen for messages from the background script to execute commands

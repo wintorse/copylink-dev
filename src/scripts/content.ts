@@ -17,5 +17,7 @@ const isValidCommand = (command: string): command is Command => {
 chrome.runtime.onMessage.addListener((message) => {
   if (message.type === "execute-command" && isValidCommand(message.command)) {
     handleCommand(message.command).catch(console.error);
+    return true; // Keep message port open for async response
   }
+  return false;
 });

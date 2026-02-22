@@ -1,6 +1,6 @@
 import type { CustomRegexes, EmojiNameRecord } from "../types/types";
+import { type PageContext, resolveEmojiName } from "../shared/emojiResolver";
 import { DEFAULT_EMOJI_NAMES } from "../shared/constants";
-import { resolveEmojiName, type PageContext } from "../shared/emojiResolver";
 
 type StorageData = {
   emojiNames?: Partial<EmojiNameRecord>;
@@ -13,9 +13,9 @@ const buildPageContext = (): PageContext => ({
   pathname: window.location.pathname,
   documentBodyId: document.body.id,
   documentTitle: document.title,
-  hasRedmineFooter: !!document
-    .querySelector("#footer a")
-    ?.textContent?.includes("Redmine"),
+  hasRedmineFooter:
+    document.querySelector("#footer a")?.textContent?.includes("Redmine") ??
+    false,
   hasRedocWrap: !!document.querySelector(".redoc-wrap"),
 });
 

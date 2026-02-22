@@ -1,10 +1,10 @@
-import { getEmojiName } from "./getEmojiName";
-import { showToast } from "../utils/toast";
-import { copyToClipboardShared } from "../shared/clipboard/copyToClipboardShared";
+import type { Command } from "../types/types";
 import { copyTextLinkCore } from "../shared/clipboard/copyTextLinkCore";
+import { copyToClipboardShared } from "../shared/clipboard/copyToClipboardShared";
+import { getEmojiName } from "./getEmojiName";
 import { getFormattedTitle } from "../shared/getFormattedTitle";
 import { getGoogleSheetsRangeInfo } from "../shared/getGoogleSheetsRangeLink";
-import type { Command } from "../types/types";
+import { showToast } from "../utils/toast";
 
 export const copyTextLink = async (command: Command) => {
   await copyTextLinkCore(command, {
@@ -13,7 +13,7 @@ export const copyTextLink = async (command: Command) => {
     getFormattedTitle,
     getGoogleSheetsRangeInfo,
     getUrl: () => document.URL,
-    notify: showToast,
+    notify: (message: string) => { void showToast(message); },
     copy: copyToClipboardShared,
   });
 };

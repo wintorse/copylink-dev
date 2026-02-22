@@ -1,9 +1,9 @@
-import type { CustomRegexes, EmojiNameRecord } from "../types/types";
 import {
   CUSTOM_EMOJI_KEYS,
   CUSTOM_REGEX_KEYS,
   DEFAULT_EMOJI_NAMES,
 } from "./constants";
+import type { CustomRegexes, EmojiNameRecord } from "../types/types";
 
 export type PageContext = {
   href: string;
@@ -37,10 +37,13 @@ export const resolveEmojiName = (
 
   for (const [index, regexKey] of CUSTOM_REGEX_KEYS.entries()) {
     const websiteKey = CUSTOM_EMOJI_KEYS[index];
+    const customEmoji = emojiNames[websiteKey];
     const regexPattern = customRegexes[regexKey];
     if (
-      emojiNames[websiteKey] &&
-      regexPattern &&
+      customEmoji !== undefined &&
+      customEmoji.length > 0 &&
+      regexPattern !== undefined &&
+      regexPattern.length > 0 &&
       new RegExp(regexPattern).test(ctx.href)
     ) {
       return getEmoji(websiteKey);
@@ -85,7 +88,7 @@ export const resolveEmojiName = (
     return getEmoji("backlogIssue");
   }
 
-  if (ctx.hostname.includes("redmine") || ctx.hasRedmineFooter) {
+  if (ctx.hostname.includes("redmine") || ctx.hasRedmineFooter === true) {
     return getEmoji("redmineIssue");
   }
 
@@ -93,7 +96,10 @@ export const resolveEmojiName = (
     return getEmoji("jiraIssue");
   }
 
-  if (ctx.documentTitle?.includes("ReDoc") || ctx.hasRedocWrap) {
+  if (
+    (ctx.documentTitle?.includes("ReDoc") ?? false) ||
+    ctx.hasRedocWrap === true
+  ) {
     return getEmoji("reDoc");
   }
 

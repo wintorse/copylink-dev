@@ -1,9 +1,13 @@
-import { handleCommand } from "./commands";
 import type { Command } from "../types/types";
+import { handleCommand } from "./commands";
 
 declare global {
   interface Window {
     hasCopylinkDevListener?: boolean;
+  }
+
+  interface WindowEventMap {
+    copylinkDevExecuteCommand: CustomEvent<string>;
   }
 }
 
@@ -20,14 +24,12 @@ const isValidCommand = (command: string): command is Command => {
   return Object.values(validCommands).some((c) => c === command);
 };
 
-if (!window.hasCopylinkDevListener) {
+if (window.hasCopylinkDevListener !== true) {
   window.hasCopylinkDevListener = true;
-  window.addEventListener("copylinkDevExecuteCommand", async (event) => {
-    const command = (event as CustomEvent).detail;
+  window.addEventListener("copylinkDevExecuteCommand", (event) => {
+    const command = event.detail;
     if (isValidCommand(command)) {
-      await handleCommand(command);
-      return true;
+      handleCommand(command).catch(console.error);
     }
-    return false;
   });
 }

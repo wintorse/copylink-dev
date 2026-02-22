@@ -1,5 +1,5 @@
-import { resolve } from "node:path";
 import { defineConfig, loadEnv } from "vite";
+import { resolve } from "node:path";
 
 // NOTE:
 // We intentionally keep a dedicated Vite config for the content script build.

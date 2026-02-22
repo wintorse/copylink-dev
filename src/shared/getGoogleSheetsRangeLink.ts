@@ -12,15 +12,14 @@ export const getGoogleSheetsRangeInfo = (): {
   const currentUrl = window.location.href;
   const urlObj = new URL(currentUrl);
   const hashParams = new URLSearchParams(urlObj.hash.replace(/^#/, ""));
-  const gid = hashParams.get("gid") || "0";
+  const gidParam = hashParams.get("gid");
+  const gid = gidParam !== null && gidParam.length > 0 ? gidParam : "0";
 
   // 2. Get the range string (e.g., A1 or A1:B5) from the name box
-  const nameBox = document.getElementById(
-    "t-name-box",
-  ) as HTMLInputElement | null;
+  const nameBox = document.querySelector<HTMLInputElement>("#t-name-box");
   let rangeString = "";
 
-  if (nameBox && nameBox.value) {
+  if (nameBox !== null && nameBox.value.length > 0) {
     rangeString = nameBox.value;
   } else {
     // Fallback when unable to get the range (or when focus is lost)

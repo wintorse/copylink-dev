@@ -18,13 +18,17 @@
   <img src="docs/promo.png" alt="copylink.dev promotion image" width="480">
 </p>
 
-A browser extension that copies text links to clipboard with shortcuts. On supported websites, title formatting and Slack emoji-enhanced links are available.
-You can quickly create highly readable links by pasting them into Slack or some other platforms.
-Also, unlike plain URLs, they will show up when searching by title, which improves searchability.
+A browser extension that copies text links to clipboard with shortcuts. 
+
+On supported websites, title formatting and Slack emoji-enhanced links are available.
 
 ## Features
 
 Provides shortcuts to easily copy text links with titles, such as "[My spreadsheet](https://example.com)".
+
+You can quickly create highly readable links by pasting them into Slack or some other platforms.
+
+Also, unlike plain URLs, they will show up when searching by title, which improves searchability.
 
 For the following sites, it has the functionality to format titles and also copy links with Slack emojis for pasting into Slack:
 

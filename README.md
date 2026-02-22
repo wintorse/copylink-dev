@@ -23,6 +23,9 @@ A browser extension that copies text links to clipboard with shortcuts.
 On supported websites, title formatting and Slack emoji-enhanced links are available.
 
 ## Features
+<div align="center">
+  <video controls src="https://github.com/user-attachments/assets/9ee6ee0e-20e0-4537-8e17-98a8e2ae6a38" width="480"></video>
+</div>
 
 Provides shortcuts to easily copy text links with titles, such as "[My spreadsheet](https://example.com)".
 

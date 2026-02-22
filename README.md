@@ -1,9 +1,16 @@
 [日本語版 README はこちら](./README-ja.md)
 
-[Also available as a UserScript!](https://gist.github.com/wintorse/10e2ec0206a0f29522cb06c6dafd2611)
+[Also available as a UserScript!](https://github.com/wintorse/copylink-dev-user-js)
 
 > [!NOTE]
-> Since around May 2025, this extension has not been working on Arc due to a suspected issue with the browser. Specifically, `chrome.commands.onCommand.addListener` event is not being triggered only in Arc, including other Chrome extensions that uses keyboard shortcuts. You can use the UserScript version linked above instead.
+> **For Arc Browser Users**: Since around May 2025, keyboard shortcuts stopped working in Arc browser. This can be resolved by setting shortcuts to "Global" mode:
+> 1. Right-click the extension icon → "Manage Extension"
+> 2. Go to "Keyboard Shortcuts"
+> 3. Set each shortcut to "Global" mode
+>
+> ⚠️ **Note**: Global shortcuts may conflict with other applications' shortcuts.
+>
+> If you prefer not to use global shortcuts, please use the [UserScript version](https://github.com/wintorse/copylink-dev-user-js) instead.
 
 # copylink.dev
 

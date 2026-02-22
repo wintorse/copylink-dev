@@ -1,9 +1,16 @@
 [English](./README.md)
 
-[UserScript 版はこちら](https://gist.github.com/wintorse/10e2ec0206a0f29522cb06c6dafd2611)
+[UserScript 版はこちら](https://github.com/wintorse/copylink-dev-user-js)
 
 > [!NOTE]
-> 2025 年 5 月ごろから本拡張機能は Arc ブラウザで動作していません。こちらについては Arc の不具合かと思われます。具体的には、`chrome.commands.onCommand.addListener` イベントが Arc でのみトリガーされず、これはキーボードショートカットを用いる他の Chrome 拡張機能でも同様となっています。上記 UserScript 版 は Arc でもご利用いただけます。
+> **Arc ブラウザをご利用の方へ**: 2025年5月頃から、Arc ブラウザでキーボードショートカットが動作しなくなりました。ショートカットを「グローバル」モードに設定することで解決できます:
+> 1. 拡張機能アイコンを右クリック → 「拡張機能を管理」
+> 2. 「キーボードショートカット」に移動
+> 3. 各ショートカットを「グローバル」モードに設定
+>
+> ⚠️ **注意**: グローバルショートカットは他のアプリケーションのショートカットと競合する可能性があります。
+>
+> グローバルショートカットを使用したくない場合は、[UserScript 版](https://github.com/wintorse/copylink-dev-user-js)をご利用ください。
 
 # copylink.dev
 

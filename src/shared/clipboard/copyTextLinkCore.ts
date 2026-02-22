@@ -13,7 +13,7 @@ export type CopyTextLinkDeps = {
   getFormattedTitle: () => string;
   getGoogleSheetsRangeInfo: () => { link: string } | null;
   getUrl: () => string;
-  notify: (message: string) => void;
+  notify: (message: string) => Promise<void>;
   copy: (
     text: string,
     html?: string,
@@ -88,9 +88,9 @@ export const copyTextLinkCore = async (
       : undefined;
     const result = await deps.copy(text, html, fallbackElement);
     if (result.success) {
-      notifySuccess(successKey);
+      await notifySuccess(successKey);
     } else {
-      notifyFailure(failureKey);
+      await notifyFailure(failureKey);
     }
   };
 
@@ -143,7 +143,7 @@ export const copyTextLinkCore = async (
 
     const rangeInfo = getGoogleSheetsRangeInfo();
     if (!rangeInfo) {
-      deps.notify(t("copyGoogleSheetsRangeFailure"));
+      await deps.notify(t("copyGoogleSheetsRangeFailure"));
       return;
     }
     const emojiName = await getEmojiName();
@@ -158,5 +158,5 @@ export const copyTextLinkCore = async (
     return;
   }
 
-  deps.notify("Unknown command");
+  await deps.notify("Unknown command");
 };

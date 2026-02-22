@@ -13,7 +13,9 @@ export const copyTextLink = async (command: Command) => {
     getFormattedTitle,
     getGoogleSheetsRangeInfo,
     getUrl: () => document.URL,
-    notify: (message: string) => { void showToast(message); },
+    notify: async (message: string) => {
+      await showToast(message);
+    },
     copy: copyToClipboardShared,
   });
 };

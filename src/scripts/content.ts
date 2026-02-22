@@ -1,16 +1,6 @@
 import type { Command } from "../types/types";
 import { handleCommand } from "./commands";
 
-declare global {
-  interface Window {
-    hasCopylinkDevListener?: boolean;
-  }
-
-  interface WindowEventMap {
-    copylinkDevExecuteCommand: CustomEvent<string>;
-  }
-}
-
 const getValidCommands = () =>
   ({
     COPY_LINK: "copy-link",
@@ -24,12 +14,8 @@ const isValidCommand = (command: string): command is Command => {
   return Object.values(validCommands).some((c) => c === command);
 };
 
-if (window.hasCopylinkDevListener !== true) {
-  window.hasCopylinkDevListener = true;
-  window.addEventListener("copylinkDevExecuteCommand", (event) => {
-    const command = event.detail;
-    if (isValidCommand(command)) {
-      handleCommand(command).catch(console.error);
-    }
-  });
-}
+chrome.runtime.onMessage.addListener((message) => {
+  if (message.type === "execute-command" && isValidCommand(message.command)) {
+    handleCommand(message.command).catch(console.error);
+  }
+});

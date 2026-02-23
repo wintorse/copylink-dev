@@ -26,11 +26,11 @@
 ## 機能
 
 <div align="center">
-  <video controls src="https://github.com/user-attachments/assets/6661399d-2d33-4bdd-8520-7852559c4e3c" width="480"></video>
+  <video controls src="https://github.com/user-attachments/assets/6fe63661-a2e2-4304-ac72-853d601f77f9" width="480"></video>
 </div>
 <br>
 
-「[◯◯◯◯設計書](https://example.com)」のような、タイトルのついたリンク（テキストリンク）をクリップボードにコピーするショートカットを提供します。
+「[My spreadsheet](./)」のような、タイトルのついたリンク（テキストリンク）をクリップボードにコピーするショートカットを提供します。
 
 Slackなどにペーストすることで可読性の高いリンクを手早く作成できます。
 また、素の URL と異なりタイトルで検索した際にもヒットするため、検索性を向上できます。
@@ -101,6 +101,7 @@ Slackなどにペーストすることで可読性の高いリンクを手早く
 | リンクをコピー                     | `Ctrl+L`       | `Alt+L`       |
 | リンクをコピー（Slack 絵文字つき） | `Ctrl+Shift+L` | `Alt+Shift+L` |
 | タイトルをコピー                   | `Ctrl+T`       | `Alt+T`       |
+| スプレッドシートの選択範囲の<br>Slack 絵文字つきリンクをコピー | `Ctrl+R`       | `Alt+R`       |
 
 ショートカットは[設定](chrome://extensions/shortcuts)から変更できます。
 

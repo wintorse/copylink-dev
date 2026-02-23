@@ -3,14 +3,13 @@
 [Also available as a UserScript!](https://github.com/wintorse/copylink-dev-user-js)
 
 > [!NOTE]
-> **For Arc Browser Users**: Since around May 2025, keyboard shortcuts stopped working in Arc browser. This can be resolved by setting shortcuts to "Global" mode:
-> 1. Right-click the extension icon → "Manage Extension"
-> 2. Go to "Keyboard Shortcuts"
-> 3. Set each shortcut to "Global" mode
+> **For Arc Browser Users**: Since around May 2025, keyboard shortcuts stopped working in Arc browser.
+> 
+> Please use the [UserScript version](https://github.com/wintorse/copylink-dev-user-js) instead.
+> 
+> _For developers:_ If host permission is granted, this extension works, but only when the shortcuts are set to "Global" mode.
 >
-> ⚠️ **Note**: Global shortcuts may conflict with other applications' shortcuts.
->
-> If you prefer not to use global shortcuts, please use the [UserScript version](https://github.com/wintorse/copylink-dev-user-js) instead.
+> Host permission is granted in [v1.5.0](https://github.com/wintorse/copylink-dev/releases/tag/v1.5.0), so you can download and use it.
 
 # copylink.dev
 

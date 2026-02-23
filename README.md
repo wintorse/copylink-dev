@@ -24,9 +24,10 @@ On supported websites, title formatting and Slack emoji-enhanced links are avail
 ## Features
 
 <div align="center">
-  <video controls src="https://github.com/user-attachments/assets/9ee6ee0e-20e0-4537-8e17-98a8e2ae6a38" width="480"></video>
+  <video controls src="https://github.com/user-attachments/assets/446772c6-889b-45f0-84bf-1e8c2734b4cb" width="480" title="Demo"></video>
 </div>
 <br>
+
 
 Provides shortcuts to easily copy text links with titles, such as "[My spreadsheet](https://example.com)".
 
@@ -99,6 +100,7 @@ Or build from the source code:
 | Copy link                    | `Ctrl+L`       | `Alt+L`       |
 | Copy link (with Slack emoji) | `Ctrl+Shift+L` | `Alt+Shift+L` |
 | Copy title                   | `Ctrl+T`       | `Alt+T`       |
+| Copy link to selected range in<br>Google Sheets™ with Slack emoji | `Ctrl+R`       | `Alt+R`       |
 
 Shortcuts can be changed from [Extension Settings](chrome://extensions/shortcuts).
 

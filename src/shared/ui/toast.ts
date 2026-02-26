@@ -72,8 +72,13 @@ export const showToastCore = async (
     });
 
   await waitForStyleLoad(externalCss);
+  // Force layout so the initial hidden state is committed before transition starts.
+  void toast.getBoundingClientRect();
+  // Defer class toggle by two frames to avoid missing fade-in on first paint.
   requestAnimationFrame(() => {
-    host.classList.add(CLASSES.visible);
+    requestAnimationFrame(() => {
+      host.classList.add(CLASSES.visible);
+    });
   });
   const duration = options?.durationMs ?? 3000;
   setTimeout(() => {

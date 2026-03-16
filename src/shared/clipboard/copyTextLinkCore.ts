@@ -5,8 +5,7 @@ export type FallbackSpec =
   | { type: "title"; title: string }
   | { type: "plainUrl"; url: string }
   | { type: "link"; title: string; url: string }
-  | { type: "linkWithEmoji"; title: string; url: string; emojiName: string }
-  | { type: "sheetsRange"; title: string; link: string; emojiName: string };
+  | { type: "linkWithEmoji"; title: string; url: string; emojiName: string };
 
 export type CopyTextLinkDeps = {
   t: (key: string) => string;
@@ -22,6 +21,13 @@ export type CopyTextLinkDeps = {
     fallbackElement?: HTMLElement,
   ) => Promise<CopyResult>;
 };
+
+const escapeHtml = (str: string): string =>
+  str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
 
 export const createFallbackElement = (
   spec: FallbackSpec,
@@ -50,15 +56,6 @@ export const createFallbackElement = (
     el.appendChild(document.createTextNode(`${spec.emojiName} `));
     const anchor = document.createElement("a");
     anchor.setAttribute("href", spec.url);
-    anchor.textContent = spec.title;
-    el.appendChild(anchor);
-    return el;
-  }
-  if (spec.type === "sheetsRange") {
-    const el = document.createElement("span");
-    el.appendChild(document.createTextNode(`${spec.emojiName} `));
-    const anchor = document.createElement("a");
-    anchor.setAttribute("href", spec.link);
     anchor.textContent = spec.title;
     el.appendChild(anchor);
     return el;
@@ -102,6 +99,52 @@ export const copyTextLinkCore = async (
     }
   };
 
+  const copyLinkWithFormat = async (
+    link: string,
+    linkTitle: string,
+    linkFormat: LinkFormat,
+    successKey: string,
+    failureKey: string,
+  ) => {
+    if (linkFormat === "plainUrl") {
+      await runCopy(
+        link,
+        undefined,
+        { type: "plainUrl", url: link },
+        successKey,
+        failureKey,
+      );
+    } else if (linkFormat === "markdown") {
+      await runCopy(
+        `[${linkTitle}](${link})`,
+        undefined,
+        { type: "title", title: `[${linkTitle}](${link})` },
+        successKey,
+        failureKey,
+      );
+    } else if (linkFormat === "html") {
+      const html = `<a href="${escapeHtml(link)}">${escapeHtml(linkTitle)}</a>&nbsp;`;
+      await runCopy(
+        linkTitle,
+        html,
+        { type: "link", title: linkTitle, url: link },
+        successKey,
+        failureKey,
+      );
+    } else {
+      // htmlWithEmoji
+      const emojiName = await getEmojiName();
+      const html = `${escapeHtml(emojiName)}&nbsp;<a href="${escapeHtml(link)}">${escapeHtml(linkTitle)}</a>&nbsp;`;
+      await runCopy(
+        `[${linkTitle}](${link})`,
+        html,
+        { type: "linkWithEmoji", title: linkTitle, url: link, emojiName },
+        successKey,
+        failureKey,
+      );
+    }
+  };
+
   if (command === "copy-title") {
     await runCopy(
       title,
@@ -113,52 +156,15 @@ export const copyTextLinkCore = async (
     return;
   }
 
-  if (command === "copy-link") {
+  if (command === "copy-link" || command === "copy-link-for-slack") {
     const linkFormat = await getLinkFormat();
-    if (linkFormat === "plainUrl") {
-      await runCopy(
-        url,
-        undefined,
-        { type: "plainUrl", url },
-        "copyLinkSuccess",
-        "copyLinkFailure",
-      );
-    } else {
-      const html = `<a href="${url}">${title}</a>&nbsp;`;
-      await runCopy(
-        title,
-        html,
-        { type: "link", title, url },
-        "copyLinkSuccess",
-        "copyLinkFailure",
-      );
-    }
-    return;
-  }
-
-  if (command === "copy-link-for-slack") {
-    const linkFormat = await getLinkFormat();
-    if (linkFormat === "plainUrl") {
-      await runCopy(
-        url,
-        undefined,
-        { type: "plainUrl", url },
-        "copyLinkSuccess",
-        "copyLinkFailure",
-      );
-    } else {
-      const emojiName = await getEmojiName();
-      const html = `${emojiName}&nbsp;<a href="${url}">${title}</a>&nbsp;`;
-      await runCopy(
-        // secret feature: Markdown format in plain text
-        // If you copy-paste it into IDEs or plain text editors, it appears as a Markdown link.
-        `[${title}](${url})`,
-        html,
-        { type: "linkWithEmoji", title, url, emojiName },
-        "copyLinkSuccess",
-        "copyLinkFailure",
-      );
-    }
+    await copyLinkWithFormat(
+      url,
+      title,
+      linkFormat,
+      "copyLinkSuccess",
+      "copyLinkFailure",
+    );
     return;
   }
 
@@ -178,25 +184,13 @@ export const copyTextLinkCore = async (
     }
 
     const linkFormat = await getLinkFormat();
-    if (linkFormat === "plainUrl") {
-      await runCopy(
-        rangeInfo.link,
-        undefined,
-        { type: "plainUrl", url: rangeInfo.link },
-        "copyGoogleSheetsRangeSuccess",
-        "copyGoogleSheetsRangeFailure",
-      );
-    } else {
-      const emojiName = await getEmojiName();
-      const html = `${emojiName}&nbsp;<a href="${rangeInfo.link}">${title}</a>&nbsp;`;
-      await runCopy(
-        `[${title}](${rangeInfo.link})`,
-        html,
-        { type: "sheetsRange", title, link: rangeInfo.link, emojiName },
-        "copyGoogleSheetsRangeSuccess",
-        "copyGoogleSheetsRangeFailure",
-      );
-    }
+    await copyLinkWithFormat(
+      rangeInfo.link,
+      title,
+      linkFormat,
+      "copyGoogleSheetsRangeSuccess",
+      "copyGoogleSheetsRangeFailure",
+    );
     return;
   }
 

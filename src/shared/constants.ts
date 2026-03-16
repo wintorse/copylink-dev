@@ -104,4 +104,4 @@ export const getDefaultEmojiName = (key: EmojiKeys): string =>
 
 export const LINK_FORMAT_STORAGE_KEY = "copylinkdevLinkFormat";
 
-export const DEFAULT_LINK_FORMAT = "markdown" as const;
+export const DEFAULT_LINK_FORMAT = "htmlWithEmoji" as const;

@@ -130,7 +130,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       const stored = data[LINK_FORMAT_STORAGE_KEY];
       const format: LinkFormat =
-        stored === "markdown" || stored === "plainUrl"
+        stored === "html" ||
+        stored === "htmlWithEmoji" ||
+        stored === "markdown" ||
+        stored === "plainUrl"
           ? stored
           : DEFAULT_LINK_FORMAT;
       const radio = document.getElementById(
@@ -144,7 +147,13 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       radios.forEach((r) => {
         r.addEventListener("change", () => {
-          if (r.checked && (r.value === "markdown" || r.value === "plainUrl")) {
+          if (
+            r.checked &&
+            (r.value === "html" ||
+              r.value === "htmlWithEmoji" ||
+              r.value === "markdown" ||
+              r.value === "plainUrl")
+          ) {
             updateLinkFormat(r.value);
           }
         });

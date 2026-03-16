@@ -41,8 +41,14 @@
   "linkFormatSettings": {
     "message": "Link Format"
   },
+  "linkFormatHtml": {
+    "message": "HTML format"
+  },
+  "linkFormatHtmlWithEmoji": {
+    "message": "HTML format with Slack emoji"
+  },
   "linkFormatMarkdown": {
-    "message": "Markdown ([Title](URL))"
+    "message": "Markdown link ([Title](URL))"
   },
   "linkFormatPlainUrl": {
     "message": "Plain URL"

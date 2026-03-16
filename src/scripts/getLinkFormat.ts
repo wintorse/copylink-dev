@@ -16,7 +16,12 @@ export const getLinkFormat = (): Promise<LinkFormat> =>
   new Promise((resolve) => {
     chrome.storage.local.get(LINK_FORMAT_STORAGE_KEY, (data: StorageData) => {
       const value = data[LINK_FORMAT_STORAGE_KEY];
-      if (value === "markdown" || value === "plainUrl") {
+      if (
+        value === "html" ||
+        value === "htmlWithEmoji" ||
+        value === "markdown" ||
+        value === "plainUrl"
+      ) {
         resolve(value);
       } else {
         resolve(DEFAULT_LINK_FORMAT);

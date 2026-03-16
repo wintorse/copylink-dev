@@ -101,3 +101,7 @@ export const getCustomRegexElements = (): CustomRegexes =>
 
 export const getDefaultEmojiName = (key: EmojiKeys): string =>
   DEFAULT_EMOJI_NAMES[key];
+
+export const LINK_FORMAT_STORAGE_KEY = "copylinkdevLinkFormat";
+
+export const DEFAULT_LINK_FORMAT = "markdown" as const;

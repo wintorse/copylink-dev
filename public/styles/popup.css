@@ -87,6 +87,29 @@ button:hover {
   background-color: #0056b3;
 }
 
+.link-format-form {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 20px 16px;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.radio-label:last-child {
+  margin-bottom: 0;
+}
+
+input[type="radio"] {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
 hr {
   margin: 0;
   border: 0;

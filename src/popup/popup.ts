@@ -1,10 +1,12 @@
 import {
   CUSTOM_REGEX_KEYS,
   EMOJI_KEYS,
+  LINK_FORMAT_STORAGE_KEY,
+  DEFAULT_LINK_FORMAT,
   getCustomRegexElements,
   getEmojiElements,
 } from "../shared/constants";
-import type { CustomRegexes, EmojiNameRecord } from "../types/types";
+import type { CustomRegexes, EmojiNameRecord, LinkFormat } from "../types/types";
 import {
   buildCustomRegexes,
   buildEmojiNames,
@@ -17,6 +19,18 @@ type EmojiNamesStorageData = {
 
 type CustomRegexesStorageData = {
   copylinkdevCustomRegexes?: Partial<CustomRegexes>;
+};
+
+type LinkFormatStorageData = {
+  [key: string]: unknown;
+};
+
+const updateLinkFormat = (format: LinkFormat) => {
+  chrome.storage.local.set({ [LINK_FORMAT_STORAGE_KEY]: format }, () => {
+    if (chrome.runtime.lastError) {
+      console.error(chrome.runtime.lastError);
+    }
+  });
 };
 
 const collectEmojiInputs = (): Partial<Record<string, string>> => {
@@ -104,6 +118,37 @@ document.addEventListener("DOMContentLoaded", () => {
           element.addEventListener("input", updateCustomRegexes);
         }
       }
+    },
+  );
+
+  chrome.storage.local.get(
+    LINK_FORMAT_STORAGE_KEY,
+    (data: LinkFormatStorageData) => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError);
+        return;
+      }
+      const stored = data[LINK_FORMAT_STORAGE_KEY];
+      const format: LinkFormat =
+        stored === "markdown" || stored === "plainUrl"
+          ? stored
+          : DEFAULT_LINK_FORMAT;
+      const radio = document.getElementById(
+        `linkFormat-${format}`,
+      );
+      if (radio instanceof HTMLInputElement) {
+        radio.checked = true;
+      }
+      const radios = document.querySelectorAll<HTMLInputElement>(
+        'input[name="linkFormat"]',
+      );
+      radios.forEach((r) => {
+        r.addEventListener("change", () => {
+          if (r.checked && (r.value === "markdown" || r.value === "plainUrl")) {
+            updateLinkFormat(r.value);
+          }
+        });
+      });
     },
   );
 });

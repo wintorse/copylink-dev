@@ -38,6 +38,15 @@
   "settingsTitle": {
     "message": "Settings"
   },
+  "linkFormatSettings": {
+    "message": "Link Format"
+  },
+  "linkFormatMarkdown": {
+    "message": "Markdown ([Title](URL))"
+  },
+  "linkFormatPlainUrl": {
+    "message": "Plain URL"
+  },
   "slackEmojiSettings": {
     "message": "Slack Emoji Settings"
   },

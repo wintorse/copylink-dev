@@ -13,11 +13,11 @@ const getGoogleDriveTitle = (): string => {
 const getGitHubTitle = (): string => {
   const titleElement =
     document.querySelector<HTMLElement>("h1 > *:first-child");
-  const idElement = document.querySelector<HTMLSpanElement>(
-    "h1 > *:nth-child(2)",
-  );
+  const idElement =
+    document.querySelector<HTMLSpanElement>("h1 > *:nth-child(2) > span") ??
+    document.querySelector<HTMLSpanElement>("h1 > *:nth-child(2)");
   return titleElement && idElement
-    ? `${idElement.textContent} ${titleElement.textContent}`
+    ? `${idElement.textContent?.trim()} ${titleElement.textContent?.trim()}`
     : document.title;
 };
 

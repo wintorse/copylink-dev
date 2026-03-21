@@ -16,8 +16,10 @@ const getGitHubTitle = (): string => {
   const idElement =
     document.querySelector<HTMLSpanElement>("h1 > *:nth-child(2) > span") ??
     document.querySelector<HTMLSpanElement>("h1 > *:nth-child(2)");
-  return titleElement && idElement
-    ? `${idElement.textContent?.trim()} ${titleElement.textContent?.trim()}`
+  const title = titleElement?.textContent?.trim();
+  const id = idElement?.textContent?.trim();
+  return title !== undefined && title !== "" && id !== undefined && id !== ""
+    ? `${id} ${title}`
     : document.title;
 };
 

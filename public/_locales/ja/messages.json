@@ -38,6 +38,9 @@
   "settingsTitle": {
     "message": "設定"
   },
+  "linkFormatSettings": {
+    "message": "スプレッドシートの範囲リンク形式"
+  },
   "slackEmojiSettings": {
     "message": "Slack 絵文字設定"
   },

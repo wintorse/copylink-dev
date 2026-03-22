@@ -4,12 +4,14 @@ import { copyToClipboardShared } from "../shared/clipboard/copyToClipboardShared
 import { getEmojiName } from "./getEmojiName";
 import { getFormattedTitle } from "../shared/getFormattedTitle";
 import { getGoogleSheetsRangeInfo } from "../shared/getGoogleSheetsRangeLink";
+import { getLinkFormat } from "./getLinkFormat";
 import { showToast } from "../utils/toast";
 
 export const copyTextLink = async (command: Command) => {
   await copyTextLinkCore(command, {
     t: (key: string) => chrome.i18n.getMessage(key),
     getEmojiName,
+    getLinkFormat,
     getFormattedTitle,
     getGoogleSheetsRangeInfo,
     getUrl: () => document.URL,

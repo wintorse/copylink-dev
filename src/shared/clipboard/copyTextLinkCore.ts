@@ -156,12 +156,25 @@ export const copyTextLinkCore = async (
     return;
   }
 
-  if (command === "copy-link" || command === "copy-link-for-slack") {
-    const linkFormat = await getLinkFormat();
-    await copyLinkWithFormat(
-      url,
+  if (command === "copy-link") {
+    const html = `<a href="${escapeHtml(url)}">${escapeHtml(title)}</a>&nbsp;`;
+    await runCopy(
       title,
-      linkFormat,
+      html,
+      { type: "link", title, url },
+      "copyLinkSuccess",
+      "copyLinkFailure",
+    );
+    return;
+  }
+
+  if (command === "copy-link-for-slack") {
+    const emojiName = await getEmojiName();
+    const html = `${escapeHtml(emojiName)}&nbsp;<a href="${escapeHtml(url)}">${escapeHtml(title)}</a>&nbsp;`;
+    await runCopy(
+      `[${title}](${url})`,
+      html,
+      { type: "linkWithEmoji", title, url, emojiName },
       "copyLinkSuccess",
       "copyLinkFailure",
     );

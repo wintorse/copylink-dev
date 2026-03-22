@@ -39,7 +39,7 @@
     "message": "Settings"
   },
   "linkFormatSettings": {
-    "message": "Link Format"
+    "message": "Google Sheets Range Link Format"
   },
   "linkFormatHtml": {
     "message": "HTML format"

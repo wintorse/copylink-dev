@@ -11,50 +11,6 @@
       <img src="images/text_logo.svg" alt="Text Logo" class="text-logo" />
     </div>
     <div class="main-container">
-      <h1 data-i18n="linkFormatSettings">Link Format</h1>
-      <hr />
-      <form id="linkFormatForm" class="link-format-form">
-        <label class="radio-label">
-          <input
-            type="radio"
-            name="linkFormat"
-            id="linkFormat-html"
-            value="html"
-          />
-          <span data-i18n="linkFormatHtml">HTML format</span>
-        </label>
-        <label class="radio-label">
-          <input
-            type="radio"
-            name="linkFormat"
-            id="linkFormat-htmlWithEmoji"
-            value="htmlWithEmoji"
-          />
-          <span data-i18n="linkFormatHtmlWithEmoji"
-            >HTML format with Slack emoji</span
-          >
-        </label>
-        <label class="radio-label">
-          <input
-            type="radio"
-            name="linkFormat"
-            id="linkFormat-markdown"
-            value="markdown"
-          />
-          <span data-i18n="linkFormatMarkdown">Markdown link ([Title](URL))</span>
-        </label>
-        <label class="radio-label">
-          <input
-            type="radio"
-            name="linkFormat"
-            id="linkFormat-plainUrl"
-            value="plainUrl"
-          />
-          <span data-i18n="linkFormatPlainUrl">Plain URL</span>
-        </label>
-      </form>
-    </div>
-    <div class="main-container">
       <h1 data-i18n="slackEmojiSettings">Slack Emoji Settings</h1>
       <hr />
       <form id="emojiForm">
@@ -184,6 +140,56 @@
           placeholder="www\.example\.com"
         />
         <input type="text" id="emojiName-custom-5" placeholder="Emoji Name" />
+      </form>
+    </div>
+    <div class="main-container">
+      <h1 data-i18n="linkFormatSettings">Google Sheets Range Link Format</h1>
+      <hr />
+      <form id="linkFormatForm" class="link-format-form">
+        <label class="radio-label" for="linkFormat-html">
+          <input
+            type="radio"
+            name="linkFormat"
+            id="linkFormat-html"
+            value="html"
+          />
+          <span class="format-example"
+            ><span class="example-link">My spreadsheet</span></span
+          >
+        </label>
+        <label class="radio-label" for="linkFormat-htmlWithEmoji">
+          <input
+            type="radio"
+            name="linkFormat"
+            id="linkFormat-htmlWithEmoji"
+            value="htmlWithEmoji"
+          />
+          <span class="format-example"
+            >🔗 <span class="example-link">My spreadsheet</span></span
+          >
+        </label>
+        <label class="radio-label" for="linkFormat-markdown">
+          <input
+            type="radio"
+            name="linkFormat"
+            id="linkFormat-markdown"
+            value="markdown"
+          />
+          <span class="format-example"
+            ><code class="example-code">[My spreadsheet](https://...)</code></span
+          >
+        </label>
+        <label class="radio-label" for="linkFormat-plainUrl">
+          <input
+            type="radio"
+            name="linkFormat"
+            id="linkFormat-plainUrl"
+            value="plainUrl"
+          />
+          <span class="format-example"
+            ><code class="example-code">https://docs.google.com/...</code></span
+          >
+        </label>
       </form>
     </div>
     <hr />

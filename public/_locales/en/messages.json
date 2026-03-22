@@ -41,18 +41,6 @@
   "linkFormatSettings": {
     "message": "Google Sheets Range Link Format"
   },
-  "linkFormatHtml": {
-    "message": "HTML format"
-  },
-  "linkFormatHtmlWithEmoji": {
-    "message": "HTML format with Slack emoji"
-  },
-  "linkFormatMarkdown": {
-    "message": "Markdown link ([Title](URL))"
-  },
-  "linkFormatPlainUrl": {
-    "message": "Plain URL"
-  },
   "slackEmojiSettings": {
     "message": "Slack Emoji Settings"
   },

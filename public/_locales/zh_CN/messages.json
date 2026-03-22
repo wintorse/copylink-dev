@@ -41,18 +41,6 @@
   "linkFormatSettings": {
     "message": "Google表格范围链接格式"
   },
-  "linkFormatHtml": {
-    "message": "HTML格式"
-  },
-  "linkFormatHtmlWithEmoji": {
-    "message": "带Slack表情的HTML格式"
-  },
-  "linkFormatMarkdown": {
-    "message": "Markdown链接（[标题](URL)）"
-  },
-  "linkFormatPlainUrl": {
-    "message": "纯URL"
-  },
   "slackEmojiSettings": {
     "message": "Slack表情符号设置"
   },

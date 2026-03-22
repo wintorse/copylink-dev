@@ -13,7 +13,7 @@
     <div class="main-container">
       <h1 data-i18n="slackEmojiSettings">Slack Emoji Settings</h1>
       <hr />
-      <form id="emojiForm">
+      <form id="emojiForm" class="emoji-form">
         <label for="emojiName-google-sheets" data-i18n="googleSheets"
           >Google Sheets</label
         >
@@ -140,6 +140,57 @@
           placeholder="www\.example\.com"
         />
         <input type="text" id="emojiName-custom-5" placeholder="Emoji Name" />
+      </form>
+    </div>
+    <div class="main-container">
+      <hr />
+      <h1 data-i18n="linkFormatSettings">Google Sheets Range Link Format</h1>
+      <hr />
+      <form id="linkFormatForm" class="link-format-form">
+        <label class="radio-label" for="linkFormat-html">
+          <input
+            type="radio"
+            name="linkFormat"
+            id="linkFormat-html"
+            value="html"
+          />
+          <span class="format-example"
+            ><span class="example-link">My spreadsheet</span></span
+          >
+        </label>
+        <label class="radio-label" for="linkFormat-htmlWithEmoji">
+          <input
+            type="radio"
+            name="linkFormat"
+            id="linkFormat-htmlWithEmoji"
+            value="htmlWithEmoji"
+          />
+          <span class="format-example"
+            >🔗 <span class="example-link">My spreadsheet</span></span
+          >
+        </label>
+        <label class="radio-label" for="linkFormat-markdown">
+          <input
+            type="radio"
+            name="linkFormat"
+            id="linkFormat-markdown"
+            value="markdown"
+          />
+          <span class="format-example"
+            ><code class="example-code">[My spreadsheet](https://...)</code></span
+          >
+        </label>
+        <label class="radio-label" for="linkFormat-plainUrl">
+          <input
+            type="radio"
+            name="linkFormat"
+            id="linkFormat-plainUrl"
+            value="plainUrl"
+          />
+          <span class="format-example"
+            ><code class="example-code">https://docs.google.com/...</code></span
+          >
+        </label>
       </form>
     </div>
     <hr />

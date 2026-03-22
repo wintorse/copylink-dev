@@ -38,6 +38,9 @@
   "settingsTitle": {
     "message": "设置"
   },
+  "linkFormatSettings": {
+    "message": "Google表格范围链接格式"
+  },
   "slackEmojiSettings": {
     "message": "Slack表情符号设置"
   },

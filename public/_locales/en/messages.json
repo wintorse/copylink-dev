@@ -38,6 +38,9 @@
   "settingsTitle": {
     "message": "Settings"
   },
+  "linkFormatSettings": {
+    "message": "Google Sheets Range Link Format"
+  },
   "slackEmojiSettings": {
     "message": "Slack Emoji Settings"
   },

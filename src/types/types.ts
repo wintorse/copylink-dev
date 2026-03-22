@@ -17,3 +17,5 @@ export type EmojiElementRecord = { [key in EmojiKeys]: `emojiName-${string}` };
 export type CustomRegexKeys = (typeof CUSTOM_REGEX_KEYS)[number];
 
 export type CustomRegexes = { [key in CustomRegexKeys]: string };
+
+export type LinkFormat = "html" | "htmlWithEmoji" | "markdown" | "plainUrl";

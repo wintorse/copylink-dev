@@ -23,7 +23,7 @@
     "fmt:check": "oxfmt --check"
   },
   "devDependencies": {
-    "@types/chrome": "^0.1.37",
+    "@types/chrome": "^0.1.38",
     "@types/node": "^25.3.0",
     "oxfmt": "^0.41.0",
     "oxlint": "^1.49.0",

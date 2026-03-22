@@ -39,7 +39,7 @@
     "message": "設定"
   },
   "linkFormatSettings": {
-    "message": "Google スプレッドシートの範囲リンク形式"
+    "message": "スプレッドシートの範囲リンク形式"
   },
   "slackEmojiSettings": {
     "message": "Slack 絵文字設定"

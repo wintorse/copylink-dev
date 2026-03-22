@@ -1,8 +1,8 @@
-import type { LinkFormat } from "../types/types";
 import {
   DEFAULT_LINK_FORMAT,
   LINK_FORMAT_STORAGE_KEY,
 } from "../shared/constants";
+import type { LinkFormat } from "../types/types";
 
 type StorageData = {
   [key: string]: unknown;

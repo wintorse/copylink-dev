@@ -1,12 +1,16 @@
 import {
   CUSTOM_REGEX_KEYS,
+  DEFAULT_LINK_FORMAT,
   EMOJI_KEYS,
   LINK_FORMAT_STORAGE_KEY,
-  DEFAULT_LINK_FORMAT,
   getCustomRegexElements,
   getEmojiElements,
 } from "../shared/constants";
-import type { CustomRegexes, EmojiNameRecord, LinkFormat } from "../types/types";
+import type {
+  CustomRegexes,
+  EmojiNameRecord,
+  LinkFormat,
+} from "../types/types";
 import {
   buildCustomRegexes,
   buildEmojiNames,
@@ -136,9 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
         stored === "plainUrl"
           ? stored
           : DEFAULT_LINK_FORMAT;
-      const radio = document.getElementById(
-        `linkFormat-${format}`,
-      );
+      const radio = document.getElementById(`linkFormat-${format}`);
       if (radio instanceof HTMLInputElement) {
         radio.checked = true;
       }

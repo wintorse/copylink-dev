@@ -98,13 +98,13 @@ Or build from the source code:
 | Function                     | Mac            | Windows       |
 | ---------------------------- | -------------- | ------------- |
 | Copy link                    | `Ctrl+L`       | `Alt+L`       |
-| Copy link (with Slack emoji) | `Ctrl+Shift+L` | `Alt+Shift+L` |
+| Copy link with Slack emoji | `Ctrl+Shift+L` | `Alt+Shift+L` |
 | Copy title                   | `Ctrl+T`       | `Alt+T`       |
-| Copy link to selected range in<br>Google Sheets™ with Slack emoji | `Ctrl+R`       | `Alt+R`       |
+| Copy link to selected range <br>in Google Sheets™ | `Ctrl+R`       | `Alt+R`       |
 
 Shortcuts can be changed from [Extension Settings](chrome://extensions/shortcuts).
 
-You can set Slack emojis by clicking the extension icon.
+You can set Slack emojis and Google Sheets™ range link format by clicking the extension icon.
 
 ## License
 

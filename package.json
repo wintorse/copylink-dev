@@ -28,7 +28,7 @@
   "devDependencies": {
     "@types/chrome": "^0.1.38",
     "@types/node": "^25.5.0",
-    "oxfmt": "^0.41.0",
+    "oxfmt": "^0.42.0",
     "oxlint": "^1.56.0",
     "oxlint-tsgolint": "^0.17.0",
     "typescript": "^5.9.3",

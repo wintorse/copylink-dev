@@ -65,8 +65,8 @@ Or install from Release:
 Or build from the source code:
 
 1. Clone this repository
-2. Run `npm i` to install dev dependencies
-3. Run `npm run build`
+2. Run `pnpm i` to install dev dependencies
+3. Run `pnpm run build`
 4. Go to [chrome://extensions/](chrome://extensions/)
 5. Enable "Developer mode" in the top right corner
 6. Click "Load unpacked" and select the `dist` folder
@@ -84,8 +84,8 @@ Or install from Release:
 Or build from the source code:
 
 1. Clone this repository
-2. Run `npm i` to install dev dependencies
-3. Run `npm run build-firefox`
+2. Run `pnpm i` to install dev dependencies
+3. Run `pnpm run build-firefox`
 4. Go to [Debugger page](about:debugging#/runtime/this-firefox)
 5. Click "Load Temporary Add-on…" and select any file in the `dist` folder
 

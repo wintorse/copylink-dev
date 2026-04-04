@@ -19,13 +19,16 @@ jobs:
 
       - uses: actions/checkout@v6
 
+      - uses: pnpm/action-setup@v5
+        with:
+          cache: true
+
       - uses: actions/setup-node@v6
         with:
           node-version: 25
-          cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
       - name: Get version from package.json
         run: echo "VERSION=v$(jq -r .version < package.json)" >> $GITHUB_ENV
@@ -34,13 +37,13 @@ jobs:
         run: echo "VERSION_FIREFOX=v$(jq -r .version < package.json)-firefox" >> $GITHUB_ENV
 
       - name: Build for Chrome
-        run: npm run build
+        run: pnpm run build
 
       - name: Zip Chrome output
         run: zip -r copylink-dev_${{ env.VERSION }}.zip dist
 
       - name: Build for Firefox
-        run: npm run build-firefox
+        run: pnpm run build-firefox
 
       - name: Zip Firefox output
         run: |

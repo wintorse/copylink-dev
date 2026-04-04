@@ -4,9 +4,9 @@
 
 > [!NOTE]
 > **For Arc Browser Users**: Since around May 2025, keyboard shortcuts stopped working in Arc browser.
-> 
+>
 > Please use the [UserScript version](https://github.com/wintorse/copylink-dev-user-js) instead.
-> 
+>
 > _For developers:_ If host permission is granted, this extension works, but only when the shortcuts are set to "Global" mode.
 >
 > Host permission is granted in [v1.5.0](https://github.com/wintorse/copylink-dev/releases/tag/v1.5.0), so you can download and use it.
@@ -17,7 +17,7 @@
   <img src="docs/promo.png" alt="copylink.dev promotion image" width="480">
 </p>
 
-A browser extension that copies text links to clipboard with shortcuts. 
+A browser extension that copies text links to clipboard with shortcuts.
 
 On supported websites, title formatting and Slack emoji-enhanced links are available.
 
@@ -27,7 +27,6 @@ On supported websites, title formatting and Slack emoji-enhanced links are avail
   <video controls src="https://github.com/user-attachments/assets/446772c6-889b-45f0-84bf-1e8c2734b4cb" width="480" title="Demo"></video>
 </div>
 <br>
-
 
 Provides shortcuts to easily copy text links with titles, such as "[My spreadsheet](https://example.com)".
 
@@ -95,11 +94,11 @@ Or build from the source code:
 1. Execute the following shortcuts on website
 2. Paste into your tools (e.g., Slack)
 
-| Function                     | Mac            | Windows       |
-| ---------------------------- | -------------- | ------------- |
-| Copy link                    | `Ctrl+L`       | `Alt+L`       |
-| Copy link with Slack emoji | `Ctrl+Shift+L` | `Alt+Shift+L` |
-| Copy title                   | `Ctrl+T`       | `Alt+T`       |
+| Function                                          | Mac            | Windows       |
+| ------------------------------------------------- | -------------- | ------------- |
+| Copy link                                         | `Ctrl+L`       | `Alt+L`       |
+| Copy link with Slack emoji                        | `Ctrl+Shift+L` | `Alt+Shift+L` |
+| Copy title                                        | `Ctrl+T`       | `Alt+T`       |
 | Copy link to selected range <br>in Google Sheets™ | `Ctrl+R`       | `Alt+R`       |
 
 Shortcuts can be changed from [Extension Settings](chrome://extensions/shortcuts).

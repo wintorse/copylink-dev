@@ -5,7 +5,6 @@
     "useDefineForClassFields": true,
     "module": "ESNext",
     "rootDir": "./src",
-    "moduleResolution": "node",
     "resolveJsonModule": true,
     "removeComments": true,
     "esModuleInterop": true,
@@ -16,7 +15,8 @@
     "noImplicitReturns": true,
     "skipLibCheck": true,
     "noEmit": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "types": ["chrome"]
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["node_modules", "dist", "./tsconfig.json"]

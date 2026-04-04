@@ -16,7 +16,8 @@
     "skipLibCheck": true,
     "noEmit": true,
     "isolatedModules": true,
+    "types": ["chrome"]
   },
   "include": ["./src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "./tsconfig.json"],
+  "exclude": ["node_modules", "dist", "./tsconfig.json"]
 }

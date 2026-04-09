@@ -64,7 +64,7 @@ input[type="text"] {
 }
 
 input[type="text"]:has(+ input) {
-    margin-bottom: 8px;
+  margin-bottom: 8px;
 }
 
 button {

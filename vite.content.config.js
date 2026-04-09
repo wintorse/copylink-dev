@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
     build: {
       outDir: "../dist",
       emptyOutDir: false,
-      rollupOptions: {
+      rolldownOptions: {
         input: {
           content: resolve(__dirname, "src/scripts/content.ts"),
         },
@@ -26,7 +26,7 @@ export default defineConfig(({ mode }) => {
           format: "iife",
           name: "copylinkDevContent",
           entryFileNames: "scripts/content.js",
-          inlineDynamicImports: true,
+          codeSplitting: false,
         },
       },
     },

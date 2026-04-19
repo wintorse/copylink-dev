@@ -44,3 +44,8 @@ chrome.commands.onCommand.addListener(async (command) => {
     console.error(`Error sending command ${command}:`, error);
   }
 });
+
+// `export {}` makes this file a module so that Vitest (and tsc) can import it
+// in unit tests (tests/unit/background.test.ts). Without an export, TypeScript
+// treats the file as a script and `import()` fails with "is not a module".
+export {};

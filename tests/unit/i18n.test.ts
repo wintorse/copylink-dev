@@ -24,10 +24,25 @@ const loadKeys = (locale: string): Set<string> => {
   return new Set(Object.keys(data));
 };
 
+/**
+ * Discover all locale directories that provide a messages.json file.
+ * This keeps the completeness checks aligned with the filesystem so newly
+ * added locales are automatically validated.
+ * @returns Array of locale codes found under `_locales/`.
+ */
+const getLocales = (): Array<string> =>
+  fs
+    .readdirSync(LOCALES_DIR, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .filter((locale) =>
+      fs.existsSync(path.join(LOCALES_DIR, locale, "messages.json")),
+    );
+
 /** The English locale is the canonical reference for required keys. */
 const enKeys = loadKeys("en");
 
-const LOCALES: Array<string> = ["en", "ja", "zh_CN"];
+const LOCALES: Array<string> = getLocales();
 
 // ──────────────────────────────────────────────
 // B-I18N-01〜03: All locales must contain every key present in the English locale
@@ -46,17 +61,13 @@ describe("i18n – locale completeness (B-I18N-01 to B-I18N-03)", () => {
   }
 
   it("messages.json files do not contain unknown extra keys beyond the English baseline", () => {
-    // Extra keys in non-en locales are allowed (they may have locale-specific
-    // additions), but this check documents any drift for review.
     for (const locale of LOCALES.filter((l) => l !== "en")) {
       const localeKeys = loadKeys(locale);
       const extra = [...localeKeys].filter((key) => !enKeys.has(key));
-      // This is informational only — the test passes but documents extras.
-      if (extra.length > 0) {
-        console.info(
-          `${locale} has additional keys not in en: ${extra.join(", ")}`,
-        );
-      }
+      expect(
+        extra,
+        `${locale} has keys not present in en: ${extra.join(", ")}`,
+      ).toHaveLength(0);
     }
   });
 });

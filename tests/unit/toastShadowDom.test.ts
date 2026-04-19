@@ -7,7 +7,7 @@
 //      in document.head (style encapsulation).
 //   3. A page-level CSS rule targeting .copylink-dev-toast does not appear
 //      inside the shadow DOM (cascade isolation).
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { showToastCore } from "../../src/shared/ui/toast";
 
 /**
@@ -26,9 +26,14 @@ const getHost = (): HTMLElement => {
 describe("showToastCore – Shadow DOM isolation (B-TOAST-04)", () => {
   beforeEach(() => {
     document.body.innerHTML = "";
+    // Use fake timers so the long-lived setTimeout inside showToastCore
+    // does not create real Node.js timers that keep the event loop open.
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
+    vi.clearAllTimers();
+    vi.useRealTimers();
     document.body.innerHTML = "";
   });
 

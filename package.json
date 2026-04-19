@@ -20,9 +20,13 @@
     "lint": "oxlint --type-aware",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check"
+    "fmt:check": "oxfmt --check",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
+    "test": "pnpm build && playwright test",
+    "test:headed": "pnpm build && playwright test --headed"
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@types/chrome": "^0.1.39",
     "@types/node": "^25.5.2",
     "oxfmt": "^0.43.0",

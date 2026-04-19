@@ -26,21 +26,21 @@
 
 ### 1.3 サイト別タイトル抽出 & 絵文字検出
 
-| ID        | サイト               | 絵文字                | タイトル抽出方法                                  |
-| --------- | -------------------- | --------------------- | ------------------------------------------------- |
-| B-SITE-01 | Google Docs          | `:google_docs:`       | `input#docs-title-widget` から取得                |
-| B-SITE-02 | Google Sheets        | `:google_sheets:`     | `document.title` から取得                         |
-| B-SITE-03 | Google Slides        | `:google_slides:`     | `document.title` から取得                         |
-| B-SITE-04 | Google Drive         | `:google_drive_2:`    | `document.title` から " - Google Drive" を除去    |
-| B-SITE-05 | GitHub Repos         | `:github:`            | h1 から repo/owner を抽出                         |
-| B-SITE-06 | GitHub Pull Requests | `:open_pull_request:` | PR ID + タイトルを `#番号 タイトル` 形式で抽出    |
-| B-SITE-07 | GitHub Issues        | `:open_issue:`        | Issue ID + タイトルを `#番号 タイトル` 形式で抽出 |
-| B-SITE-08 | Jira Issues          | `:jira:`              | Issue ID + タイトルを `ID タイトル` 形式で抽出    |
-| B-SITE-09 | Asana Tasks          | `:asana:`             | `TaskPrintView` の `aria-label` から取得          |
-| B-SITE-10 | Backlog Issues       | `:backlog:`           | `#summary .title-group__title-text` から取得      |
-| B-SITE-11 | Redmine Issues       | `:redmine_ticket:`    | `Feature #番号: タイトル` 形式で h2/h3 から抽出   |
-| B-SITE-12 | ReDoc (Swagger)      | `:swagger:`           | アクティブラベルの2番目の span から取得           |
-| B-SITE-13 | 未登録サイト         | （なし）              | `document.title` をそのまま使用                   |
+| ID        | サイト               | 絵文字                | タイトル抽出方法                                   |
+| --------- | -------------------- | --------------------- | -------------------------------------------------- |
+| B-SITE-01 | Google Docs          | `:google_docs:`       | `input#docs-title-widget` から取得                 |
+| B-SITE-02 | Google Sheets        | `:google_sheets:`     | `document.title` から取得                          |
+| B-SITE-03 | Google Slides        | `:google_slides:`     | `document.title` から取得                          |
+| B-SITE-04 | Google Drive         | `:google_drive_2:`    | `document.title` から " - Google Drive" を除去     |
+| B-SITE-05 | GitHub Repos         | `:github:`            | h1 から repo/owner を抽出                          |
+| B-SITE-06 | GitHub Pull Requests | `:open_pull_request:` | PR ID + タイトルを `#番号 タイトル` 形式で抽出     |
+| B-SITE-07 | GitHub Issues        | `:open_issue:`        | Issue ID + タイトルを `#番号 タイトル` 形式で抽出  |
+| B-SITE-08 | Jira Issues          | `:jira:`              | Issue ID + タイトルを `ID タイトル` 形式で抽出     |
+| B-SITE-09 | Asana Tasks          | `:asana:`             | `TaskPrintView` の `aria-label` から取得           |
+| B-SITE-10 | Backlog Issues       | `:backlog:`           | `#summary .title-group__title-text` から取得       |
+| B-SITE-11 | Redmine Issues       | `:redmine_ticket:`    | `トラッカー #番号: タイトル` 形式で h2/h3 から抽出 |
+| B-SITE-12 | ReDoc (Swagger)      | `:swagger:`           | アクティブラベルの2番目の span から取得            |
+| B-SITE-13 | 未登録サイト         | （なし）              | `document.title` をそのまま使用                    |
 
 ### 1.4 カスタムWebサイト設定
 
@@ -203,22 +203,3 @@
 | B-CS-01                  | 重複注入防止                         | ✅   | `unit/content.test.ts`: `does NOT re-register the listener when the script is injected a second time`        |
 | B-CS-02                  | Chrome 動的注入                      | ⚠️   | 全 E2E テストで暗黙的に動作を確認                                                                            |
 | B-CS-03                  | Firefox 事前注入                     | ❌   | Playwright は Firefox 拡張のテストをサポートしていないため未対応                                             |
-
-### カバレッジ統計
-
-| カテゴリ             | 総数   | ✅ テスト済み | ⚠️ 暗黙的 | ❌ 未テスト |
-| -------------------- | ------ | ------------- | --------- | ----------- |
-| コアコマンド         | 4      | 4             | 0         | 0           |
-| リンクフォーマット   | 4      | 4             | 0         | 0           |
-| サイト別処理         | 13     | 13            | 0         | 0           |
-| カスタムWebサイト    | 3      | 3             | 0         | 0           |
-| ポップアップ設定     | 4      | 4             | 0         | 0           |
-| クリップボード       | 5      | 5             | 0         | 0           |
-| Google Sheets 範囲   | 5      | 5             | 0         | 0           |
-| トースト通知         | 4      | 4             | 0         | 0           |
-| 国際化               | 4      | 4             | 0         | 0           |
-| エラーハンドリング   | 5      | 5             | 0         | 0           |
-| コンテントスクリプト | 3      | 1             | 1         | 1           |
-| **合計**             | **54** | **52**        | **1**     | **1**       |
-
-**全体カバレッジ率: 96.3%**（52/54 完全テスト済み）

@@ -38,7 +38,7 @@
 | B-SITE-08 | Jira Issues          | `:jira:`              | Formats as `ID title`                          |
 | B-SITE-09 | Asana Tasks          | `:asana:`             | From `aria-label` of `TaskPrintView`           |
 | B-SITE-10 | Backlog Issues       | `:backlog:`           | From `#summary .title-group__title-text`       |
-| B-SITE-11 | Redmine Issues       | `:redmine_ticket:`    | Extracts `Feature #number: title` from h2/h3   |
+| B-SITE-11 | Redmine Issues       | `:redmine_ticket:`    | Extracts `Tracker #number: title` from h2/h3   |
 | B-SITE-12 | ReDoc (Swagger)      | `:swagger:`           | From the second span of the active label       |
 | B-SITE-13 | Unregistered sites   | (none)                | Uses `document.title` as-is                    |
 
@@ -203,22 +203,3 @@
 | B-CS-01                      | Duplicate-injection guard           | ✅     | `unit/content.test.ts`: `does NOT re-register the listener when the script is injected a second time`        |
 | B-CS-02                      | Chrome dynamic injection            | ⚠️     | Implicitly verified by all E2E tests                                                                         |
 | B-CS-03                      | Firefox pre-injected script         | ❌     | Playwright does not support testing Firefox extensions                                                       |
-
-### Coverage Statistics
-
-| Category             | Total  | ✅ Tested | ⚠️ Implicit | ❌ Not tested |
-| -------------------- | ------ | --------- | ----------- | ------------- |
-| Core Commands        | 4      | 4         | 0           | 0             |
-| Link Formats         | 4      | 4         | 0           | 0             |
-| Site-specific        | 13     | 13        | 0           | 0             |
-| Custom Websites      | 3      | 3         | 0           | 0             |
-| Popup Settings       | 4      | 4         | 0           | 0             |
-| Clipboard            | 5      | 5         | 0           | 0             |
-| Google Sheets Range  | 5      | 5         | 0           | 0             |
-| Toast Notifications  | 4      | 4         | 0           | 0             |
-| Internationalization | 4      | 4         | 0           | 0             |
-| Error Handling       | 5      | 5         | 0           | 0             |
-| Content Scripts      | 3      | 1         | 1           | 1             |
-| **Total**            | **54** | **52**    | **1**       | **1**         |
-
-**Overall coverage: 96.3%** (52 / 54 fully tested)

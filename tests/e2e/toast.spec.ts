@@ -1,4 +1,39 @@
 import { expect, test, triggerCommand } from "./fixtures";
+import { fileURLToPath } from "url";
+import { join } from "path";
+import { readFileSync } from "fs";
+
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
+
+/** All supported locales' `copyGoogleSheetsRangeFailure` messages. */
+const sheetsRangeFailureMessages = (["en", "ja", "zh_CN"] as const).map(
+  (locale) => {
+    const raw = readFileSync(
+      join(__dirname, "../../public/_locales", locale, "messages.json"),
+      "utf-8",
+    );
+    const parsed: unknown = JSON.parse(raw);
+    if (
+      typeof parsed !== "object" ||
+      parsed === null ||
+      !("copyGoogleSheetsRangeFailure" in parsed)
+    ) {
+      throw new Error(`Missing copyGoogleSheetsRangeFailure in ${locale}`);
+    }
+    const entry = (parsed as Record<string, unknown>)
+      .copyGoogleSheetsRangeFailure;
+    if (typeof entry !== "object" || entry === null || !("message" in entry)) {
+      throw new Error(
+        `Invalid copyGoogleSheetsRangeFailure shape in ${locale}`,
+      );
+    }
+    const messageValue = (entry as Record<string, unknown>).message;
+    if (typeof messageValue !== "string") {
+      throw new Error(`message is not a string in ${locale}`);
+    }
+    return messageValue;
+  },
+);
 
 test.describe("Toast notification", () => {
   test("toast appears after copy-link and disappears after ~3s", async ({
@@ -106,7 +141,7 @@ test.describe("Toast notification", () => {
       return null;
     });
     expect(toastText).not.toBeNull();
-    expect(toastText).toContain("Failed");
+    expect(sheetsRangeFailureMessages).toContain(toastText);
 
     // Failure toast should also disappear automatically
     await page.waitForFunction(

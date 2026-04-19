@@ -21,7 +21,7 @@
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
-    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.test.json",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tests/tsconfig.json",
     "test": "pnpm build && playwright test",
     "test:headed": "pnpm build && playwright test --headed"
   },

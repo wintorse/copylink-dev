@@ -86,7 +86,7 @@
   "customWebsites": {
     "message": "Custom Websites and Emojis"
   },
-  "customWebsiteDescription": {
+  "customWebsitesDescription": {
     "message": "Add custom websites to use emojis. You can use regular expressions to match URLs."
   },
   "customWebsite1": {

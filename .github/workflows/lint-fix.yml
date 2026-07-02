@@ -16,7 +16,7 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: pnpm/action-setup@v6.0.8
+      - uses: pnpm/action-setup@v6.0.9
         with:
           cache: true
 

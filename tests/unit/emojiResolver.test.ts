@@ -51,6 +51,37 @@ describe("resolveEmojiName – built-in site detection", () => {
     ).toBe(":open_pull_request:");
   });
 
+  it("uses GitHub PR status emoji when configured", () => {
+    expect(
+      resolveEmojiName(
+        ctx("https://github.com/owner/repo/pull/1", {
+          githubPullRequestStatus: "merged",
+        }),
+        {
+          emojiNames: {
+            githubPullRequest: ":pull_request:",
+            githubMergedPullRequest: ":merged_pull_request:",
+          },
+        },
+      ),
+    ).toBe(":merged_pull_request:");
+  });
+
+  it("falls back to the default GitHub PR emoji when status emoji is not configured", () => {
+    expect(
+      resolveEmojiName(
+        ctx("https://github.com/owner/repo/pull/1", {
+          githubPullRequestStatus: "closed",
+        }),
+        {
+          emojiNames: {
+            githubPullRequest: ":pull_request:",
+          },
+        },
+      ),
+    ).toBe(":pull_request:");
+  });
+
   it("returns :open_issue: for GitHub Issue", () => {
     expect(
       resolveEmojiName(ctx("https://github.com/owner/repo/issues/1"), {}),

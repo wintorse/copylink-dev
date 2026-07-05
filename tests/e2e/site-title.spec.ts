@@ -31,6 +31,37 @@ test.describe("Site-specific title formatting and emoji", () => {
     expect(html).toContain(":open_pull_request:");
   });
 
+  test("GitHub Pull Request: status-specific emoji is used on a merged PR", async ({
+    sw,
+    context,
+  }) => {
+    await sw.evaluate(async () => {
+      await chrome.storage.local.set({
+        emojiNames: {
+          githubPullRequest: ":pull_request:",
+          githubMergedPullRequest: ":merged_pull_request:",
+        },
+      });
+    });
+
+    const page = await context.newPage();
+    await page.goto("https://github.com/wintorse/copylink-dev/pull/60", {
+      waitUntil: "domcontentloaded",
+    });
+    await page.waitForSelector("header [data-status]", { timeout: 15_000 });
+
+    await triggerCommand(sw, page, "copy-link-for-slack");
+
+    const html = await readClipboardHtml(page);
+    expect(html).not.toBeNull();
+    expect(html).toContain(":merged_pull_request:");
+    expect(html).not.toContain(":pull_request:");
+
+    await sw.evaluate(async () => {
+      await chrome.storage.local.remove("emojiNames");
+    });
+  });
+
   test("GitHub Issue: title is #<number> <text>", async ({ sw, context }) => {
     const page = await context.newPage();
     await page.goto("https://github.com/wintorse/copylink-dev/issues/54", {

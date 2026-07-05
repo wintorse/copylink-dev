@@ -65,6 +65,18 @@
   "githubPullRequest": {
     "message": "GitHub Pull Request"
   },
+  "githubDraftPullRequest": {
+    "message": "GitHub Draft Pull Request"
+  },
+  "githubOpenPullRequest": {
+    "message": "GitHub Open Pull Request"
+  },
+  "githubMergedPullRequest": {
+    "message": "GitHub Merged Pull Request"
+  },
+  "githubClosedPullRequest": {
+    "message": "GitHub Closed Pull Request"
+  },
   "githubIssue": {
     "message": "GitHub Issue"
   },

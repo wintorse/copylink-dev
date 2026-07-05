@@ -3,7 +3,9 @@ import {
   CUSTOM_REGEX_KEYS,
   DEFAULT_EMOJI_NAMES,
 } from "./constants";
-import type { CustomRegexes, EmojiNameRecord } from "../types/types";
+import type { CustomRegexes, EmojiKeys, EmojiNameRecord } from "../types/types";
+
+export type GitHubPullRequestStatus = "draft" | "open" | "merged" | "closed";
 
 export type PageContext = {
   href: string;
@@ -11,6 +13,7 @@ export type PageContext = {
   pathname: string;
   documentBodyId?: string;
   documentTitle?: string;
+  githubPullRequestStatus?: GitHubPullRequestStatus;
   hasRedmineFooter?: boolean;
   hasRedocWrap?: boolean;
 };
@@ -26,6 +29,13 @@ const getEmojiGetter =
   (key: keyof EmojiNameRecord) =>
     emojiNames[key] ?? defaults[key];
 
+const githubPullRequestStatusEmojiKeys = {
+  draft: "githubDraftPullRequest",
+  open: "githubOpenPullRequest",
+  merged: "githubMergedPullRequest",
+  closed: "githubClosedPullRequest",
+} as const satisfies Record<GitHubPullRequestStatus, EmojiKeys>;
+
 export const resolveEmojiName = (
   ctx: PageContext,
   deps: EmojiResolverDeps,
@@ -34,6 +44,19 @@ export const resolveEmojiName = (
   const customRegexes = deps.customRegexes ?? {};
   const defaults = deps.defaults ?? DEFAULT_EMOJI_NAMES;
   const getEmoji = getEmojiGetter(emojiNames, defaults);
+  const getGitHubPullRequestEmoji = (): string => {
+    const status = ctx.githubPullRequestStatus;
+    if (status === undefined) {
+      return getEmoji("githubPullRequest");
+    }
+
+    const statusEmoji = emojiNames[githubPullRequestStatusEmojiKeys[status]];
+    if (statusEmoji !== undefined && statusEmoji.length > 0) {
+      return statusEmoji;
+    }
+
+    return getEmoji("githubPullRequest");
+  };
 
   for (const [index, regexKey] of CUSTOM_REGEX_KEYS.entries()) {
     const websiteKey = CUSTOM_EMOJI_KEYS[index];
@@ -72,7 +95,7 @@ export const resolveEmojiName = (
   if (ctx.hostname === "github.com") {
     switch (pathParts[3]) {
       case "pull":
-        return getEmoji("githubPullRequest");
+        return getGitHubPullRequestEmoji();
       case "issues":
         return getEmoji("githubIssue");
       default:

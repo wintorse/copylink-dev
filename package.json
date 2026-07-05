@@ -27,7 +27,7 @@
     "test:unit": "vitest run"
   },
   "devDependencies": {
-    "@playwright/test": "^1.59.1",
+    "@playwright/test": "^1.61.1",
     "@types/chrome": "^0.1.40",
     "@types/node": "^25.6.0",
     "happy-dom": "^20.9.0",

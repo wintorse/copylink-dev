@@ -19,6 +19,10 @@ export const EMOJI_KEYS = [
   "googleDrive",
   "github",
   "githubPullRequest",
+  "githubDraftPullRequest",
+  "githubOpenPullRequest",
+  "githubMergedPullRequest",
+  "githubClosedPullRequest",
   "githubIssue",
   "jiraIssue",
   "asanaTask",
@@ -48,6 +52,13 @@ export const CUSTOM_REGEX_KEYS = [
   "customRegex5",
 ] as const;
 
+export const GITHUB_PULL_REQUEST_STATUS_EMOJI_KEYS = [
+  "githubDraftPullRequest",
+  "githubOpenPullRequest",
+  "githubMergedPullRequest",
+  "githubClosedPullRequest",
+] as const satisfies Array<EmojiKeys>;
+
 export const DEFAULT_EMOJI_NAMES: EmojiNameRecord = {
   googleSheets: ":google_sheets:",
   googleDocs: ":google_docs:",
@@ -55,6 +66,10 @@ export const DEFAULT_EMOJI_NAMES: EmojiNameRecord = {
   googleDrive: ":google_drive_2:",
   github: ":github:",
   githubPullRequest: ":open_pull_request:",
+  githubDraftPullRequest: ":open_pull_request:",
+  githubOpenPullRequest: ":open_pull_request:",
+  githubMergedPullRequest: ":open_pull_request:",
+  githubClosedPullRequest: ":open_pull_request:",
   githubIssue: ":open_issue:",
   jiraIssue: ":jira:",
   asanaTask: ":asana:",
@@ -75,6 +90,10 @@ const EMOJI_ELEMENT_RECORD: EmojiElementRecord = {
   googleDrive: "emojiName-google-drive",
   github: "emojiName-github",
   githubPullRequest: "emojiName-github-pull-request",
+  githubDraftPullRequest: "emojiName-github-draft-pull-request",
+  githubOpenPullRequest: "emojiName-github-open-pull-request",
+  githubMergedPullRequest: "emojiName-github-merged-pull-request",
+  githubClosedPullRequest: "emojiName-github-closed-pull-request",
   githubIssue: "emojiName-github-issue",
   jiraIssue: "emojiName-jira-issue",
   asanaTask: "emojiName-asana-task",

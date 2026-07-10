@@ -4,8 +4,7 @@ import {
   DEFAULT_EMOJI_NAMES,
 } from "./constants";
 import type { CustomRegexes, EmojiKeys, EmojiNameRecord } from "../types/types";
-
-export type GitHubPullRequestStatus = "draft" | "open" | "merged" | "closed";
+import type { GitHubPullRequestStatus } from "./githubPullRequestStatus";
 
 export type PageContext = {
   href: string;

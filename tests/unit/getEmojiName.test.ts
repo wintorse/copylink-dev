@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { beforeEach, describe, expect, it } from "vitest";
-import { getGitHubPullRequestStatus } from "../../src/scripts/getEmojiName";
+import { getGitHubPullRequestStatus } from "../../src/shared/githubPullRequestStatus";
 
 describe("getGitHubPullRequestStatus", () => {
   beforeEach(() => {

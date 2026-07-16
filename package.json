@@ -29,7 +29,7 @@
   "devDependencies": {
     "@playwright/test": "^1.61.1",
     "@types/chrome": "^0.2.2",
-    "@types/node": "^26.1.0",
+    "@types/node": "^26.1.1",
     "happy-dom": "^20.10.6",
     "oxfmt": "^0.57.0",
     "oxlint": "^1.72.0",

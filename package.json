@@ -30,7 +30,7 @@
     "@playwright/test": "^1.61.1",
     "@types/chrome": "^0.2.2",
     "@types/node": "^26.1.0",
-    "happy-dom": "^20.10.6",
+    "happy-dom": "^20.11.0",
     "oxfmt": "^0.57.0",
     "oxlint": "^1.72.0",
     "oxlint-tsgolint": "^0.24.0",

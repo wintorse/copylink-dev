@@ -14,7 +14,7 @@ const getGitHubTitle = (): string => {
   const titleElement =
     document.querySelector<HTMLElement>("h1 > *:first-child");
   const title = titleElement?.textContent?.trim();
-  const idMatch = window.location.pathname.match(/\/pull\/(\d+)/);
+  const idMatch = window.location.pathname.match(/\/(?:pull|issues)\/(\d+)/);
   const id = idMatch ? `#${idMatch[1]}` : undefined;
   return title !== undefined && title !== "" && id !== undefined
     ? `${id} ${title}`

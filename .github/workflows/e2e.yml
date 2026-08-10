@@ -1,6 +1,10 @@
 name: E2E Test
 
 on:
+  pull_request:
+    branches:
+      - main
+
   schedule:
     # every day 3:00 JST
     - cron: "0 3 * * *"

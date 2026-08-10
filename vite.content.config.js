@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
       emptyOutDir: false,
       rolldownOptions: {
         input: {
-          content: resolve(__dirname, "src/scripts/content.ts"),
+          content: resolve(import.meta.dirname, "src/scripts/content.ts"),
         },
         output: {
           format: "iife",

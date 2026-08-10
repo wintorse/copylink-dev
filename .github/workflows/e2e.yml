@@ -2,8 +2,8 @@ name: E2E Test
 
 on:
   schedule:
-    # 奇数日の 3:00 JST
-    - cron: "0 3 1-31/2 * *"
+    # every day 3:00 JST
+    - cron: "0 3 * * *"
       timezone: "Asia/Tokyo"
 
   workflow_dispatch:

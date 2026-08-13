@@ -16,6 +16,7 @@ import {
   buildEmojiNames,
   getInitialEmojiValues,
 } from "../shared/popup/emojiSettings";
+import { copyToClipboardShared } from "../shared/clipboard/copyToClipboardShared";
 
 type EmojiNamesStorageData = {
   emojiNames?: Partial<EmojiNameRecord>;
@@ -27,6 +28,11 @@ type CustomRegexesStorageData = {
 
 type LinkFormatStorageData = {
   [key: string]: unknown;
+};
+
+type ImportData = {
+  emojiNames?: Partial<EmojiNameRecord>;
+  customRegexes?: Partial<CustomRegexes>;
 };
 
 const updateLinkFormat = (format: LinkFormat) => {
@@ -80,9 +86,191 @@ const updateCustomRegexes = () => {
   });
 };
 
+// Export emoji names and custom regexes to clipboard
+const exportEmojiNames = async () => {
+  const data = await new Promise<{
+    emojiNames?: Partial<EmojiNameRecord>;
+    copylinkdevCustomRegexes?: Partial<CustomRegexes>;
+  }>((resolve) => {
+    chrome.storage.local.get(
+      ["emojiNames", "copylinkdevCustomRegexes"],
+      (result) => {
+        if (chrome.runtime.lastError) {
+          console.error(chrome.runtime.lastError);
+          throw new Error("Failed to retrieve data from storage");
+        }
+        resolve(
+          result as {
+            emojiNames?: Partial<EmojiNameRecord>;
+            copylinkdevCustomRegexes?: Partial<CustomRegexes>;
+          },
+        );
+      },
+    );
+  });
+
+  const exportData = {
+    emojiNames: data.emojiNames ?? {},
+    customRegexes: data.copylinkdevCustomRegexes ?? {},
+  };
+
+  const json = JSON.stringify(exportData, null, 2);
+  const result = await copyToClipboardShared(json);
+  return result;
+};
+
+const isImportData = (value: unknown): value is ImportData =>
+  typeof value === "object" &&
+  value !== null &&
+  ("emojiNames" in value || "customRegexes" in value);
+
+const formatImportedData = (data: ImportData): ImportData => {
+  const formattedData: ImportData = {};
+  if (data.emojiNames) {
+    formattedData.emojiNames = buildEmojiNames(data.emojiNames);
+  }
+  if (data.customRegexes) {
+    formattedData.customRegexes = buildCustomRegexes(data.customRegexes);
+  }
+  return formattedData;
+};
+
+const saveImportedData = (data: ImportData) => {
+  if (data.emojiNames) {
+    // allow empty object to clear emoji names
+    chrome.storage.local.set({ emojiNames: data.emojiNames }, () => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError);
+      }
+    });
+  }
+
+  if (data.customRegexes) {
+    // allow empty object to clear custom regexes
+    chrome.storage.local.set(
+      { copylinkdevCustomRegexes: data.customRegexes },
+      () => {
+        if (chrome.runtime.lastError) {
+          console.error(chrome.runtime.lastError);
+        }
+      },
+    );
+  }
+};
+
+const refreshEmojiInputs = (emojiNames?: Partial<EmojiNameRecord>) => {
+  const emojiElements = getEmojiElements();
+  const values = getInitialEmojiValues(emojiNames);
+  for (const key of EMOJI_KEYS) {
+    const element = document.getElementById(emojiElements[key]);
+    if (element instanceof HTMLInputElement) {
+      element.value = values[key];
+    }
+  }
+};
+
+const refreshCustomRegexInputs = (customRegexes?: Partial<CustomRegexes>) => {
+  const customRegexElements = getCustomRegexElements();
+  for (const key of CUSTOM_REGEX_KEYS) {
+    const element = document.getElementById(customRegexElements[key]);
+    if (element instanceof HTMLInputElement) {
+      element.value = customRegexes?.[key] ?? "";
+    }
+  }
+};
+
+const refreshImportedInputs = (data: ImportData) => {
+  if (data.emojiNames) {
+    refreshEmojiInputs(data.emojiNames);
+  }
+  if (data.customRegexes) {
+    refreshCustomRegexInputs(data.customRegexes);
+  }
+};
+
+const importData = (importedText: string) => {
+  const parsedData = JSON.parse(importedText);
+  if (!isImportData(parsedData)) {
+    throw new Error("Invalid import data format");
+  }
+
+  const formattedData = formatImportedData(parsedData);
+  saveImportedData(formattedData);
+  refreshImportedInputs(formattedData);
+};
+
+const handleImportConfirm = (importTextarea: HTMLTextAreaElement) => {
+  const importedText = importTextarea.value.trim();
+  if (!importedText) {
+    return;
+  }
+
+  const importErrorMessage = document.getElementById("importErrorMessage");
+  try {
+    importData(importedText);
+    if (importErrorMessage) {
+      importErrorMessage.style.display = "none";
+    }
+  } catch {
+    if (importErrorMessage) {
+      importErrorMessage.style.display = "block";
+    }
+  }
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   // i18n
   const elements = document.querySelectorAll("[data-i18n]");
+
+  // Export button handler
+  const exportButton = document.getElementById("exportButton");
+  const exportMessage = document.getElementById("exportMessage");
+  if (exportButton && exportMessage) {
+    exportButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      exportEmojiNames()
+        .then((result) => {
+          if (result.success === false) {
+            console.error("Error exporting emoji names:", result.error);
+            exportMessage.textContent = chrome.i18n.getMessage("exportFailure");
+            return;
+          }
+          exportMessage.textContent = chrome.i18n.getMessage("exportSuccess");
+          setTimeout(() => {
+            exportMessage.textContent = "";
+          }, 8000);
+        })
+        .catch((error) => {
+          console.error("Error exporting emoji names:", error);
+          exportMessage.textContent = chrome.i18n.getMessage("exportFailure");
+        });
+    });
+  }
+
+  // Import button handler - show import UI
+  const importButton = document.getElementById("importButton");
+
+  if (importButton) {
+    importButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      const importGroup = document.getElementById("importGroup");
+      if (importGroup) {
+        importGroup.style.display = "inline-block";
+      }
+    });
+  }
+
+  // Import button handler - process import
+  const importConfirmButton = document.getElementById("importConfirmButton");
+  const importTextarea = document.getElementById("importTextarea");
+
+  if (importConfirmButton && importTextarea instanceof HTMLTextAreaElement) {
+    importConfirmButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      handleImportConfirm(importTextarea);
+    });
+  }
+
   elements.forEach((el) => {
     const messageKey = el.getAttribute("data-i18n");
     el.textContent =
@@ -95,12 +283,11 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error(chrome.runtime.lastError);
       return;
     }
+    refreshEmojiInputs(data.emojiNames);
     const emojiElements = getEmojiElements();
-    const values = getInitialEmojiValues(data.emojiNames);
     for (const key of EMOJI_KEYS) {
       const element = document.getElementById(emojiElements[key]);
       if (element instanceof HTMLInputElement) {
-        element.value = values[key];
         element.addEventListener("input", updateEmojiNames);
       }
     }
@@ -113,12 +300,11 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error(chrome.runtime.lastError);
         return;
       }
+      refreshCustomRegexInputs(data.copylinkdevCustomRegexes);
       const customRegexElements = getCustomRegexElements();
       for (const key of CUSTOM_REGEX_KEYS) {
         const element = document.getElementById(customRegexElements[key]);
         if (element instanceof HTMLInputElement) {
-          element.value = data.copylinkdevCustomRegexes?.[key] ?? "";
-
           element.addEventListener("input", updateCustomRegexes);
         }
       }

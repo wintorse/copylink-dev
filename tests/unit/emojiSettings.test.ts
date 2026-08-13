@@ -1,4 +1,5 @@
 import {
+  buildCustomRegexes,
   buildEmojiNames,
   getInitialEmojiValues,
 } from "../../src/shared/popup/emojiSettings";
@@ -42,5 +43,27 @@ describe("emojiSettings – GitHub PR status fallback", () => {
 
     expect(values.githubMergedPullRequest).toBe(":merged_pull_request:");
     expect(values.githubDraftPullRequest).toBe(":pull_request:");
+  });
+});
+
+describe("buildCustomRegexes", () => {
+  it("preserves valid custom regex values", () => {
+    expect(
+      buildCustomRegexes({
+        customRegex1: "example\\.com/(foo|bar)",
+        customRegex2: "",
+      }),
+    ).toEqual({
+      customRegex1: "example\\.com/(foo|bar)",
+      customRegex2: "",
+    });
+  });
+
+  it("throws when a custom regex is invalid", () => {
+    expect(() =>
+      buildCustomRegexes({
+        customRegex1: "[",
+      }),
+    ).toThrow();
   });
 });

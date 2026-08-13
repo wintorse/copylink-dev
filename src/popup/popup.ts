@@ -97,8 +97,7 @@ const exportEmojiNames = async () => {
       (result) => {
         if (chrome.runtime.lastError) {
           console.error(chrome.runtime.lastError);
-          resolve({});
-          return;
+          throw new Error("Failed to retrieve data from storage");
         }
         resolve(
           result as {

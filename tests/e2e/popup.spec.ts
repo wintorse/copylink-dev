@@ -1,4 +1,10 @@
-import { expect, readClipboardHtml, test, triggerCommand } from "./fixtures";
+import {
+  expect,
+  readClipboardHtml,
+  readClipboardText,
+  test,
+  triggerCommand,
+} from "./fixtures";
 
 test.describe("Popup settings page", () => {
   test("selecting a link format radio persists to storage", async ({
@@ -34,6 +40,93 @@ test.describe("Popup settings page", () => {
       });
     });
     expect(stored2).toBe("plainUrl");
+  });
+
+  test("exports emoji names and custom regexes to the clipboard", async ({
+    sw,
+    extensionId,
+    context,
+  }) => {
+    const emojiNames = {
+      github: ":exported_github:",
+      customWebsite1: ":exported_custom:",
+    };
+    const customRegexes = {
+      customRegex1: "export\\.example\\.com",
+    };
+    await sw.evaluate(async ({ emojiNames, customRegexes }) => {
+      await chrome.storage.local.set({
+        emojiNames,
+        copylinkdevCustomRegexes: customRegexes,
+      });
+    }, { emojiNames, customRegexes });
+
+    const popupPage = await context.newPage();
+    await popupPage.goto(`chrome-extension://${extensionId}/popup.html`, {
+      waitUntil: "domcontentloaded",
+    });
+
+    await popupPage.click("#exportButton");
+    await expect(popupPage.locator("#exportMessage")).toHaveText(
+      "Emoji names and custom regexes exported to clipboard",
+    );
+
+    const exported = JSON.parse(await readClipboardText(popupPage));
+    expect(exported).toEqual({ emojiNames, customRegexes });
+  });
+
+  test("imports settings, saves them, and refreshes the form inputs", async ({
+    sw,
+    extensionId,
+    context,
+  }) => {
+    const importedSettings = {
+      emojiNames: {
+        github: ":imported_github:",
+        customWebsite1: ":imported_custom:",
+      },
+      customRegexes: {
+        customRegex1: "import\\.example\\.com",
+      },
+    };
+
+    const popupPage = await context.newPage();
+    await popupPage.goto(`chrome-extension://${extensionId}/popup.html`, {
+      waitUntil: "domcontentloaded",
+    });
+
+    await popupPage.click("#importButton");
+    await expect(popupPage.locator("#importGroup")).toBeVisible();
+    await popupPage.locator("#importTextarea").fill(
+      JSON.stringify(importedSettings),
+    );
+    await popupPage.click("#importConfirmButton");
+
+    await expect(popupPage.locator("#emojiName-github")).toHaveValue(
+      importedSettings.emojiNames.github,
+    );
+    await expect(popupPage.locator("#emojiName-custom-1")).toHaveValue(
+      importedSettings.emojiNames.customWebsite1,
+    );
+    await expect(popupPage.locator("#regex-custom-1")).toHaveValue(
+      importedSettings.customRegexes.customRegex1,
+    );
+
+    await expect
+      .poll(async () => {
+        return sw.evaluate(async () => {
+          return new Promise((resolve) => {
+            chrome.storage.local.get(
+              ["emojiNames", "copylinkdevCustomRegexes"],
+              (data) => resolve(data),
+            );
+          });
+        });
+      })
+      .toEqual({
+        emojiNames: importedSettings.emojiNames,
+        copylinkdevCustomRegexes: importedSettings.customRegexes,
+      });
   });
 
   test("changing an emoji name persists and is used in copy", async ({

@@ -70,8 +70,11 @@ test.describe("Popup settings page", () => {
     });
 
     await popupPage.click("#exportButton");
+    const exportSuccessMessage = await popupPage.evaluate(() =>
+      chrome.i18n.getMessage("exportSuccess"),
+    );
     await expect(popupPage.locator("#exportMessage")).toHaveText(
-      "Emoji names and custom regexes exported to clipboard",
+      exportSuccessMessage,
     );
 
     const exported = JSON.parse(await readClipboardText(popupPage));

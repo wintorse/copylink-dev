@@ -67,6 +67,8 @@
 | B-POPUP-02 | Configure up to 5 custom websites (regex + emoji)                        |
 | B-POPUP-03 | Select the Google Sheets range link format via radio buttons (4 options) |
 | B-POPUP-04 | All setting changes are saved to `chrome.storage.local` in real time     |
+| B-POPUP-05 | Export emoji names and custom regexes as JSON to the clipboard           |
+| B-POPUP-06 | Import JSON settings, save them, and refresh the form inputs             |
 
 ### 1.7 Clipboard Behavior
 
@@ -185,6 +187,8 @@
 | B-POPUP-02                   | Custom website configuration               | ✅     | `e2e/popup.spec.ts`: `custom website regex + emoji is applied for matching URLs`                              |
 | B-POPUP-03                   | Link format selection                      | ✅     | `e2e/popup.spec.ts`: `selecting a link format radio persists to storage`                                      |
 | B-POPUP-04                   | Real-time storage persistence              | ✅     | `e2e/popup.spec.ts`: storage verified in each test                                                            |
+| B-POPUP-05                   | Export settings                            | ✅     | `e2e/popup.spec.ts`: `exports emoji names and custom regexes to the clipboard`                                |
+| B-POPUP-06                   | Import settings                            | ✅     | `e2e/popup.spec.ts`: `imports settings, saves them, and refreshes the form inputs`                            |
 | **Clipboard**                |                                            |        |                                                                                                               |
 | B-CLIP-01                    | Clipboard API dual-format                  | ✅     | `e2e/core-commands.spec.ts`: both text and HTML verified                                                      |
 | B-CLIP-02                    | HTTP fallback                              | ✅     | `e2e/http-site.spec.ts`: three commands tested on an HTTP site                                                |

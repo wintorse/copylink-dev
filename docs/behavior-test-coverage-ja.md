@@ -61,12 +61,14 @@
 
 ### 1.6 ポップアップ設定
 
-| ID         | 機能                                                     |
-| ---------- | -------------------------------------------------------- |
-| B-POPUP-01 | 13個のビルトイン絵文字名の入力・変更                     |
-| B-POPUP-02 | 5つのカスタムWebサイト（正規表現 + 絵文字）の設定        |
-| B-POPUP-03 | Google Sheetsリンクフォーマットのラジオボタン選択（4種） |
-| B-POPUP-04 | 設定変更が `chrome.storage.local` にリアルタイム保存     |
+| ID         | 機能                                                               |
+| ---------- | ------------------------------------------------------------------ |
+| B-POPUP-01 | 13個のビルトイン絵文字名の入力・変更                               |
+| B-POPUP-02 | 5つのカスタムWebサイト（正規表現 + 絵文字）の設定                  |
+| B-POPUP-03 | Google Sheetsリンクフォーマットのラジオボタン選択（4種）           |
+| B-POPUP-04 | 設定変更が `chrome.storage.local` にリアルタイム保存               |
+| B-POPUP-05 | 絵文字名とカスタム正規表現をJSONとしてクリップボードへエクスポート |
+| B-POPUP-06 | JSON設定をインポートし、保存してフォームへ反映                     |
 
 ### 1.7 クリップボード動作
 
@@ -185,6 +187,8 @@
 | B-POPUP-02                 | カスタムWebサイト設定                    | ✅   | `e2e/popup.spec.ts`: `custom website regex + emoji is applied for matching URLs`                              |
 | B-POPUP-03                 | リンクフォーマット選択                   | ✅   | `e2e/popup.spec.ts`: `selecting a link format radio persists to storage`                                      |
 | B-POPUP-04                 | リアルタイムストレージ保存               | ✅   | `e2e/popup.spec.ts`: 各テストでストレージ確認                                                                 |
+| B-POPUP-05                 | 設定のエクスポート                       | ✅   | `e2e/popup.spec.ts`: `exports emoji names and custom regexes to the clipboard`                                |
+| B-POPUP-06                 | 設定のインポート                         | ✅   | `e2e/popup.spec.ts`: `imports settings, saves them, and refreshes the form inputs`                            |
 | **クリップボード**         |                                          |      |                                                                                                               |
 | B-CLIP-01                  | Clipboard API デュアルフォーマット       | ✅   | `e2e/core-commands.spec.ts`: text + HTML の両方を検証                                                         |
 | B-CLIP-02                  | HTTP フォールバック                      | ✅   | `e2e/http-site.spec.ts`: HTTP サイトでの3コマンドテスト                                                       |

@@ -1,5 +1,6 @@
 import {
   expect,
+  gotoWithRetry,
   readClipboardHtml,
   readClipboardText,
   test,
@@ -26,7 +27,10 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
     context,
   }) => {
     const httpPage = await context.newPage();
-    await httpPage.goto(HTTP_URL, { waitUntil: "domcontentloaded" });
+    await gotoWithRetry(httpPage, HTTP_URL, {
+      waitUntil: "domcontentloaded",
+      timeout: 10_000,
+    });
 
     // Open an HTTPS page to read clipboard, since navigator.clipboard
     // is unavailable in the HTTP page context.
@@ -49,7 +53,10 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
 
   test("copy-title copies plain text title", async ({ sw, context }) => {
     const httpPage = await context.newPage();
-    await httpPage.goto(HTTP_URL, { waitUntil: "domcontentloaded" });
+    await gotoWithRetry(httpPage, HTTP_URL, {
+      waitUntil: "domcontentloaded",
+      timeout: 10_000,
+    });
 
     const clipboardPage = await context.newPage();
     await clipboardPage.goto("https://example.com", {
@@ -67,7 +74,10 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
     context,
   }) => {
     const httpPage = await context.newPage();
-    await httpPage.goto(HTTP_URL, { waitUntil: "domcontentloaded" });
+    await gotoWithRetry(httpPage, HTTP_URL, {
+      waitUntil: "domcontentloaded",
+      timeout: 10_000,
+    });
 
     const clipboardPage = await context.newPage();
     await clipboardPage.goto("https://example.com", {

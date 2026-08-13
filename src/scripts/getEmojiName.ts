@@ -16,7 +16,7 @@ const buildPageContext = (): PageContext => ({
   documentTitle: document.title,
   githubPullRequestStatus: getGitHubPullRequestStatus(),
   hasRedmineFooter:
-    document.querySelector("#footer a")?.textContent?.includes("Redmine") ??
+    document.querySelector("#footer")?.textContent?.includes("Redmine") ??
     false,
   hasRedocWrap: !!document.querySelector(".redoc-wrap"),
 });

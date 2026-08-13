@@ -44,8 +44,26 @@
   "slackEmojiSettings": {
     "message": "Slack Emoji Settings"
   },
-  "changeEmojiNames": {
-    "message": "Update emoji names"
+  "import": {
+    "message": "Import"
+  },
+  "export": {
+    "message": "Export"
+  },
+  "exportSuccess": {
+    "message": "Emoji names and custom regexes exported to clipboard"
+  },
+  "exportFailure": {
+    "message": "Failed to export emoji names and custom regexes"
+  },
+  "importJsonLabel": {
+    "message": "Import other user's settings"
+  },
+  "importConfirmButton": {
+    "message": "Overwrite and save settings"
+  },
+  "importFailure": {
+    "message": "Failed to import. Please check the format of the data."
   },
   "googleSheets": {
     "message": "Google Sheets"
@@ -66,16 +84,16 @@
     "message": "GitHub Pull Request"
   },
   "githubDraftPullRequest": {
-    "message": "GitHub Draft Pull Request"
+    "message": "GitHub Pull Request (Draft)"
   },
   "githubOpenPullRequest": {
-    "message": "GitHub Open Pull Request"
+    "message": "GitHub Pull Request (Open)"
   },
   "githubMergedPullRequest": {
-    "message": "GitHub Merged Pull Request"
+    "message": "GitHub Pull Request (Merged)"
   },
   "githubClosedPullRequest": {
-    "message": "GitHub Closed Pull Request"
+    "message": "GitHub Pull Request (Closed)"
   },
   "githubIssue": {
     "message": "GitHub Issue"

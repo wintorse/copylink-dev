@@ -17,7 +17,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     root: "src",
-    publicDir: resolve(__dirname, "public"),
+    publicDir: resolve(import.meta.dirname, "public"),
     build: {
       outDir: "../dist",
       emptyOutDir: true,
@@ -26,14 +26,17 @@ export default defineConfig(({ mode }) => {
           ...(isFirefoxAddOn
             ? {
                 background: resolve(
-                  __dirname,
+                  import.meta.dirname,
                   "src/scripts/background_firefox.ts",
                 ),
               }
             : {
-                background: resolve(__dirname, "src/scripts/background.ts"),
+                background: resolve(
+                  import.meta.dirname,
+                  "src/scripts/background.ts",
+                ),
               }),
-          popup: resolve(__dirname, "src/popup/popup.ts"),
+          popup: resolve(import.meta.dirname, "src/popup/popup.ts"),
         },
         output: {
           entryFileNames: "scripts/[name].js",
@@ -46,7 +49,7 @@ export default defineConfig(({ mode }) => {
       {
         name: "handle-manifest",
         closeBundle() {
-          const distDir = resolve(__dirname, "dist");
+          const distDir = resolve(import.meta.dirname, "dist");
           const manifestPath = resolve(distDir, "manifest.json");
           const firefoxManifestPath = resolve(distDir, "manifest_firefox.json");
 

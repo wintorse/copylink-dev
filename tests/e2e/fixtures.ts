@@ -76,6 +76,60 @@ export const SHEETS_URL =
 export const SHEETS_URL_WITH_RANGE = `${SHEETS_URL}#gid=0&range=C2:E4`;
 
 /**
+ * True for transient navigation failures (timeouts, connection blips) that
+ * are worth retrying, as opposed to deterministic errors (bad URL, blocked
+ * request) that would fail the same way on every attempt.
+ *
+ * @param error - The error thrown by `page.goto`.
+ * @returns Whether the error is transient and worth retrying.
+ */
+function isTransientNavigationError(error: unknown): boolean {
+  if (!(error instanceof Error)) {
+    return false;
+  }
+  if (error.name === "TimeoutError") {
+    return true;
+  }
+  return /net::ERR_(CONNECTION_(RESET|REFUSED|CLOSED|ABORTED)|NETWORK_CHANGED|TIMED_OUT|INTERNET_DISCONNECTED|NAME_NOT_RESOLVED|ADDRESS_UNREACHABLE)/.test(
+    error.message,
+  );
+}
+
+/**
+ * Navigate to a URL, retrying on transient failures (e.g. navigation
+ * timeouts, connection resets). Non-transient errors are rethrown
+ * immediately without retrying.
+ *
+ * Useful for real external sites whose first request in a test run can be
+ * slow (cold DNS/TLS handshake, CI network warm-up), causing occasional
+ * flaky timeouts that a simple retry resolves.
+ *
+ * @param page - The Playwright page to navigate.
+ * @param url - The URL to navigate to.
+ * @param options - Options forwarded to `page.goto`.
+ * @param retries - Number of additional attempts after a transient failure.
+ * @returns A promise that resolves with the result of `page.goto` when navigation succeeds, or rejects if
+ */
+export async function gotoWithRetry(
+  page: Page,
+  url: string,
+  options?: Parameters<Page["goto"]>[1],
+  retries = 2,
+): Promise<ReturnType<Page["goto"]>> {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      const result = await page.goto(url, options);
+      return result;
+    } catch (error) {
+      if (attempt >= retries || !isTransientNavigationError(error)) {
+        throw error;
+      }
+    }
+    await new Promise((resolve) => setTimeout(resolve, 500)); // Wait a bit before retrying
+  }
+}
+
+/**
  * Trigger a copylink-dev command via the extension's service worker.
  * Mirrors what `background.ts` does on `chrome.commands.onCommand`:
  * query active tab → inject content script → send message.

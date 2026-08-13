@@ -1,4 +1,15 @@
-import { expect, readClipboardHtml, test, triggerCommand } from "./fixtures";
+import {
+  buildCustomRegexes,
+  buildEmojiNames,
+} from "../../src/shared/popup/emojiSettings";
+import {
+  expect,
+  readClipboardHtml,
+  readClipboardText,
+  test,
+  triggerCommand,
+} from "./fixtures";
+import { DEFAULT_EMOJI_NAMES } from "../../src/shared/constants";
 
 test.describe("Popup settings page", () => {
   test("selecting a link format radio persists to storage", async ({
@@ -34,6 +45,128 @@ test.describe("Popup settings page", () => {
       });
     });
     expect(stored2).toBe("plainUrl");
+  });
+
+  test("exports emoji names and custom regexes to the clipboard", async ({
+    sw,
+    extensionId,
+    context,
+  }) => {
+    const emojiNames = {
+      github: ":exported_github:",
+      customWebsite1: ":exported_custom:",
+    };
+    const customRegexes = {
+      customRegex1: "export\\.example\\.com",
+    };
+    await sw.evaluate(
+      async ({ emojiNames, customRegexes }) => {
+        await chrome.storage.local.set({
+          emojiNames,
+          copylinkdevCustomRegexes: customRegexes,
+        });
+      },
+      { emojiNames, customRegexes },
+    );
+
+    const popupPage = await context.newPage();
+    await popupPage.goto(`chrome-extension://${extensionId}/popup.html`, {
+      waitUntil: "domcontentloaded",
+    });
+
+    await popupPage.click("#exportButton");
+    const exportSuccessMessage = await popupPage.evaluate(() =>
+      chrome.i18n.getMessage("exportSuccess"),
+    );
+    await expect(popupPage.locator("#exportMessage")).toHaveText(
+      exportSuccessMessage,
+    );
+
+    const exported = JSON.parse(await readClipboardText(popupPage));
+    expect(exported).toEqual({ emojiNames, customRegexes });
+  });
+
+  test("imports settings, saves them, and refreshes the form inputs", async ({
+    sw,
+    extensionId,
+    context,
+  }) => {
+    const defaultCustomRegexes = {
+      customRegex1: "default\\.example\\.com",
+    };
+    await sw.evaluate(
+      async ({ emojiNames, customRegexes }) => {
+        await chrome.storage.local.set({
+          emojiNames,
+          copylinkdevCustomRegexes: customRegexes,
+        });
+      },
+      {
+        emojiNames: DEFAULT_EMOJI_NAMES,
+        customRegexes: defaultCustomRegexes,
+      },
+    );
+
+    const importedSettings = {
+      emojiNames: {
+        github: ":imported_github:",
+        customWebsite1: ":imported_custom:",
+      },
+      customRegexes: {
+        customRegex1: "import\\.example\\.com",
+      },
+    };
+
+    const popupPage = await context.newPage();
+    await popupPage.goto(`chrome-extension://${extensionId}/popup.html`, {
+      waitUntil: "domcontentloaded",
+    });
+
+    await expect(popupPage.locator("#emojiName-github")).toHaveValue(
+      DEFAULT_EMOJI_NAMES.github,
+    );
+    await expect(popupPage.locator("#regex-custom-1")).toHaveValue(
+      defaultCustomRegexes.customRegex1,
+    );
+
+    await popupPage.click("#importButton");
+    await expect(popupPage.locator("#importGroup")).toBeVisible();
+    await popupPage
+      .locator("#importTextarea")
+      .fill(JSON.stringify(importedSettings));
+    await popupPage.click("#importConfirmButton");
+
+    await expect(popupPage.locator("#emojiName-github")).toHaveValue(
+      importedSettings.emojiNames.github,
+    );
+    await expect(popupPage.locator("#emojiName-custom-1")).toHaveValue(
+      importedSettings.emojiNames.customWebsite1,
+    );
+    await expect(popupPage.locator("#regex-custom-1")).toHaveValue(
+      importedSettings.customRegexes.customRegex1,
+    );
+
+    // Import formatting fills in defaults for regular emoji names and omits
+    // GitHub PR status-specific fallback emoji names.
+    const expectedEmojiNames = buildEmojiNames(importedSettings.emojiNames);
+    const expectedCustomRegexes = buildCustomRegexes(
+      importedSettings.customRegexes,
+    );
+    await expect
+      .poll(async () => {
+        return sw.evaluate(async () => {
+          return new Promise((resolve) => {
+            chrome.storage.local.get(
+              ["emojiNames", "copylinkdevCustomRegexes"],
+              (data) => resolve(data),
+            );
+          });
+        });
+      })
+      .toEqual({
+        emojiNames: expectedEmojiNames,
+        copylinkdevCustomRegexes: expectedCustomRegexes,
+      });
   });
 
   test("changing an emoji name persists and is used in copy", async ({

@@ -133,7 +133,28 @@ test.describe("Site-specific title formatting and emoji", () => {
     sw,
     context,
   }) => {
+    // redmine.openspace3d.com is a small, third-party-hosted Redmine
+    // instance that is intermittently unreliable (slow responses / 503s),
+    // which made this test flaky. Mock the response like the Asana/Backlog
+    // tests below so we verify our own title-extraction logic without
+    // depending on that server's uptime.
     const page = await context.newPage();
+    await page.route(
+      "https://redmine.openspace3d.com/issues/642",
+      async (route) => {
+        await route.fulfill({
+          contentType: "text/html",
+          body: `<!DOCTYPE html>
+<html><head><title>Feature #642: OpenXR On Linux. - OpenSpace3D - Redmine</title></head>
+<body>
+  <div id="content">
+    <h2>Feature #642</h2>
+    <h3>OpenXR On Linux.</h3>
+  </div>
+</body></html>`,
+        });
+      },
+    );
     await page.goto("https://redmine.openspace3d.com/issues/642", {
       waitUntil: "domcontentloaded",
     });
@@ -259,7 +280,7 @@ test.describe("Site-specific title formatting and emoji", () => {
     const page = await context.newPage();
     await page.goto(
       "https://drive.google.com/drive/folders/1Om4PwxNNjGDODM8EZXFP-aRHSL1NyJg0",
-      { waitUntil: "load", timeout: 30_000 },
+      { waitUntil: "load", timeout: 20_000 },
     );
 
     // Wait for title to update — Google Drive loads folder names asynchronously.
@@ -267,7 +288,7 @@ test.describe("Site-specific title formatting and emoji", () => {
     await page.waitForFunction(
       (expected) => document.title.includes(expected),
       "public folder",
-      { timeout: 15_000 },
+      { timeout: 20_000 },
     );
 
     await triggerCommand(sw, page, "copy-link");

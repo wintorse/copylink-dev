@@ -55,6 +55,8 @@ export const buildCustomRegexes = (
   for (const key of CUSTOM_REGEX_KEYS) {
     const rawValue = values[key];
     if (typeof rawValue === "string") {
+      // verify that the regex is valid by attempting to create a RegExp object
+      new RegExp(rawValue);
       result[key] = rawValue;
     }
   }

@@ -133,6 +133,11 @@ textarea {
   margin-bottom: 8px;
 }
 
+.import-error-message {
+  color: #e71c1c;
+  margin-top: 6px;
+}
+
 .link-format-form {
   gap: 8px;
 }

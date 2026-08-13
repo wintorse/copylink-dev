@@ -62,6 +62,9 @@
   "importConfirmButton": {
     "message": "Overwrite and save settings"
   },
+  "importFailure": {
+    "message": "Failed to import. Please check the format of the data."
+  },
   "googleSheets": {
     "message": "Google Sheets"
   },

@@ -125,6 +125,17 @@ const isImportData = (value: unknown): value is ImportData =>
   value !== null &&
   ("emojiNames" in value || "customRegexes" in value);
 
+const formatImportedData = (data: ImportData): ImportData => {
+  const formattedData: ImportData = {};
+  if (data.emojiNames) {
+    formattedData.emojiNames = buildEmojiNames(data.emojiNames);
+  }
+  if (data.customRegexes) {
+    formattedData.customRegexes = buildCustomRegexes(data.customRegexes);
+  }
+  return formattedData;
+};
+
 const saveImportedData = (data: ImportData) => {
   if (data.emojiNames) {
     // allow empty object to clear emoji names
@@ -179,13 +190,14 @@ const refreshImportedInputs = (data: ImportData) => {
 };
 
 const importData = (importedText: string) => {
-  const parsedData: unknown = JSON.parse(importedText);
+  const parsedData = JSON.parse(importedText);
   if (!isImportData(parsedData)) {
     throw new Error("Invalid import data format");
   }
 
-  saveImportedData(parsedData);
-  refreshImportedInputs(parsedData);
+  const formattedData = formatImportedData(parsedData);
+  saveImportedData(formattedData);
+  refreshImportedInputs(formattedData);
 };
 
 const handleImportConfirm = (importTextarea: HTMLTextAreaElement) => {
@@ -196,9 +208,11 @@ const handleImportConfirm = (importTextarea: HTMLTextAreaElement) => {
 
   try {
     importData(importedText);
-  } catch (error) {
-    console.error("Error importing emoji names:", error);
-    alert(chrome.i18n.getMessage("importFailure"));
+  } catch {
+    const importErrorMessage = document.getElementById("importErrorMessage");
+    if (importErrorMessage) {
+      importErrorMessage.style.display = "block";
+    }
   }
 };
 

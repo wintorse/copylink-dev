@@ -62,6 +62,9 @@
   "importConfirmButton": {
     "message": "上書きして設定を保存"
   },
+  "importFailure": {
+    "message": "インポートに失敗しました。データの形式を確認してください。"
+  },
   "googleSheets": {
     "message": "Google スプレッドシート"
   },

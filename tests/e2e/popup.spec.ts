@@ -54,12 +54,15 @@ test.describe("Popup settings page", () => {
     const customRegexes = {
       customRegex1: "export\\.example\\.com",
     };
-    await sw.evaluate(async ({ emojiNames, customRegexes }) => {
-      await chrome.storage.local.set({
-        emojiNames,
-        copylinkdevCustomRegexes: customRegexes,
-      });
-    }, { emojiNames, customRegexes });
+    await sw.evaluate(
+      async ({ emojiNames, customRegexes }) => {
+        await chrome.storage.local.set({
+          emojiNames,
+          copylinkdevCustomRegexes: customRegexes,
+        });
+      },
+      { emojiNames, customRegexes },
+    );
 
     const popupPage = await context.newPage();
     await popupPage.goto(`chrome-extension://${extensionId}/popup.html`, {
@@ -97,9 +100,9 @@ test.describe("Popup settings page", () => {
 
     await popupPage.click("#importButton");
     await expect(popupPage.locator("#importGroup")).toBeVisible();
-    await popupPage.locator("#importTextarea").fill(
-      JSON.stringify(importedSettings),
-    );
+    await popupPage
+      .locator("#importTextarea")
+      .fill(JSON.stringify(importedSettings));
     await popupPage.click("#importConfirmButton");
 
     await expect(popupPage.locator("#emojiName-github")).toHaveValue(

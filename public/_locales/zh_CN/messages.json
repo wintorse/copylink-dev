@@ -62,6 +62,9 @@
   "importConfirmButton": {
     "message": "覆盖并保存设置"
   },
+  "importFailure": {
+    "message": "导入失败。请检查数据格式。"
+  },
   "googleSheets": {
     "message": "Google表格"
   },

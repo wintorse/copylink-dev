@@ -116,7 +116,8 @@ const exportEmojiNames = async () => {
   };
 
   const json = JSON.stringify(exportData, null, 2);
-  await copyToClipboardShared(json);
+  const result = await copyToClipboardShared(json);
+  return result;
 };
 
 const isImportData = (value: unknown): value is ImportData =>
@@ -159,9 +160,7 @@ const refreshEmojiInputs = (emojiNames?: Partial<EmojiNameRecord>) => {
   }
 };
 
-const refreshCustomRegexInputs = (
-  customRegexes?: Partial<CustomRegexes>,
-) => {
+const refreshCustomRegexInputs = (customRegexes?: Partial<CustomRegexes>) => {
   const customRegexElements = getCustomRegexElements();
   for (const key of CUSTOM_REGEX_KEYS) {
     const element = document.getElementById(customRegexElements[key]);
@@ -214,8 +213,13 @@ document.addEventListener("DOMContentLoaded", () => {
   if (exportButton && exportMessage) {
     exportButton.addEventListener("click", (event) => {
       event.preventDefault();
-      void exportEmojiNames()
-        .then(() => {
+      exportEmojiNames()
+        .then((result) => {
+          if (result.success === false) {
+            console.error("Error exporting emoji names:", result.error);
+            exportMessage.textContent = chrome.i18n.getMessage("exportFailure");
+            return;
+          }
           exportMessage.textContent = chrome.i18n.getMessage("exportSuccess");
           setTimeout(() => {
             exportMessage.textContent = "";

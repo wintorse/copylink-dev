@@ -180,12 +180,34 @@
           placeholder="www\.example\.com"
         />
         <input type="text" id="emojiName-custom-5" placeholder="Emoji Name" />
+        <div class="import-export-separator"></div>
+        <div class="import-export">
+          <button id="importButton" data-i18n="import">
+            Import emoji names
+          </button>
+          <button id="exportButton" data-i18n="export">
+            Export emoji names
+          </button>
+        </div>
+        <span id="exportMessage"></span>
+        <div id="importGroup" style="display: none">
+          <label for="importTextarea" data-i18n="importJsonLabel"
+            >Import other user's emoji names and custom regexes</label
+          >
+          <textarea
+            id="importTextarea"
+            placeholder="Input JSON......"
+          ></textarea>
+          <button id="importConfirmButton" data-i18n="importConfirmButton">
+            Overwrite and save settings
+          </button>
+        </div>
       </form>
     </div>
     <div class="main-container">
-      <hr />
+      <div class="separator"></div>
       <h1 data-i18n="linkFormatSettings">Google Sheets Range Link Format</h1>
-      <hr />
+      <div class="separator"></div>
       <form id="linkFormatForm" class="link-format-form">
         <label class="radio-label" for="linkFormat-html">
           <input
@@ -235,7 +257,7 @@
         </label>
       </form>
     </div>
-    <hr />
+    <div class="separator"></div>
     <footer class="footer">
       <a
         href="https://chromewebstore.google.com/detail/ohkebnhdjdgmfnhcmdpkdfddongdjadp?utm_source=popup"

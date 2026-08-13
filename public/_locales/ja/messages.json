@@ -44,8 +44,23 @@
   "slackEmojiSettings": {
     "message": "Slack 絵文字設定"
   },
-  "changeEmojiNames": {
-    "message": "絵文字名の変更"
+  "import": {
+    "message": "インポート"
+  },
+  "export": {
+    "message": "エクスポート"
+  },
+  "exportSuccess": {
+    "message": "絵文字名とカスタム正規表現をクリップボードにコピーしました"
+  },
+  "exportFailure": {
+    "message": "絵文字名とカスタム正規表現のエクスポートに失敗しました"
+  },
+  "importJsonLabel": {
+    "message": "他のユーザーの設定をインポート"
+  },
+  "importConfirmButton": {
+    "message": "上書きして設定を保存"
   },
   "googleSheets": {
     "message": "Google スプレッドシート"

@@ -44,8 +44,23 @@
   "slackEmojiSettings": {
     "message": "Slack Emoji Settings"
   },
-  "changeEmojiNames": {
-    "message": "Update emoji names"
+  "import": {
+    "message": "Import"
+  },
+  "export": {
+    "message": "Export"
+  },
+  "exportSuccess": {
+    "message": "Emoji names and custom regexes exported to clipboard"
+  },
+  "exportFailure": {
+    "message": "Failed to export emoji names and custom regexes"
+  },
+  "importJsonLabel": {
+    "message": "Import other user's settings"
+  },
+  "importConfirmButton": {
+    "message": "Overwrite and save settings"
   },
   "googleSheets": {
     "message": "Google Sheets"

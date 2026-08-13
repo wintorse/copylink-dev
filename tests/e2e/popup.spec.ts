@@ -1,10 +1,15 @@
 import {
+  buildCustomRegexes,
+  buildEmojiNames,
+} from "../../src/shared/popup/emojiSettings";
+import {
   expect,
   readClipboardHtml,
   readClipboardText,
   test,
   triggerCommand,
 } from "./fixtures";
+import { DEFAULT_EMOJI_NAMES } from "../../src/shared/constants";
 
 test.describe("Popup settings page", () => {
   test("selecting a link format radio persists to storage", async ({
@@ -86,6 +91,22 @@ test.describe("Popup settings page", () => {
     extensionId,
     context,
   }) => {
+    const defaultCustomRegexes = {
+      customRegex1: "default\\.example\\.com",
+    };
+    await sw.evaluate(
+      async ({ emojiNames, customRegexes }) => {
+        await chrome.storage.local.set({
+          emojiNames,
+          copylinkdevCustomRegexes: customRegexes,
+        });
+      },
+      {
+        emojiNames: DEFAULT_EMOJI_NAMES,
+        customRegexes: defaultCustomRegexes,
+      },
+    );
+
     const importedSettings = {
       emojiNames: {
         github: ":imported_github:",
@@ -100,6 +121,13 @@ test.describe("Popup settings page", () => {
     await popupPage.goto(`chrome-extension://${extensionId}/popup.html`, {
       waitUntil: "domcontentloaded",
     });
+
+    await expect(popupPage.locator("#emojiName-github")).toHaveValue(
+      DEFAULT_EMOJI_NAMES.github,
+    );
+    await expect(popupPage.locator("#regex-custom-1")).toHaveValue(
+      defaultCustomRegexes.customRegex1,
+    );
 
     await popupPage.click("#importButton");
     await expect(popupPage.locator("#importGroup")).toBeVisible();
@@ -118,6 +146,12 @@ test.describe("Popup settings page", () => {
       importedSettings.customRegexes.customRegex1,
     );
 
+    // Import formatting fills in defaults for regular emoji names and omits
+    // GitHub PR status-specific fallback emoji names.
+    const expectedEmojiNames = buildEmojiNames(importedSettings.emojiNames);
+    const expectedCustomRegexes = buildCustomRegexes(
+      importedSettings.customRegexes,
+    );
     await expect
       .poll(async () => {
         return sw.evaluate(async () => {
@@ -130,8 +164,8 @@ test.describe("Popup settings page", () => {
         });
       })
       .toEqual({
-        emojiNames: importedSettings.emojiNames,
-        copylinkdevCustomRegexes: importedSettings.customRegexes,
+        emojiNames: expectedEmojiNames,
+        copylinkdevCustomRegexes: expectedCustomRegexes,
       });
   });
 

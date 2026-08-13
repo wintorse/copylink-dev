@@ -125,11 +125,9 @@ const isImportData = (value: unknown): value is ImportData =>
   value !== null &&
   ("emojiNames" in value || "customRegexes" in value);
 
-const isNonEmptyObject = (value: unknown): value is Record<string, unknown> =>
-  value !== null && typeof value === "object" && Object.keys(value).length > 0;
-
 const saveImportedData = (data: ImportData) => {
-  if (isNonEmptyObject(data.emojiNames)) {
+  if (data.emojiNames) {
+    // allow empty object to clear emoji names
     chrome.storage.local.set({ emojiNames: data.emojiNames }, () => {
       if (chrome.runtime.lastError) {
         console.error(chrome.runtime.lastError);
@@ -137,7 +135,8 @@ const saveImportedData = (data: ImportData) => {
     });
   }
 
-  if (isNonEmptyObject(data.customRegexes)) {
+  if (data.customRegexes) {
+    // allow empty object to clear custom regexes
     chrome.storage.local.set(
       { copylinkdevCustomRegexes: data.customRegexes },
       () => {
@@ -171,10 +170,10 @@ const refreshCustomRegexInputs = (customRegexes?: Partial<CustomRegexes>) => {
 };
 
 const refreshImportedInputs = (data: ImportData) => {
-  if (isNonEmptyObject(data.emojiNames)) {
+  if (data.emojiNames) {
     refreshEmojiInputs(data.emojiNames);
   }
-  if (isNonEmptyObject(data.customRegexes)) {
+  if (data.customRegexes) {
     refreshCustomRegexInputs(data.customRegexes);
   }
 };

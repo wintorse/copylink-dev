@@ -206,10 +206,13 @@ const handleImportConfirm = (importTextarea: HTMLTextAreaElement) => {
     return;
   }
 
+  const importErrorMessage = document.getElementById("importErrorMessage");
   try {
     importData(importedText);
+    if (importErrorMessage) {
+      importErrorMessage.style.display = "none";
+    }
   } catch {
-    const importErrorMessage = document.getElementById("importErrorMessage");
     if (importErrorMessage) {
       importErrorMessage.style.display = "block";
     }

@@ -68,6 +68,9 @@ export const test = base.extend<{
 
 export const expect = test.expect;
 
+/** Static page used as the generic non-site-specific fixture in e2e tests. */
+export const E2E_FIXTURE_URL = "https://wintorse.github.io/e2e-fixture.html";
+
 /** Public Google Sheets spreadsheet used across e2e tests. */
 export const SHEETS_URL =
   "https://docs.google.com/spreadsheets/d/1edX-93flOBU51Vd-3dh0oZ5FDFdbpuV1V6uX3gLSADE/edit";

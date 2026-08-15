@@ -1,14 +1,15 @@
 import {
-  buildCustomRegexes,
-  buildEmojiNames,
-} from "../../src/shared/popup/emojiSettings";
-import {
+  E2E_FIXTURE_URL,
   expect,
   readClipboardHtml,
   readClipboardText,
   test,
   triggerCommand,
 } from "./fixtures";
+import {
+  buildCustomRegexes,
+  buildEmojiNames,
+} from "../../src/shared/popup/emojiSettings";
 import { DEFAULT_EMOJI_NAMES } from "../../src/shared/constants";
 
 test.describe("Popup settings page", () => {
@@ -17,15 +18,16 @@ test.describe("Popup settings page", () => {
     extensionId,
     context,
   }) => {
+    // Given: The popup settings page is open with the link format controls visible.
     const page = await context.newPage();
     await page.goto(`chrome-extension://${extensionId}/popup.html`, {
       waitUntil: "domcontentloaded",
     });
 
-    // Click the markdown radio
+    // When: The markdown radio is selected.
     await page.click("#linkFormat-markdown");
 
-    // Verify storage was updated
+    // Then: The markdown format is persisted to extension storage.
     const stored = await sw.evaluate(async () => {
       return new Promise((resolve) => {
         chrome.storage.local.get("copylinkdevLinkFormat", (data) => {
@@ -35,7 +37,7 @@ test.describe("Popup settings page", () => {
     });
     expect(stored).toBe("markdown");
 
-    // Click the plainUrl radio
+    // When: The plainUrl radio is selected.
     await page.click("#linkFormat-plainUrl");
     const stored2 = await sw.evaluate(async () => {
       return new Promise((resolve) => {
@@ -44,6 +46,7 @@ test.describe("Popup settings page", () => {
         });
       });
     });
+    // Then: The plainUrl format is persisted to extension storage.
     expect(stored2).toBe("plainUrl");
   });
 
@@ -52,6 +55,7 @@ test.describe("Popup settings page", () => {
     extensionId,
     context,
   }) => {
+    // Given: Custom emoji names and URL regexes are stored and the popup is open.
     const emojiNames = {
       github: ":exported_github:",
       customWebsite1: ":exported_custom:",
@@ -74,10 +78,13 @@ test.describe("Popup settings page", () => {
       waitUntil: "domcontentloaded",
     });
 
+    // When: The export button is clicked.
     await popupPage.click("#exportButton");
     const exportSuccessMessage = await popupPage.evaluate(() =>
       chrome.i18n.getMessage("exportSuccess"),
     );
+
+    // Then: A success message is shown and the settings are copied as JSON.
     await expect(popupPage.locator("#exportMessage")).toHaveText(
       exportSuccessMessage,
     );
@@ -91,6 +98,7 @@ test.describe("Popup settings page", () => {
     extensionId,
     context,
   }) => {
+    // Given: Default settings and a different settings payload to import are prepared.
     const defaultCustomRegexes = {
       customRegex1: "default\\.example\\.com",
     };
@@ -129,6 +137,7 @@ test.describe("Popup settings page", () => {
       defaultCustomRegexes.customRegex1,
     );
 
+    // When: The imported settings are entered and confirmed.
     await popupPage.click("#importButton");
     await expect(popupPage.locator("#importGroup")).toBeVisible();
     await popupPage
@@ -136,6 +145,7 @@ test.describe("Popup settings page", () => {
       .fill(JSON.stringify(importedSettings));
     await popupPage.click("#importConfirmButton");
 
+    // Then: The form inputs refresh with the imported values.
     await expect(popupPage.locator("#emojiName-github")).toHaveValue(
       importedSettings.emojiNames.github,
     );
@@ -146,6 +156,7 @@ test.describe("Popup settings page", () => {
       importedSettings.customRegexes.customRegex1,
     );
 
+    // Then: Storage contains normalized imported settings.
     // Import formatting fills in defaults for regular emoji names and omits
     // GitHub PR status-specific fallback emoji names.
     const expectedEmojiNames = buildEmojiNames(importedSettings.emojiNames);
@@ -174,20 +185,22 @@ test.describe("Popup settings page", () => {
     extensionId,
     context,
   }) => {
-    // Step 1: Change the GitHub emoji in popup settings
+    // Given: The popup settings page is open with the GitHub emoji input available.
     const popupPage = await context.newPage();
     await popupPage.goto(`chrome-extension://${extensionId}/popup.html`, {
       waitUntil: "domcontentloaded",
     });
 
     const githubInput = popupPage.locator("#emojiName-github");
+
+    // When: The GitHub emoji is changed to a custom value.
     await githubInput.clear();
     await githubInput.fill(":custom_github:");
 
     // Wait for the input event debounce
     await popupPage.waitForTimeout(300);
 
-    // Step 2: Verify storage reflects the change
+    // Then: The custom emoji is persisted to storage.
     const stored = await sw.evaluate(async () => {
       type StorageData = { emojiNames?: Record<string, string> };
       return new Promise<Record<string, string> | undefined>((resolve) => {
@@ -198,17 +211,19 @@ test.describe("Popup settings page", () => {
     });
     expect(stored).toHaveProperty("github", ":custom_github:");
 
-    // Step 3: Use copy-link-for-slack on a GitHub page to verify emoji is applied
+    // When: copy-link-for-slack is executed on a GitHub page.
     const page = await context.newPage();
     await page.goto("https://github.com/wintorse/copylink-dev", {
       waitUntil: "domcontentloaded",
     });
     await triggerCommand(sw, page, "copy-link-for-slack");
+
+    // Then: The copied HTML contains the custom GitHub emoji.
     const html = await readClipboardHtml(page);
     expect(html).not.toBeNull();
     expect(html).toContain(":custom_github:");
 
-    // Cleanup: reset emoji names
+    // Cleanup: Reset the test-specific emoji settings.
     await sw.evaluate(async () => {
       await chrome.storage.local.remove("emojiNames");
     });
@@ -219,15 +234,17 @@ test.describe("Popup settings page", () => {
     extensionId,
     context,
   }) => {
-    // Step 1: Register a custom website in popup settings
+    // Given: The popup settings page is open with an empty custom website entry.
     const popupPage = await context.newPage();
     await popupPage.goto(`chrome-extension://${extensionId}/popup.html`, {
       waitUntil: "domcontentloaded",
     });
 
     const regexInput = popupPage.locator("#regex-custom-1");
+
+    // When: A matching URL regex and custom emoji are entered.
     await regexInput.clear();
-    await regexInput.fill("example\\.com");
+    await regexInput.fill("wintorse\\.github\\.io");
 
     const emojiInput = popupPage.locator("#emojiName-custom-1");
     await emojiInput.clear();
@@ -236,18 +253,19 @@ test.describe("Popup settings page", () => {
     // Wait for input events
     await popupPage.waitForTimeout(300);
 
-    // Step 2: Visit example.com and copy-link-for-slack
+    // When: copy-link-for-slack is executed on a matching e2e fixture page.
     const page = await context.newPage();
-    await page.goto("https://example.com", {
+    await page.goto(E2E_FIXTURE_URL, {
       waitUntil: "domcontentloaded",
     });
     await triggerCommand(sw, page, "copy-link-for-slack");
 
+    // Then: The copied HTML contains the configured custom emoji.
     const html = await readClipboardHtml(page);
     expect(html).not.toBeNull();
     expect(html).toContain(":my_emoji:");
 
-    // Cleanup
+    // Cleanup: Reset the test-specific settings.
     await sw.evaluate(async () => {
       await chrome.storage.local.remove([
         "emojiNames",
@@ -261,13 +279,15 @@ test.describe("Popup settings page", () => {
     extensionId,
     context,
   }) => {
-    // Register a custom regex that matches GitHub's hostname
+    // Given: The popup settings page is open with a custom GitHub-matching entry.
     const popupPage = await context.newPage();
     await popupPage.goto(`chrome-extension://${extensionId}/popup.html`, {
       waitUntil: "domcontentloaded",
     });
 
     const regexInput = popupPage.locator("#regex-custom-1");
+
+    // When: A custom regex and emoji are entered for GitHub URLs.
     await regexInput.clear();
     await regexInput.fill("github\\.com");
 
@@ -277,20 +297,21 @@ test.describe("Popup settings page", () => {
 
     await popupPage.waitForTimeout(300);
 
-    // Visit a GitHub repo page (which would normally use the built-in :github: emoji)
+    // When: copy-link-for-slack is executed on a GitHub repo page.
     const page = await context.newPage();
     await page.goto("https://github.com/wintorse/copylink-dev", {
       waitUntil: "domcontentloaded",
     });
     await triggerCommand(sw, page, "copy-link-for-slack");
 
+    // Then: The custom emoji is used instead of the built-in GitHub emoji.
     const html = await readClipboardHtml(page);
     expect(html).not.toBeNull();
     // Custom regex should take priority: custom emoji appears, built-in :github: does not
     expect(html).toContain(":my_custom_emoji:");
     expect(html).not.toContain(":github:");
 
-    // Cleanup
+    // Cleanup: Reset the test-specific settings.
     await sw.evaluate(async () => {
       await chrome.storage.local.remove([
         "emojiNames",

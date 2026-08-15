@@ -11,6 +11,7 @@ test.describe("Google Sheets range link", () => {
     sw,
     context,
   }) => {
+    // Given: A Google Sheets page is open with range C2:E4 selected.
     const page = await context.newPage();
     await page.goto(SHEETS_URL_WITH_RANGE, {
       waitUntil: "load",
@@ -25,8 +26,10 @@ test.describe("Google Sheets range link", () => {
       { timeout: 15_000 },
     );
 
+    // When: The copy-google-sheets-range command is executed.
     await triggerCommand(sw, page, "copy-google-sheets-range");
 
+    // Then: The clipboard URL contains the spreadsheet, selected range, and sheet ID.
     const text = await readClipboardText(page);
     // The clipboard should contain a URL with the pre-selected range
     expect(text).toContain("docs.google.com/spreadsheets");
@@ -38,13 +41,17 @@ test.describe("Google Sheets range link", () => {
     sw,
     context,
   }) => {
+    // Given: An example.com page is open and the clipboard contains a sentinel value.
     const page = await context.newPage();
     await page.goto("https://example.com", { waitUntil: "domcontentloaded" });
 
     // Write a known value to the clipboard first
     await page.evaluate(() => navigator.clipboard.writeText("__sentinel__"));
+
+    // When: The copy-google-sheets-range command is executed.
     await triggerCommand(sw, page, "copy-google-sheets-range");
 
+    // Then: The sentinel value remains unchanged because the page is not Google Sheets.
     const text = await readClipboardText(page);
     // Should remain unchanged since the command is a no-op on non-Sheets pages
     expect(text).toBe("__sentinel__");

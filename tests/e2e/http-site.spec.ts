@@ -26,6 +26,7 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
     sw,
     context,
   }) => {
+    // Given: An HTTP page and an HTTPS page for reading the clipboard are open.
     const httpPage = await context.newPage();
     await gotoWithRetry(httpPage, HTTP_URL, {
       waitUntil: "domcontentloaded",
@@ -39,8 +40,10 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
       waitUntil: "domcontentloaded",
     });
 
+    // When: The copy-link command is executed on the HTTP page.
     await triggerCommand(sw, httpPage, "copy-link");
 
+    // Then: The HTTPS page can read the title as text and an HTML anchor.
     const text = await readClipboardText(clipboardPage);
     expect(text).toBe(HTTP_TITLE);
 
@@ -52,6 +55,7 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
   });
 
   test("copy-title copies plain text title", async ({ sw, context }) => {
+    // Given: An HTTP page and an HTTPS page for reading the clipboard are open.
     const httpPage = await context.newPage();
     await gotoWithRetry(httpPage, HTTP_URL, {
       waitUntil: "domcontentloaded",
@@ -63,8 +67,10 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
       waitUntil: "domcontentloaded",
     });
 
+    // When: The copy-title command is executed on the HTTP page.
     await triggerCommand(sw, httpPage, "copy-title");
 
+    // Then: The HTTPS page reads only the HTTP page title as plain text.
     const text = await readClipboardText(clipboardPage);
     expect(text).toBe(HTTP_TITLE);
   });
@@ -73,6 +79,7 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
     sw,
     context,
   }) => {
+    // Given: An HTTP page and an HTTPS page for reading the clipboard are open.
     const httpPage = await context.newPage();
     await gotoWithRetry(httpPage, HTTP_URL, {
       waitUntil: "domcontentloaded",
@@ -84,8 +91,10 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
       waitUntil: "domcontentloaded",
     });
 
+    // When: The copy-link-for-slack command is executed on the HTTP page.
     await triggerCommand(sw, httpPage, "copy-link-for-slack");
 
+    // Then: The HTTPS page reads a Markdown link as text and an HTML anchor.
     const text = await readClipboardText(clipboardPage);
     // www.kmoni.bosai.go.jp is not a recognized site, so no emoji prefix
     expect(text).toContain(`[${HTTP_TITLE}]`);

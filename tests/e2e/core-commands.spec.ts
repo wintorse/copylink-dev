@@ -1,4 +1,5 @@
 import {
+  E2E_FIXTURE_URL,
   expect,
   readClipboardHtml,
   readClipboardText,
@@ -6,7 +7,7 @@ import {
   triggerCommand,
 } from "./fixtures";
 
-test.describe("Core commands on example.com", () => {
+test.describe("Core commands on the e2e fixture page", () => {
   test.beforeEach(async ({ sw }) => {
     // Reset link format to default (htmlWithEmoji) before each test
     await sw.evaluate(async () => {
@@ -18,21 +19,23 @@ test.describe("Core commands on example.com", () => {
     sw,
     context,
   }) => {
-    // Given: The default link format is configured and example.com is open.
+    // Given: The default link format is configured and the e2e fixture page is open.
     const page = await context.newPage();
-    await page.goto("https://example.com", { waitUntil: "domcontentloaded" });
+    await page.goto(E2E_FIXTURE_URL, { waitUntil: "domcontentloaded" });
+    const fixtureTitle = await page.title();
+    const fixtureUrl = page.url();
 
     // When: The copy-link command is executed.
     await triggerCommand(sw, page, "copy-link");
 
     // Then: The clipboard contains the page title as text and an HTML anchor.
     const text = await readClipboardText(page);
-    expect(text).toBe("Example Domain");
+    expect(text).toBe(fixtureTitle);
 
     const html = await readClipboardHtml(page);
     expect(html).not.toBeNull();
-    expect(html).toContain("Example Domain");
-    expect(html).toContain('href="https://example.com/"');
+    expect(html).toContain(fixtureTitle);
+    expect(html).toContain(`href="${fixtureUrl}"`);
     expect(html).toContain("</a>");
   });
 
@@ -40,25 +43,28 @@ test.describe("Core commands on example.com", () => {
     sw,
     context,
   }) => {
-    // Given: The default link format is configured and example.com is open.
+    // Given: The default link format is configured and the e2e fixture page is open.
     const page = await context.newPage();
-    await page.goto("https://example.com", { waitUntil: "domcontentloaded" });
+    await page.goto(E2E_FIXTURE_URL, { waitUntil: "domcontentloaded" });
+    const fixtureTitle = await page.title();
 
     // When: The copy-title command is executed.
     await triggerCommand(sw, page, "copy-title");
 
     // Then: The clipboard contains only the page title as plain text.
     const text = await readClipboardText(page);
-    expect(text).toBe("Example Domain");
+    expect(text).toBe(fixtureTitle);
   });
 
   test("copy-link-for-slack copies markdown text and HTML with emoji", async ({
     sw,
     context,
   }) => {
-    // Given: The default link format is configured and example.com is open.
+    // Given: The default link format is configured and the e2e fixture page is open.
     const page = await context.newPage();
-    await page.goto("https://example.com", { waitUntil: "domcontentloaded" });
+    await page.goto(E2E_FIXTURE_URL, { waitUntil: "domcontentloaded" });
+    const fixtureTitle = await page.title();
+    const fixtureUrl = page.url();
 
     // When: The copy-link-for-slack command is executed.
     await triggerCommand(sw, page, "copy-link-for-slack");
@@ -66,12 +72,12 @@ test.describe("Core commands on example.com", () => {
     // Then: The clipboard contains a Markdown link as text and an HTML anchor.
     const text = await readClipboardText(page);
     // Default format is htmlWithEmoji → plain text is markdown
-    expect(text).toBe("[Example Domain](https://example.com/)");
+    expect(text).toBe(`[${fixtureTitle}](${fixtureUrl})`);
 
     const html = await readClipboardHtml(page);
     expect(html).not.toBeNull();
-    expect(html).toContain("Example Domain");
+    expect(html).toContain(fixtureTitle);
     expect(html).toContain("</a>");
-    // example.com is not a recognized site, so no emoji prefix
+    // The e2e fixture page is not a recognized site, so no emoji prefix is added.
   });
 });

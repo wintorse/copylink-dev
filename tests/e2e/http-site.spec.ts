@@ -1,4 +1,5 @@
 import {
+  E2E_FIXTURE_URL,
   expect,
   gotoWithRetry,
   readClipboardHtml,
@@ -36,7 +37,7 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
     // Open an HTTPS page to read clipboard, since navigator.clipboard
     // is unavailable in the HTTP page context.
     const clipboardPage = await context.newPage();
-    await clipboardPage.goto("https://example.com", {
+    await clipboardPage.goto(E2E_FIXTURE_URL, {
       waitUntil: "domcontentloaded",
     });
 
@@ -63,7 +64,7 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
     });
 
     const clipboardPage = await context.newPage();
-    await clipboardPage.goto("https://example.com", {
+    await clipboardPage.goto(E2E_FIXTURE_URL, {
       waitUntil: "domcontentloaded",
     });
 
@@ -87,7 +88,7 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
     });
 
     const clipboardPage = await context.newPage();
-    await clipboardPage.goto("https://example.com", {
+    await clipboardPage.goto(E2E_FIXTURE_URL, {
       waitUntil: "domcontentloaded",
     });
 

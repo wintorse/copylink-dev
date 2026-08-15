@@ -1,14 +1,15 @@
 import {
-  buildCustomRegexes,
-  buildEmojiNames,
-} from "../../src/shared/popup/emojiSettings";
-import {
+  E2E_FIXTURE_URL,
   expect,
   readClipboardHtml,
   readClipboardText,
   test,
   triggerCommand,
 } from "./fixtures";
+import {
+  buildCustomRegexes,
+  buildEmojiNames,
+} from "../../src/shared/popup/emojiSettings";
 import { DEFAULT_EMOJI_NAMES } from "../../src/shared/constants";
 
 test.describe("Popup settings page", () => {
@@ -243,7 +244,7 @@ test.describe("Popup settings page", () => {
 
     // When: A matching URL regex and custom emoji are entered.
     await regexInput.clear();
-    await regexInput.fill("example\\.com");
+    await regexInput.fill("wintorse\\.github\\.io");
 
     const emojiInput = popupPage.locator("#emojiName-custom-1");
     await emojiInput.clear();
@@ -252,9 +253,9 @@ test.describe("Popup settings page", () => {
     // Wait for input events
     await popupPage.waitForTimeout(300);
 
-    // When: copy-link-for-slack is executed on a matching example.com page.
+    // When: copy-link-for-slack is executed on a matching e2e fixture page.
     const page = await context.newPage();
-    await page.goto("https://example.com", {
+    await page.goto(E2E_FIXTURE_URL, {
       waitUntil: "domcontentloaded",
     });
     await triggerCommand(sw, page, "copy-link-for-slack");

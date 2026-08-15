@@ -1,4 +1,5 @@
 import {
+  E2E_FIXTURE_URL,
   SHEETS_URL_WITH_RANGE,
   expect,
   readClipboardText,
@@ -41,9 +42,9 @@ test.describe("Google Sheets range link", () => {
     sw,
     context,
   }) => {
-    // Given: An example.com page is open and the clipboard contains a sentinel value.
+    // Given: The e2e fixture page is open and the clipboard contains a sentinel value.
     const page = await context.newPage();
-    await page.goto("https://example.com", { waitUntil: "domcontentloaded" });
+    await page.goto(E2E_FIXTURE_URL, { waitUntil: "domcontentloaded" });
 
     // Write a known value to the clipboard first
     await page.evaluate(() => navigator.clipboard.writeText("__sentinel__"));

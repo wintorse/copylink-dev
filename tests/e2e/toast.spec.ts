@@ -1,4 +1,4 @@
-import { expect, test, triggerCommand } from "./fixtures";
+import { E2E_FIXTURE_URL, expect, test, triggerCommand } from "./fixtures";
 import { fileURLToPath } from "url";
 import { join } from "path";
 import { readFileSync } from "fs";
@@ -40,9 +40,9 @@ test.describe("Toast notification", () => {
     sw,
     context,
   }) => {
-    // Given: An example.com page is open.
+    // Given: The e2e fixture page is open.
     const page = await context.newPage();
-    await page.goto("https://example.com", { waitUntil: "domcontentloaded" });
+    await page.goto(E2E_FIXTURE_URL, { waitUntil: "domcontentloaded" });
 
     // When: The copy-link command is executed.
     await triggerCommand(sw, page, "copy-link");

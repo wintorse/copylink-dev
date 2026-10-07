@@ -277,19 +277,17 @@ test.describe("Site-specific title formatting and emoji", () => {
   // ──────────────────────────────────────────────
 
   test("Google Drive: title is public folder", async ({ sw, context }) => {
+    // Drive populates a shared folder's title asynchronously. Give CI enough
+    // room for that API-backed update while still failing if the title changes.
+    test.setTimeout(90_000);
     const page = await context.newPage();
     await page.goto(
       "https://drive.google.com/drive/folders/1Om4PwxNNjGDODM8EZXFP-aRHSL1NyJg0",
-      { waitUntil: "load", timeout: 20_000 },
+      { waitUntil: "domcontentloaded", timeout: 30_000 },
     );
 
-    // Wait for title to update — Google Drive loads folder names asynchronously.
-    // Initial title may be a generic "フォルダ" before the real name loads.
-    await page.waitForFunction(
-      (expected) => document.title.includes(expected),
-      "public folder",
-      { timeout: 20_000 },
-    );
+    // Wait for the live Drive UI to finish loading the folder name.
+    await expect(page).toHaveTitle(/public folder/, { timeout: 45_000 });
 
     await triggerCommand(sw, page, "copy-link");
     const text = await readClipboardText(page);

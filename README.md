@@ -2,6 +2,36 @@
 
 [Also available as a UserScript!](https://github.com/wintorse/copylink-dev-user-js)
 
+<br>
+
+<p align="center">
+  <img src="docs/promo.png" alt="copylink.dev promotion image" width="480">
+</p>
+
+<h1 align="center">copylink.dev</h1>
+<p align="center"><b>A browser extension that copies text links to clipboard with shortcuts.</b></p>
+<p align="center">On supported websites, title formatting and Slack emoji-enhanced links are available.</p>
+
+<p align="center">
+  </br>
+  <a href="https://chromewebstore.google.com/detail/ohkebnhdjdgmfnhcmdpkdfddongdjadp">
+    <picture>
+      <source srcset="https://i.imgur.com/XBIE9pk.png" media="(prefers-color-scheme: dark)">
+      <img height="58" src="https://i.imgur.com/oGxig2F.png" alt="Chrome Web Store"></picture></a>
+  <a href="https://addons.mozilla.org/ja/firefox/addon/copylink-dev/">
+    <picture>
+      <source srcset="https://i.imgur.com/ZluoP7T.png" media="(prefers-color-scheme: dark)">
+      <img height="58" src="https://i.imgur.com/4PobQqE.png" alt="Firefox add-ons"></picture></a>
+  </br></br>
+</p>
+
+## Features
+
+<div align="center">
+  <video controls src="https://github.com/user-attachments/assets/446772c6-889b-45f0-84bf-1e8c2734b4cb" width="480" title="Demo"></video>
+</div>
+<br>
+
 > [!NOTE]
 > **For Arc Browser Users**: Since around May 2025, keyboard shortcuts stopped working in Arc browser.
 >
@@ -11,23 +41,6 @@
 > Note: Global shortcuts may conflict with shortcuts in other applications.
 >
 > [Build with host permissions](#build-with-host-permissions-chrome--arc), install it, and configure the shortcuts.
-
-# copylink.dev
-
-<p align="center">
-  <img src="docs/promo.png" alt="copylink.dev promotion image" width="480">
-</p>
-
-A browser extension that copies text links to clipboard with shortcuts.
-
-On supported websites, title formatting and Slack emoji-enhanced links are available.
-
-## Features
-
-<div align="center">
-  <video controls src="https://github.com/user-attachments/assets/446772c6-889b-45f0-84bf-1e8c2734b4cb" width="480" title="Demo"></video>
-</div>
-<br>
 
 Provides shortcuts to easily copy text links with titles, such as "[My spreadsheet](https://example.com)".
 

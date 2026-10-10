@@ -346,7 +346,7 @@ test.describe("Site-specific title formatting and emoji", () => {
     // Drive populates a shared folder's title asynchronously. Give CI enough
     // room for that API-backed update while still failing if the title changes.
     test.setTimeout(90_000);
-    
+
     // Given: A Google Drive folder page is open and its title has loaded.
     const page = await context.newPage();
     await page.goto(

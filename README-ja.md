@@ -2,6 +2,36 @@
 
 [UserScript 版はこちら](https://github.com/wintorse/copylink-dev-user-js)
 
+<br>
+
+<p align="center">
+  <img src="docs/promo.png" alt="copylink.dev promotion image" width="480">
+</p>
+
+<h1 align="center">copylink.dev</h1>
+<p align="center"><b>ショートカットでタイトルつきのリンクをコピーするブラウザ拡張機能。</b></p>
+<p align="center">一部サイトではタイトルの整形や Slack 絵文字にも対応。</p>
+
+<p align="center">
+  </br>
+  <a href="https://chromewebstore.google.com/detail/ohkebnhdjdgmfnhcmdpkdfddongdjadp">
+    <picture>
+      <source srcset="https://i.imgur.com/XBIE9pk.png" media="(prefers-color-scheme: dark)">
+      <img height="58" src="https://i.imgur.com/oGxig2F.png" alt="Chrome Web Store"></picture></a>
+  <a href="https://addons.mozilla.org/ja/firefox/addon/copylink-dev/">
+    <picture>
+      <source srcset="https://i.imgur.com/ZluoP7T.png" media="(prefers-color-scheme: dark)">
+      <img height="58" src="https://i.imgur.com/4PobQqE.png" alt="Firefox add-ons"></picture></a>
+  </br></br>
+</p>
+
+## 機能
+
+<div align="center">
+  <video controls src="https://github.com/user-attachments/assets/6fe63661-a2e2-4304-ac72-853d601f77f9" width="480"></video>
+</div>
+<br>
+
 > [!NOTE]
 > **Arc ブラウザをご利用の方へ**: 2025年5月頃から、Arc ブラウザでキーボードショートカットが動作しなくなりました。
 >
@@ -11,23 +41,6 @@
 > 注意：グローバルモードでは他アプリのショートカットと競合する可能性があります。
 >
 > ソースコードを[ホスト権限付きでビルド](#ホスト権限付きでビルドする-chrome--arc)し、インストール後にショートカットを設定してください。
-
-# copylink.dev
-
-<p align="center">
-  <img src="docs/promo.png" alt="copylink.dev promotion image" width="480">
-</p>
-
-ショートカットでタイトルつきのリンクをコピーするブラウザ拡張機能。
-
-一部サイトではタイトルの整形や Slack 絵文字にも対応。
-
-## 機能
-
-<div align="center">
-  <video controls src="https://github.com/user-attachments/assets/6fe63661-a2e2-4304-ac72-853d601f77f9" width="480"></video>
-</div>
-<br>
 
 「[My spreadsheet](./)」のような、タイトルのついたリンク（テキストリンク）をクリップボードにコピーするショートカットを提供します。
 

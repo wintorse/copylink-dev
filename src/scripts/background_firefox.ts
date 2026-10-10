@@ -9,7 +9,11 @@ chrome.commands.onCommand.addListener((command) => {
     }
     const tabUrl = tabs[0]?.url;
     // The manifest excludes XML pages; avoid messaging those tabs.
-    if (tabUrl && new URL(tabUrl).pathname.toLowerCase().endsWith(".xml")) {
+    if (
+      tabUrl !== undefined &&
+      tabUrl !== "" &&
+      new URL(tabUrl).pathname.toLowerCase().endsWith(".xml")
+    ) {
       return;
     }
 

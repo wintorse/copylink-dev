@@ -1,5 +1,6 @@
 import {
   E2E_FIXTURE_URL,
+  HTTP_SITE_FIXTURE_URL,
   expect,
   gotoWithRetry,
   readClipboardHtml,
@@ -20,8 +21,8 @@ import {
  * contents are read back from the HTTPS page.
  */
 test.describe("HTTP site (navigator.clipboard unavailable)", () => {
-  const HTTP_URL = "http://www.kmoni.bosai.go.jp/";
-  const HTTP_TITLE = "強震モニタ";
+  const HTTP_URL = HTTP_SITE_FIXTURE_URL;
+  const HTTP_TITLE = "Test Title";
 
   test("copy-link copies title as text and HTML anchor", async ({
     sw,
@@ -33,6 +34,7 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
       waitUntil: "domcontentloaded",
       timeout: 10_000,
     });
+    expect(await httpPage.evaluate(() => window.isSecureContext)).toBe(false);
 
     // Open an HTTPS page to read clipboard, since navigator.clipboard
     // is unavailable in the HTTP page context.
@@ -51,7 +53,7 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
     const html = await readClipboardHtml(clipboardPage);
     expect(html).not.toBeNull();
     expect(html).toContain(HTTP_TITLE);
-    expect(html).toContain("kmoni.bosai.go.jp");
+    expect(html).toContain("copylink-dev.test");
     expect(html).toContain("</a>");
   });
 
@@ -62,6 +64,7 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
       waitUntil: "domcontentloaded",
       timeout: 10_000,
     });
+    expect(await httpPage.evaluate(() => window.isSecureContext)).toBe(false);
 
     const clipboardPage = await context.newPage();
     await clipboardPage.goto(E2E_FIXTURE_URL, {
@@ -86,6 +89,7 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
       waitUntil: "domcontentloaded",
       timeout: 10_000,
     });
+    expect(await httpPage.evaluate(() => window.isSecureContext)).toBe(false);
 
     const clipboardPage = await context.newPage();
     await clipboardPage.goto(E2E_FIXTURE_URL, {
@@ -97,9 +101,9 @@ test.describe("HTTP site (navigator.clipboard unavailable)", () => {
 
     // Then: The HTTPS page reads a Markdown link as text and an HTML anchor.
     const text = await readClipboardText(clipboardPage);
-    // www.kmoni.bosai.go.jp is not a recognized site, so no emoji prefix
+    // copylink-dev.test is not a recognized site, so no emoji prefix
     expect(text).toContain(`[${HTTP_TITLE}]`);
-    expect(text).toContain("kmoni.bosai.go.jp");
+    expect(text).toContain("copylink-dev.test");
 
     const html = await readClipboardHtml(clipboardPage);
     expect(html).not.toBeNull();

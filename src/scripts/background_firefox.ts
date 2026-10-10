@@ -7,6 +7,16 @@ chrome.commands.onCommand.addListener((command) => {
       console.error("No active tab found.");
       return;
     }
+    const tabUrl = tabs[0]?.url;
+    // The manifest excludes XML pages; avoid messaging those tabs.
+    if (
+      tabUrl !== undefined &&
+      tabUrl !== "" &&
+      new URL(tabUrl).pathname.toLowerCase().endsWith(".xml")
+    ) {
+      return;
+    }
+
     chrome.tabs.sendMessage(tabId, { type: "execute-command", command }, () => {
       if (chrome.runtime.lastError) {
         console.error(

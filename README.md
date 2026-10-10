@@ -8,8 +8,9 @@
 > Please use the [UserScript version](https://github.com/wintorse/copylink-dev-user-js) instead.
 >
 > _For developers:_ If host permission is granted, this extension works, but only when the shortcuts are set to "Global" mode.
+> Note: Global shortcuts may conflict with shortcuts in other applications.
 >
-> Host permission is granted in [v1.5.0](https://github.com/wintorse/copylink-dev/releases/tag/v1.5.0), so you can download and use it.
+> [Build with host permissions](#build-with-host-permissions-chrome--arc), install it, and configure the shortcuts.
 
 # copylink.dev
 
@@ -70,6 +71,20 @@ Or build from the source code:
 4. Go to [chrome://extensions/](chrome://extensions/)
 5. Enable "Developer mode" in the top right corner
 6. Click "Load unpacked" and select the `dist` folder
+
+### Build with host permissions (Chrome / Arc)
+
+After cloning the repository and running `pnpm i`, run the following instead of the usual `pnpm run build`:
+
+```sh
+pnpm run build:with-host-permissions
+```
+
+This adds `host_permissions: ["<all_urls>"]` to the generated `dist/manifest.json`, requesting host access to all sites. Load the `dist` folder using the steps above. If the extension is already loaded, reload it from the extension management page.
+
+In Arc, also set each shortcut to "Global" mode in the extension shortcut settings.
+
+The usual `pnpm run build` does not add host permissions. To return to the usual build, run it again and reload the extension.
 
 ## Installation - Firefox
 

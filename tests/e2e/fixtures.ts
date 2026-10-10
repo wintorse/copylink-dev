@@ -5,7 +5,6 @@ import {
   test as base,
   chromium,
 } from "@playwright/test";
-
 export type { Worker } from "@playwright/test";
 import fs from "fs";
 import os from "os";
@@ -45,6 +44,8 @@ export const test = base.extend<{
       args: [
         `--disable-extensions-except=${extPath}`,
         `--load-extension=${extPath}`,
+        // Keep this origin non-secure; localhost origins are treated as trustworthy.
+        "--host-resolver-rules=MAP copylink-dev.test 127.0.0.1",
         "--lang=en-US",
         "--accept-lang=en-US",
       ],
@@ -67,6 +68,12 @@ export const test = base.extend<{
 });
 
 export const expect = test.expect;
+
+/** Static page used as the generic non-site-specific fixture in e2e tests. */
+export const E2E_FIXTURE_URL = "https://wintorse.github.io/e2e-fixture.html";
+
+/** Local non-secure HTTP page used to test fallback clipboard behavior. */
+export const HTTP_SITE_FIXTURE_URL = "http://copylink-dev.test:4173/";
 
 /** Public Google Sheets spreadsheet used across e2e tests. */
 export const SHEETS_URL =
@@ -181,6 +188,8 @@ export async function triggerCommand(
  * @returns The text content from the clipboard.
  */
 export async function readClipboardText(page: Page): Promise<string> {
+  // Chromium requires the document reading the clipboard to be focused.
+  await page.bringToFront();
   return page.evaluate(() => navigator.clipboard.readText());
 }
 
@@ -192,6 +201,8 @@ export async function readClipboardText(page: Page): Promise<string> {
  * @returns The HTML content from the clipboard, or null if not available.
  */
 export async function readClipboardHtml(page: Page): Promise<string | null> {
+  // Chromium requires the document reading the clipboard to be focused.
+  await page.bringToFront();
   return page.evaluate(async () => {
     const items = await navigator.clipboard.read();
     for (const item of items) {

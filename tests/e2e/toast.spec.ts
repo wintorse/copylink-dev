@@ -1,4 +1,4 @@
-import { expect, test, triggerCommand } from "./fixtures";
+import { E2E_FIXTURE_URL, expect, test, triggerCommand } from "./fixtures";
 import { fileURLToPath } from "url";
 import { join } from "path";
 import { readFileSync } from "fs";
@@ -40,10 +40,14 @@ test.describe("Toast notification", () => {
     sw,
     context,
   }) => {
+    // Given: The e2e fixture page is open.
     const page = await context.newPage();
-    await page.goto("https://example.com", { waitUntil: "domcontentloaded" });
+    await page.goto(E2E_FIXTURE_URL, { waitUntil: "domcontentloaded" });
+
+    // When: The copy-link command is executed.
     await triggerCommand(sw, page, "copy-link");
 
+    // Then: A non-empty toast is displayed in the extension's Shadow DOM.
     // Toast is rendered inside a Shadow DOM host element
     // const toastHost = page.locator("div").filter({
     //   has: page.locator(":scope"),
@@ -82,6 +86,7 @@ test.describe("Toast notification", () => {
     expect(toastText).not.toBeNull();
     expect(toastText?.length).toBeGreaterThan(0);
 
+    // Then: The toast is removed automatically after its display duration.
     // Wait for toast to be removed (~3s duration + 200ms fade)
     await page.waitForFunction(
       () => {
@@ -105,6 +110,7 @@ test.describe("Toast notification", () => {
     sw,
     context,
   }) => {
+    // Given: A mocked Google Sheets page has no available range information.
     const page = await context.newPage();
 
     // Mock a Google Sheets URL that serves a page WITHOUT #t-name-box.
@@ -124,8 +130,11 @@ test.describe("Toast notification", () => {
       "https://docs.google.com/spreadsheets/d/test-sheet-id/edit#gid=0",
       { waitUntil: "domcontentloaded" },
     );
+
+    // When: The copy-google-sheets-range command is executed.
     await triggerCommand(sw, page, "copy-google-sheets-range");
 
+    // Then: A localized failure toast is displayed.
     // Failure toast should appear
     const toastText = await page.evaluate(() => {
       const hosts = document.querySelectorAll("body > div");
@@ -143,6 +152,7 @@ test.describe("Toast notification", () => {
     expect(toastText).not.toBeNull();
     expect(sheetsRangeFailureMessages).toContain(toastText);
 
+    // Then: The failure toast is removed automatically.
     // Failure toast should also disappear automatically
     await page.waitForFunction(
       () => {

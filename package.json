@@ -16,6 +16,7 @@
   "main": "src/background.ts",
   "scripts": {
     "build": "tsc && vite build --emptyOutDir && vite build --config vite.content.config.js",
+    "build:with-host-permissions": "tsc && vite build --emptyOutDir --mode with-host-permissions && vite build --config vite.content.config.js --mode with-host-permissions",
     "build-firefox": "tsc && vite build --emptyOutDir --minify false --mode firefox && vite build --config vite.content.config.js --minify false --mode firefox",
     "lint": "oxlint --type-aware",
     "lint:fix": "oxlint --fix",

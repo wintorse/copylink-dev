@@ -354,7 +354,15 @@ test.describe("Site-specific title formatting and emoji", () => {
       { waitUntil: "domcontentloaded", timeout: 30_000 },
     );
 
-    // Wait for the live Drive UI to finish loading the folder name.
+    // The initial HTML already has the folder title, but Drive can replace it
+    // with "Folder" during hydration. Wait for the live breadcrumb to render
+    // the folder name before checking the title and running copy commands.
+    await expect(
+      page.getByRole("navigation").getByRole("link", {
+        name: "public folder",
+        exact: true,
+      }),
+    ).toBeVisible({ timeout: 45_000 });
     await expect(page).toHaveTitle(/public folder/, { timeout: 45_000 });
 
     // When: The copy-link command is executed.
@@ -372,6 +380,7 @@ test.describe("Site-specific title formatting and emoji", () => {
     const html = await readClipboardHtml(page);
     expect(html).not.toBeNull();
     expect(html).toContain(":google_drive_2:");
+    expect(html).toContain("public folder");
   });
 
   // ──────────────────────────────────────────────

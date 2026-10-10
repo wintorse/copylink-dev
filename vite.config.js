@@ -88,6 +88,16 @@ export default defineConfig(({ mode }) => {
             if (existsSync(firefoxManifestPath)) {
               unlinkSync(firefoxManifestPath);
             }
+
+            // Opt in to persistent host access for locally built Chrome extensions.
+            if (mode === "with-host-permissions") {
+              const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
+              manifest.host_permissions = ["<all_urls>"];
+              writeFileSync(
+                manifestPath,
+                `${JSON.stringify(manifest, null, 2)}\n`,
+              );
+            }
           }
         },
       },

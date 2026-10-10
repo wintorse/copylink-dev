@@ -27,20 +27,20 @@
     "test:unit": "vitest run"
   },
   "devDependencies": {
-    "@playwright/test": "^1.62.1",
-    "@types/chrome": "^0.2.5",
-    "@types/node": "^26.1.2",
-    "happy-dom": "^20.11.1",
-    "oxfmt": "^0.62.0",
-    "oxlint": "^1.77.0",
-    "oxlint-tsgolint": "^7.0.2001",
+    "@playwright/test": "^1.63.0",
+    "@types/chrome": "^0.3.4",
+    "@types/node": "^26.6.4",
+    "happy-dom": "^20.14.5",
+    "oxfmt": "^0.72.0",
+    "oxlint": "^1.87.0",
+    "oxlint-tsgolint": "^7.0.2003",
     "typescript": "^7.0.2",
-    "vite": "^8.2.1",
-    "vitest": "^4.1.10"
+    "vite": "^8.3.3",
+    "vitest": "^5.0.3"
   },
   "engines": {
     "node": ">=22.12.0",
-    "pnpm": ">=11"
+    "pnpm": ">=12"
   },
-  "packageManager": "pnpm@11.20.0"
+  "packageManager": "pnpm@12.10.1+sha512.ukCjfrGjcNYP6oxM8dNkwTvMzvUY6YrSvO6VT1OdONo3RY5YJho/pV4GUjRQ6g//+fSXsTW+QfLBXBZCusrObA=="
 }

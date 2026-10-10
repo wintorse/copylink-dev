@@ -25,6 +25,13 @@ chrome.commands.onCommand.addListener(async (command) => {
     return;
   }
 
+  // Skip .xml pages because Chrome's unstyled XML viewer can display injected
+  // toast content and styles as plain text. Filter at runtime because Chrome
+  // injects this script dynamically.
+  if (new URL(tabUrl).pathname.toLowerCase().endsWith(".xml")) {
+    return;
+  }
+
   // Inject the content script dynamically via activeTab + scripting permission.
   // The guard inside content.ts prevents duplicate listener registration.
   try {

@@ -53,7 +53,9 @@ export const createFallbackElement = (
   }
   if (spec.type === "linkWithEmoji") {
     const el = document.createElement("span");
-    el.appendChild(document.createTextNode(`${spec.emojiName} `));
+    if (spec.emojiName) {
+      el.appendChild(document.createTextNode(`${spec.emojiName} `));
+    }
     const anchor = document.createElement("a");
     anchor.setAttribute("href", spec.url);
     anchor.textContent = spec.title;
@@ -134,7 +136,8 @@ export const copyTextLinkCore = async (
     } else {
       // htmlWithEmoji
       const emojiName = await getEmojiName();
-      const html = `${escapeHtml(emojiName)}&nbsp;<a href="${escapeHtml(link)}">${escapeHtml(linkTitle)}</a>&nbsp;`;
+      const emojiPrefix = emojiName ? `${escapeHtml(emojiName)}&nbsp;` : "";
+      const html = `${emojiPrefix}<a href="${escapeHtml(link)}">${escapeHtml(linkTitle)}</a>&nbsp;`;
       await runCopy(
         `[${linkTitle}](${link})`,
         html,
@@ -170,7 +173,8 @@ export const copyTextLinkCore = async (
 
   if (command === "copy-link-for-slack") {
     const emojiName = await getEmojiName();
-    const html = `${escapeHtml(emojiName)}&nbsp;<a href="${escapeHtml(url)}">${escapeHtml(title)}</a>&nbsp;`;
+    const emojiPrefix = emojiName ? `${escapeHtml(emojiName)}&nbsp;` : "";
+    const html = `${emojiPrefix}<a href="${escapeHtml(url)}">${escapeHtml(title)}</a>&nbsp;`;
     await runCopy(
       `[${title}](${url})`,
       html,

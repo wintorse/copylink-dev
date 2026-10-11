@@ -38,6 +38,7 @@
 > Please use the [UserScript version](https://github.com/wintorse/copylink-dev-user-js) instead.
 >
 > _For developers:_ If host permission is granted, this extension works, but only when the shortcuts are set to "Global" mode.
+> 
 > Note: Global shortcuts may conflict with shortcuts in other applications.
 >
 > [Build with host permissions](#build-with-host-permissions-chrome--arc), install it, and configure the shortcuts.

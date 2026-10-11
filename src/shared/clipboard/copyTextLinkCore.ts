@@ -76,12 +76,14 @@ export const copyTextLinkCore = async (
     getFormattedTitle,
     getGoogleSheetsRangeInfo,
     getUrl,
+    notify,
+    copy,
   } = deps;
   const title = getFormattedTitle();
   const url = getUrl();
 
-  const notifySuccess = (messageKey: string) => deps.notify(t(messageKey));
-  const notifyFailure = (messageKey: string) => deps.notify(t(messageKey));
+  const notifySuccess = (messageKey: string) => notify(t(messageKey));
+  const notifyFailure = (messageKey: string) => notify(t(messageKey));
 
   const runCopy = async (
     text: string,
@@ -93,7 +95,7 @@ export const copyTextLinkCore = async (
     const fallbackElement = fallbackSpec
       ? createFallbackElement(fallbackSpec)
       : undefined;
-    const result = await deps.copy(text, html, fallbackElement);
+    const result = await copy(text, html, fallbackElement);
     if (result.success) {
       await notifySuccess(successKey);
     } else {
@@ -196,7 +198,7 @@ export const copyTextLinkCore = async (
 
     const rangeInfo = getGoogleSheetsRangeInfo();
     if (!rangeInfo) {
-      await deps.notify(t("copyGoogleSheetsRangeFailure"));
+      await notify(t("copyGoogleSheetsRangeFailure"));
       return;
     }
 
@@ -211,5 +213,5 @@ export const copyTextLinkCore = async (
     return;
   }
 
-  await deps.notify("Unknown command");
+  await notify("Unknown command");
 };

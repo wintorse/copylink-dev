@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-      - release/v1.13.0
+      - "release/**"
 
   schedule:
     # every day 3:00 JST

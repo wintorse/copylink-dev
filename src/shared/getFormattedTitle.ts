@@ -41,7 +41,10 @@ const getRedmineTitle = (): string => {
     document.querySelector<HTMLHeadingElement>("#content h3");
   const issueId = idElement?.textContent;
   const issueTitle = titleElement?.textContent;
-  return issueId !== null && issueId !== undefined && issueTitle !== null
+  return issueId !== null &&
+    issueId !== undefined &&
+    issueTitle !== null &&
+    issueTitle !== undefined
     ? `${issueId}: ${issueTitle}`
     : document.title;
 };
@@ -52,7 +55,10 @@ const getJiraTitle = (): string => {
     document.querySelector<HTMLHeadingElement>("#summary-val h2");
   const issueId = idElement?.textContent;
   const issueTitle = titleElement?.textContent;
-  return issueId !== null && issueId !== undefined && issueTitle !== null
+  return issueId !== null &&
+    issueId !== undefined &&
+    issueTitle !== null &&
+    issueTitle !== undefined
     ? `${issueId} ${issueTitle}`
     : document.title;
 };

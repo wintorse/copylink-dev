@@ -26,6 +26,20 @@ const escapeHtml = (str: string): string =>
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 
+const buildMarkdownLink = (title: string, url: string): string => {
+  const label = title.replace(/[\\`*_[\]<>&]/g, "\\$&");
+  const destination = url.replace(/[\\()<>\s]/g, (character) => {
+    if (character === "(") {
+      return "%28";
+    }
+    if (character === ")") {
+      return "%29";
+    }
+    return encodeURIComponent(character);
+  });
+  return `[${label}](${destination})`;
+};
+
 // Builds clipboard content and a fallback description without accessing the DOM.
 export const buildLinkCopyContent = ({
   title,
@@ -40,7 +54,7 @@ export const buildLinkCopyContent = ({
         fallbackSpec: { type: "plainUrl", url },
       };
     case "markdown": {
-      const text = `[${title}](${url})`;
+      const text = buildMarkdownLink(title, url);
       return {
         text,
         fallbackSpec: { type: "title", title: text },
@@ -60,7 +74,7 @@ export const buildLinkCopyContent = ({
       }
       const emojiPrefix = emojiName ? `${escapeHtml(emojiName)}&nbsp;` : "";
       return {
-        text: `[${title}](${url})`,
+        text: buildMarkdownLink(title, url),
         html: `${emojiPrefix}${htmlLink}`,
         fallbackSpec: { type: "linkWithEmoji", title, url, emojiName },
       };

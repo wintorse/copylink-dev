@@ -4,6 +4,7 @@ import {
   getInitialEmojiValues,
 } from "../../src/shared/popup/emojiSettings";
 import { describe, expect, it } from "vitest";
+import { resolveEmojiName } from "../../src/shared/emojiResolver";
 
 describe("emojiSettings – GitHub PR status fallback", () => {
   it("omits blank GitHub PR status emoji values so they can fall back", () => {
@@ -23,16 +24,35 @@ describe("emojiSettings – GitHub PR status fallback", () => {
     ).toHaveProperty("githubMergedPullRequest", ":merged_pull_request:");
   });
 
-  it("falls back unset GitHub PR status emoji fields to the githubPullRequest emoji", () => {
+  it("keeps unset GitHub PR status fields blank so inheritance survives saving", () => {
     const values = getInitialEmojiValues({
       githubPullRequest: ":pull_request:",
     });
 
     expect(values.githubPullRequest).toBe(":pull_request:");
-    expect(values.githubMergedPullRequest).toBe(":pull_request:");
-    expect(values.githubDraftPullRequest).toBe(":pull_request:");
-    expect(values.githubOpenPullRequest).toBe(":pull_request:");
-    expect(values.githubClosedPullRequest).toBe(":pull_request:");
+    expect(values.githubMergedPullRequest).toBe("");
+    expect(values.githubDraftPullRequest).toBe("");
+    expect(values.githubOpenPullRequest).toBe("");
+    expect(values.githubClosedPullRequest).toBe("");
+  });
+
+  it("inherits the updated common emoji after editing and reopening the popup", () => {
+    const values = getInitialEmojiValues({ githubPullRequest: ":old:" });
+    values.githubPullRequest = ":new:";
+    const saved = buildEmojiNames(values);
+    expect(saved).not.toHaveProperty("githubMergedPullRequest");
+    expect(getInitialEmojiValues(saved).githubMergedPullRequest).toBe("");
+    expect(
+      resolveEmojiName(
+        {
+          href: "https://github.com/a/b/pull/1",
+          hostname: "github.com",
+          pathname: "/a/b/pull/1",
+          githubPullRequestStatus: "merged",
+        },
+        { emojiNames: saved },
+      ),
+    ).toBe(":new:");
   });
 
   it("uses a configured GitHub PR status emoji instead of the fallback", () => {
@@ -42,7 +62,7 @@ describe("emojiSettings – GitHub PR status fallback", () => {
     });
 
     expect(values.githubMergedPullRequest).toBe(":merged_pull_request:");
-    expect(values.githubDraftPullRequest).toBe(":pull_request:");
+    expect(values.githubDraftPullRequest).toBe("");
   });
 });
 

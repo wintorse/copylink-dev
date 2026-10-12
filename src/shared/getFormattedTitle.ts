@@ -1,3 +1,6 @@
+import { buildPageContext } from "./pageContext";
+import { detectSite } from "./siteDetection";
+
 const getGoogleDocsTitle = (): string => {
   const titleElement = document.querySelector<HTMLInputElement>(
     "#docs-title-widget input",
@@ -84,36 +87,31 @@ const getReDocTitle = (): string => {
  * @returns {string} The formatted title of the current document.
  */
 export const getFormattedTitle = (): string => {
-  switch (window.location.hostname) {
-    case "docs.google.com":
+  const ctx = buildPageContext();
+  switch (detectSite(ctx)) {
+    case "googleSheets":
+    case "googleDocs":
+    case "googleSlides":
       return getGoogleDocsTitle();
-    case "drive.google.com":
-      return getGoogleDriveTitle();
-    case "github.com":
+    case "googleDrive":
+      return ctx.hostname === "docs.google.com"
+        ? getGoogleDocsTitle()
+        : getGoogleDriveTitle();
+    case "github":
+    case "githubPullRequest":
+    case "githubIssue":
       return getGitHubTitle();
-    case "app.asana.com":
+    case "asanaTask":
       return getAsanaTitle();
+    case "backlogIssue":
+      return getBacklogTitle();
+    case "jiraIssue":
+      return getJiraTitle();
+    case "redmineIssue":
+      return getRedmineTitle();
+    case "reDoc":
+      return getReDocTitle();
+    case undefined:
+      return document.title;
   }
-  if (window.location.hostname.includes("backlog")) {
-    return getBacklogTitle();
-  }
-  if (document.body.id === "jira") {
-    return getJiraTitle();
-  }
-  if (window.location.hostname.includes("redmine")) {
-    return getRedmineTitle();
-  }
-  if (
-    document.querySelector("#footer a")?.textContent?.includes("Redmine") ===
-    true
-  ) {
-    return getRedmineTitle();
-  }
-  if (
-    document.title.includes("ReDoc") ||
-    document.querySelector(".redoc-wrap") !== null
-  ) {
-    return getReDocTitle();
-  }
-  return document.title; // fallback
 };

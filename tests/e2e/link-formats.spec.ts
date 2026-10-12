@@ -9,6 +9,22 @@ import {
 } from "./fixtures";
 
 test.describe("Link format settings for copy-google-sheets-range", () => {
+  test.beforeEach(async ({ context }) => {
+    await context.route(
+      "https://docs.google.com/spreadsheets/d/**",
+      async (route) => {
+        await route.fulfill({
+          contentType: "text/html; charset=utf-8",
+          body: `<!doctype html>
+        <html><head><title>テスト spreadsheet - Google Sheets</title></head><body>
+          <div id="docs-title-widget"><input value="テスト spreadsheet"></div>
+          <input id="t-name-box" value="C2:E4">
+        </body></html>`,
+        });
+      },
+    );
+  });
+
   async function setLinkFormat(sw: Worker, format: string) {
     await sw.evaluate(async (fmt) => {
       await chrome.storage.local.set({ copylinkdevLinkFormat: fmt });

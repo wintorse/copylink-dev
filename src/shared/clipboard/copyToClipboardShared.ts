@@ -17,7 +17,13 @@ export const copyToClipboardShared = async (
   fallbackElement?: HTMLElement,
 ): Promise<CopyResult> => {
   try {
-    if (typeof html === "string" && "ClipboardItem" in window) {
+    if (typeof html === "string") {
+      if (
+        typeof ClipboardItem !== "function" ||
+        typeof navigator.clipboard?.write !== "function"
+      ) {
+        throw new Error("HTML clipboard API unavailable");
+      }
       await navigator.clipboard.write([
         new ClipboardItem({
           "text/plain": new Blob([text], { type: "text/plain" }),

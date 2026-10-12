@@ -66,7 +66,7 @@ describe("buildLinkCopyContent", () => {
       emojiName: ':<emoji&">:',
     };
     expect(buildLinkCopyContent(options)).toEqual({
-      text: `[${options.title}](${options.url})`,
+      text: '[\\<Title \\& "More"\\>](https://example.com/?q="value"&next=%3Cpage%3E)',
       html: ':&lt;emoji&amp;&quot;&gt;:&nbsp;<a href="https://example.com/?q=&quot;value&quot;&amp;next=&lt;page&gt;">&lt;Title &amp; &quot;More&quot;&gt;</a>&nbsp;',
       fallbackSpec: {
         type: "linkWithEmoji",
@@ -76,4 +76,17 @@ describe("buildLinkCopyContent", () => {
       },
     });
   });
+  it.each(["markdown", "htmlWithEmoji"] as const)(
+    "escapes Markdown syntax in %s plain text",
+    (format) => {
+      const result = buildLinkCopyContent({
+        title: "Budget ] [draft] *bold* &copy; \\",
+        url: "https://example.com/a(b)c?q=hello world#x<y>",
+        format,
+      });
+      expect(result.text).toBe(
+        "[Budget \\] \\[draft\\] \\*bold\\* \\&copy; \\\\](https://example.com/a%28b%29c?q=hello%20world#x%3Cy%3E)",
+      );
+    },
+  );
 });

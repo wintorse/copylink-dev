@@ -60,6 +60,7 @@ export const createFallbackElement = (
     anchor.setAttribute("href", spec.url);
     anchor.textContent = spec.title;
     el.appendChild(anchor);
+    el.appendChild(document.createTextNode("\u00A0"));
     return el;
   }
   return undefined;

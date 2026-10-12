@@ -12,6 +12,10 @@ import type {
   LinkFormat,
 } from "../types/types";
 import {
+  type ImportData,
+  parseImportedSettings,
+} from "../shared/popup/importSettings";
+import {
   buildCustomRegexes,
   buildEmojiNames,
   getInitialEmojiValues,
@@ -28,11 +32,6 @@ type CustomRegexesStorageData = {
 
 type LinkFormatStorageData = {
   [key: string]: unknown;
-};
-
-type ImportData = {
-  emojiNames?: Partial<EmojiNameRecord>;
-  customRegexes?: Partial<CustomRegexes>;
 };
 
 const updateLinkFormat = (format: LinkFormat) => {
@@ -149,22 +148,6 @@ const exportEmojiNames = async () => {
   return result;
 };
 
-const isImportData = (value: unknown): value is ImportData =>
-  typeof value === "object" &&
-  value !== null &&
-  ("emojiNames" in value || "customRegexes" in value);
-
-const formatImportedData = (data: ImportData): ImportData => {
-  const formattedData: ImportData = {};
-  if (data.emojiNames) {
-    formattedData.emojiNames = buildEmojiNames(data.emojiNames);
-  }
-  if (data.customRegexes) {
-    formattedData.customRegexes = buildCustomRegexes(data.customRegexes);
-  }
-  return formattedData;
-};
-
 const saveImportedData = (data: ImportData) => {
   if (data.emojiNames) {
     // allow empty object to clear emoji names
@@ -226,12 +209,7 @@ const refreshImportedInputs = (data: ImportData) => {
 };
 
 const importData = (importedText: string) => {
-  const parsedData = JSON.parse(importedText);
-  if (!isImportData(parsedData)) {
-    throw new Error("Invalid import data format");
-  }
-
-  const formattedData = formatImportedData(parsedData);
+  const formattedData = parseImportedSettings(importedText);
   saveImportedData(formattedData);
   refreshImportedInputs(formattedData);
 };

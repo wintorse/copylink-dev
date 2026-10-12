@@ -8,7 +8,7 @@ import { getLinkFormat } from "./getLinkFormat";
 import { showToast } from "../utils/toast";
 
 export const copyTextLink = async (command: Command) => {
-  await copyTextLinkCore(command, {
+  return copyTextLinkCore(command, {
     t: (key: string) => chrome.i18n.getMessage(key),
     getEmojiName,
     getLinkFormat,

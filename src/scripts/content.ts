@@ -16,7 +16,22 @@ if (g.__copylinkDevInjected !== true) {
     if (message.type === "execute-command" && isValidCommand(message.command)) {
       handleCommand(message.command)
         .then((result) => {
-          sendResponse({ success: true, result });
+          if (result?.success === false) {
+            sendResponse({
+              success: false,
+              error:
+                result.error instanceof Error
+                  ? result.error.message
+                  : typeof result.error === "string"
+                    ? result.error
+                    : "Copy failed",
+            });
+          } else {
+            sendResponse({
+              success: true,
+              result: result ? { success: true } : undefined,
+            });
+          }
         })
         .catch((error) => {
           console.error(error);

@@ -63,7 +63,7 @@ export const createFallbackElement = (
 export const copyTextLinkCore = async (
   command: Command,
   deps: CopyTextLinkDeps,
-): Promise<void> => {
+): Promise<CopyResult | undefined> => {
   const {
     t,
     getEmojiName,
@@ -92,6 +92,7 @@ export const copyTextLinkCore = async (
     } else {
       await notifyFailure(failureKey);
     }
+    return result;
   };
 
   const copyLinkWithFormat = async (
@@ -103,7 +104,7 @@ export const copyTextLinkCore = async (
   ) => {
     const emojiName =
       linkFormat === "htmlWithEmoji" ? await getEmojiName() : "";
-    await runCopy(
+    return runCopy(
       buildLinkCopyContent({
         title: linkTitle,
         url: link,
@@ -116,34 +117,31 @@ export const copyTextLinkCore = async (
   };
 
   if (command === "copy-title") {
-    await runCopy(
+    return runCopy(
       { text: title, fallbackSpec: { type: "title", title } },
       "copyTitleSuccess",
       "copyTitleFailure",
     );
-    return;
   }
 
   if (command === "copy-link") {
-    await copyLinkWithFormat(
+    return copyLinkWithFormat(
       url,
       title,
       "html",
       "copyLinkSuccess",
       "copyLinkFailure",
     );
-    return;
   }
 
   if (command === "copy-link-for-slack") {
-    await copyLinkWithFormat(
+    return copyLinkWithFormat(
       url,
       title,
       "htmlWithEmoji",
       "copyLinkSuccess",
       "copyLinkFailure",
     );
-    return;
   }
 
   if (command === "copy-google-sheets-range") {
@@ -158,19 +156,22 @@ export const copyTextLinkCore = async (
     const rangeInfo = getGoogleSheetsRangeInfo();
     if (!rangeInfo) {
       await notify(t("copyGoogleSheetsRangeFailure"));
-      return;
+      return {
+        success: false,
+        error: new Error("Google Sheets range unavailable"),
+      };
     }
 
     const linkFormat = await getLinkFormat();
-    await copyLinkWithFormat(
+    return copyLinkWithFormat(
       rangeInfo.link,
       title,
       linkFormat,
       "copyGoogleSheetsRangeSuccess",
       "copyGoogleSheetsRangeFailure",
     );
-    return;
   }
 
   await notify("Unknown command");
+  return { success: false, error: new Error("Unknown command") };
 };

@@ -90,13 +90,14 @@ const exportEmojiNames = async () => {
   const data = await new Promise<{
     emojiNames?: Partial<EmojiNameRecord>;
     copylinkdevCustomRegexes?: Partial<CustomRegexes>;
-  }>((resolve) => {
+  }>((resolve, reject) => {
     chrome.storage.local.get(
       ["emojiNames", "copylinkdevCustomRegexes"],
       (result) => {
         if (chrome.runtime.lastError) {
           console.error(chrome.runtime.lastError);
-          throw new Error("Failed to retrieve data from storage");
+          reject(new Error("Failed to retrieve data from storage"));
+          return;
         }
         resolve(
           result as {

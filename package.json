@@ -25,7 +25,8 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p tests/tsconfig.json",
     "test": "pnpm build && playwright test",
     "test:headed": "pnpm build && playwright test --headed",
-    "test:unit": "vitest run"
+    "test:unit": "vitest run",
+    "test:firefox-content": "pnpm build-firefox && playwright test --config playwright.firefox.config.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",

@@ -50,6 +50,12 @@ export const test = base.extend<{
         "--accept-lang=en-US",
       ],
     });
+    await context.route(E2E_FIXTURE_URL, async (route) => {
+      await route.fulfill({
+        contentType: "text/html",
+        path: path.join(import.meta.dirname, "http-fixture", "index.html"),
+      });
+    });
     await use(context);
     await context.close();
     fs.rmSync(extPath, { recursive: true, force: true });

@@ -2,6 +2,7 @@ import {
   CUSTOM_REGEX_KEYS,
   DEFAULT_LINK_FORMAT,
   EMOJI_KEYS,
+  GITHUB_PULL_REQUEST_STATUS_EMOJI_KEYS,
   LINK_FORMAT_STORAGE_KEY,
   getCustomRegexElements,
   getEmojiElements,
@@ -55,9 +56,20 @@ const collectEmojiInputs = (): Partial<Record<string, string>> => {
   return values;
 };
 
+const refreshStatusEmojiPlaceholders = (emojiName: string) => {
+  const elements = getEmojiElements();
+  for (const key of GITHUB_PULL_REQUEST_STATUS_EMOJI_KEYS) {
+    const element = document.getElementById(elements[key]);
+    if (element instanceof HTMLInputElement) {
+      element.placeholder = emojiName;
+    }
+  }
+};
+
 // Update emoji names in storage based on form inputs
 const updateEmojiNames = () => {
   const emojiNames = buildEmojiNames(collectEmojiInputs());
+  refreshStatusEmojiPlaceholders(emojiNames.githubPullRequest ?? "");
   chrome.storage.local.set({ emojiNames }, () => {
     if (chrome.runtime.lastError) {
       console.error(chrome.runtime.lastError);
@@ -161,6 +173,7 @@ const saveImportedData = (data: ImportData) => {
 const refreshEmojiInputs = (emojiNames?: Partial<EmojiNameRecord>) => {
   const emojiElements = getEmojiElements();
   const values = getInitialEmojiValues(emojiNames);
+  refreshStatusEmojiPlaceholders(values.githubPullRequest);
   for (const key of EMOJI_KEYS) {
     const element = document.getElementById(emojiElements[key]);
     if (element instanceof HTMLInputElement) {

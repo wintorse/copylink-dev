@@ -133,5 +133,8 @@
   },
   "customWebsite5": {
     "message": "自定义网站 5"
+  },
+  "invalidCustomRegex": {
+    "message": "正则表达式无效。保留之前保存的值。"
   }
 }

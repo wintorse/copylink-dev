@@ -77,8 +77,38 @@ const collectRegexInputs = (): Partial<Record<string, string>> => {
   return values;
 };
 
+let savedCustomRegexes: Partial<CustomRegexes> = {};
+
 const updateCustomRegexes = () => {
-  const customRegexes = buildCustomRegexes(collectRegexInputs());
+  const inputs = collectRegexInputs();
+  const elements = getCustomRegexElements();
+  const customRegexes = { ...savedCustomRegexes };
+  for (const key of CUSTOM_REGEX_KEYS) {
+    const element = document.getElementById(elements[key]);
+    if (!(element instanceof HTMLInputElement)) {
+      continue;
+    }
+    const value = inputs[key] ?? "";
+    let errorMessage = "";
+    try {
+      Object.assign(customRegexes, buildCustomRegexes({ [key]: value }));
+    } catch {
+      errorMessage = chrome.i18n.getMessage("invalidCustomRegex");
+    }
+    element.setCustomValidity(errorMessage);
+    element.setAttribute("aria-invalid", String(errorMessage.length > 0));
+    const errorId = `${element.id}-error`;
+    let error = document.getElementById(errorId);
+    if (!error) {
+      error = document.createElement("span");
+      error.id = errorId;
+      error.setAttribute("role", "alert");
+      element.after(error);
+      element.setAttribute("aria-describedby", errorId);
+    }
+    error.textContent = errorMessage;
+  }
+  savedCustomRegexes = customRegexes;
   chrome.storage.local.set({ copylinkdevCustomRegexes: customRegexes }, () => {
     if (chrome.runtime.lastError) {
       console.error(chrome.runtime.lastError);
@@ -170,11 +200,18 @@ const refreshEmojiInputs = (emojiNames?: Partial<EmojiNameRecord>) => {
 };
 
 const refreshCustomRegexInputs = (customRegexes?: Partial<CustomRegexes>) => {
+  savedCustomRegexes = { ...customRegexes };
   const customRegexElements = getCustomRegexElements();
   for (const key of CUSTOM_REGEX_KEYS) {
     const element = document.getElementById(customRegexElements[key]);
     if (element instanceof HTMLInputElement) {
       element.value = customRegexes?.[key] ?? "";
+      element.setCustomValidity("");
+      element.setAttribute("aria-invalid", "false");
+      const error = document.getElementById(`${element.id}-error`);
+      if (error) {
+        error.textContent = "";
+      }
     }
   }
 };

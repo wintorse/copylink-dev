@@ -103,7 +103,7 @@ export const copyTextLinkCore = async (
   ) => {
     const emojiName =
       linkFormat === "htmlWithEmoji" ? await getEmojiName() : "";
-    await runCopy(
+    return runCopy(
       buildLinkCopyContent({
         title: linkTitle,
         url: link,
@@ -116,34 +116,31 @@ export const copyTextLinkCore = async (
   };
 
   if (command === "copy-title") {
-    await runCopy(
+    return runCopy(
       { text: title, fallbackSpec: { type: "title", title } },
       "copyTitleSuccess",
       "copyTitleFailure",
     );
-    return;
   }
 
   if (command === "copy-link") {
-    await copyLinkWithFormat(
+    return copyLinkWithFormat(
       url,
       title,
       "html",
       "copyLinkSuccess",
       "copyLinkFailure",
     );
-    return;
   }
 
   if (command === "copy-link-for-slack") {
-    await copyLinkWithFormat(
+    return copyLinkWithFormat(
       url,
       title,
       "htmlWithEmoji",
       "copyLinkSuccess",
       "copyLinkFailure",
     );
-    return;
   }
 
   if (command === "copy-google-sheets-range") {
@@ -162,14 +159,13 @@ export const copyTextLinkCore = async (
     }
 
     const linkFormat = await getLinkFormat();
-    await copyLinkWithFormat(
+    return copyLinkWithFormat(
       rangeInfo.link,
       title,
       linkFormat,
       "copyGoogleSheetsRangeSuccess",
       "copyGoogleSheetsRangeFailure",
     );
-    return;
   }
 
   await notify("Unknown command");

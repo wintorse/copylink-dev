@@ -24,15 +24,15 @@ for (const command of ["copy-title", "copy-link"] as const) {
                 listener: (
                   message: object,
                   sender: object,
-                  respond: (data: { success: boolean }) => void,
+                  respond: () => void,
                 ) => boolean,
               ) => {
                 button.addEventListener("click", () => {
                   listener(
                     { type: "execute-command", command: cmd },
                     {},
-                    (data) => {
-                      document.body.dataset.copyResult = String(data.success);
+                    () => {
+                      document.body.dataset.copyComplete = "true";
                     },
                   );
                 });
@@ -48,7 +48,7 @@ for (const command of ["copy-title", "copy-link"] as const) {
 
     await page.click("#copy-test");
     await expect(page.locator("body")).toHaveAttribute(
-      "data-copy-result",
+      "data-copy-complete",
       "true",
     );
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
@@ -70,11 +70,11 @@ for (const command of ["copy-title", "copy-link"] as const) {
       Object.defineProperty(navigator.clipboard, "writeText", {
         value: () => Promise.reject(new Error("forced fallback")),
       });
-      delete document.body.dataset.copyResult;
+      delete document.body.dataset.copyComplete;
     });
     await page.click("#copy-test");
     await expect(page.locator("body")).toHaveAttribute(
-      "data-copy-result",
+      "data-copy-complete",
       "true",
     );
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(

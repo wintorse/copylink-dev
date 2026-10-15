@@ -6,6 +6,7 @@ import {
 } from "../../src/shared/clipboard/copyTextLinkCore";
 import { describe, expect, it, vi } from "vitest";
 import type { CopyResult } from "../../src/shared/clipboard/copyToClipboardShared";
+import type { LinkFormat } from "../../src/types/types";
 
 /**
  * Build a fully-mocked deps object with sensible defaults.
@@ -124,6 +125,55 @@ describe("copyTextLinkCore / copy-link-for-slack", () => {
 // ──────────────────────────────────────────────
 
 describe("copyTextLinkCore / copy-google-sheets-range", () => {
+  it.each<{
+    format: LinkFormat;
+    text: string;
+    html?: string;
+  }>([
+    {
+      format: "plainUrl",
+      text: "https://docs.google.com/spreadsheets/d/abc/edit#gid=0&range=A1:B5",
+    },
+    {
+      format: "markdown",
+      text: "[Test Title](https://docs.google.com/spreadsheets/d/abc/edit#gid=0&range=A1:B5)",
+    },
+    {
+      format: "html",
+      text: "Test Title",
+      html: '<a href="https://docs.google.com/spreadsheets/d/abc/edit#gid=0&amp;range=A1:B5">Test Title</a>&nbsp;',
+    },
+    {
+      format: "htmlWithEmoji",
+      text: "[Test Title](https://docs.google.com/spreadsheets/d/abc/edit#gid=0&range=A1:B5)",
+      html: ':google_sheets:&nbsp;<a href="https://docs.google.com/spreadsheets/d/abc/edit#gid=0&amp;range=A1:B5">Test Title</a>&nbsp;',
+    },
+  ])(
+    "copies the selected range in $format format",
+    async ({ format, text, html }) => {
+      const deps = makeDeps({
+        getUrl: vi
+          .fn()
+          .mockReturnValue(
+            "https://docs.google.com/spreadsheets/d/abc/edit#gid=0",
+          ),
+        getGoogleSheetsRangeInfo: vi.fn().mockReturnValue({
+          link: "https://docs.google.com/spreadsheets/d/abc/edit#gid=0&range=A1:B5",
+        }),
+        getLinkFormat: vi.fn().mockResolvedValue(format),
+        getEmojiName: vi.fn().mockResolvedValue(":google_sheets:"),
+      });
+
+      await copyTextLinkCore("copy-google-sheets-range", deps);
+
+      expect(deps.copy).toHaveBeenCalledWith(text, html, expect.any(Object));
+      expect(deps.notify).toHaveBeenCalledWith("copyGoogleSheetsRangeSuccess");
+      expect(deps.getEmojiName).toHaveBeenCalledTimes(
+        format === "htmlWithEmoji" ? 1 : 0,
+      );
+    },
+  );
+
   it("does nothing (no copy, no notify) when not on a Google Sheets page", async () => {
     const deps = makeDeps({
       getUrl: vi.fn().mockReturnValue("https://example.com/"),

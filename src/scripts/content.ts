@@ -15,15 +15,11 @@ if (g.__copylinkDevInjected !== true) {
   chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     if (message.type === "execute-command" && isValidCommand(message.command)) {
       handleCommand(message.command)
-        .then((result) => {
-          sendResponse({ success: true, result });
-        })
         .catch((error) => {
           console.error(error);
-          sendResponse({
-            success: false,
-            error: error instanceof Error ? error.message : String(error),
-          });
+        })
+        .finally(() => {
+          sendResponse();
         });
       return true; // Keep the message port open for async response
     }

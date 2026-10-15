@@ -65,22 +65,22 @@ export const buildCustomRegexes = (
 
 export const getInitialEmojiValues = (
   stored?: Partial<EmojiNameRecord>,
-): EmojiNameRecord => {
+): Record<EmojiKeys, string> => {
   const defaults = DEFAULT_EMOJI_NAMES;
-  const result = { ...defaults };
+  const result: Record<EmojiKeys, string> = { ...defaults };
+  for (const key of fallbackEmojiKeys) {
+    result[key] = "";
+  }
   if (!stored) {
     return result;
   }
 
-  const githubPullRequestFallback =
-    stored.githubPullRequest ?? defaults.githubPullRequest;
-  for (const key of fallbackEmojiKeys) {
-    result[key] = githubPullRequestFallback;
-  }
-
   for (const key of EMOJI_KEYS) {
     const value = stored[key];
-    if (value !== undefined) {
+    if (
+      value !== undefined &&
+      !(fallbackEmojiKeys.has(key) && value.trim().length === 0)
+    ) {
       result[key] = normalizeEmojiValue(value, defaults[key]);
     }
   }

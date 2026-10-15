@@ -133,5 +133,8 @@
   },
   "customWebsite5": {
     "message": "Custom website 5"
+  },
+  "invalidCustomRegex": {
+    "message": "Invalid regular expression. The previous value remains saved."
   }
 }

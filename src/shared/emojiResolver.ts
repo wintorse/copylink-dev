@@ -29,6 +29,14 @@ const githubPullRequestStatusEmojiKeys = {
   closed: "githubClosedPullRequest",
 } as const satisfies Record<GitHubPullRequestStatus, EmojiKeys>;
 
+const matchesCustomRegex = (pattern: string, href: string): boolean => {
+  try {
+    return new RegExp(pattern).test(href);
+  } catch {
+    return false;
+  }
+};
+
 export const resolveEmojiName = (
   ctx: PageContext,
   deps: EmojiResolverDeps,
@@ -60,7 +68,7 @@ export const resolveEmojiName = (
       customEmoji.length > 0 &&
       regexPattern !== undefined &&
       regexPattern.length > 0 &&
-      new RegExp(regexPattern).test(ctx.href)
+      matchesCustomRegex(regexPattern, ctx.href)
     ) {
       return getEmoji(websiteKey);
     }

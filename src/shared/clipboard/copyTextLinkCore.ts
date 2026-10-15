@@ -63,7 +63,7 @@ export const createFallbackElement = (
 export const copyTextLinkCore = async (
   command: Command,
   deps: CopyTextLinkDeps,
-): Promise<CopyResult | undefined> => {
+): Promise<void> => {
   const {
     t,
     getEmojiName,
@@ -92,7 +92,6 @@ export const copyTextLinkCore = async (
     } else {
       await notifyFailure(failureKey);
     }
-    return result;
   };
 
   const copyLinkWithFormat = async (
@@ -156,10 +155,7 @@ export const copyTextLinkCore = async (
     const rangeInfo = getGoogleSheetsRangeInfo();
     if (!rangeInfo) {
       await notify(t("copyGoogleSheetsRangeFailure"));
-      return {
-        success: false,
-        error: new Error("Google Sheets range unavailable"),
-      };
+      return;
     }
 
     const linkFormat = await getLinkFormat();
@@ -173,5 +169,4 @@ export const copyTextLinkCore = async (
   }
 
   await notify("Unknown command");
-  return { success: false, error: new Error("Unknown command") };
 };

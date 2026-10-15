@@ -51,9 +51,8 @@ describe("copyTextLinkCore / copy-link", () => {
       } satisfies CopyResult),
     });
 
-    const result = await copyTextLinkCore("copy-link", deps);
+    await copyTextLinkCore("copy-link", deps);
 
-    expect(result?.success).toBe(false);
     expect(deps.notify).toHaveBeenCalledWith("copyLinkFailure");
   });
 });

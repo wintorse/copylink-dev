@@ -135,6 +135,6 @@
     "message": "カスタム Web サイト 5"
   },
   "invalidCustomRegex": {
-    "message": "正規表現が正しくありません。以前の値が保存されています。"
+    "message": "正規表現が正しくありません"
   }
 }

@@ -39,7 +39,7 @@
 | B-SITE-09 | Asana Tasks          | `:asana:`             | From `aria-label` of `TaskPrintView`           |
 | B-SITE-10 | Backlog Issues       | `:backlog:`           | From `#summary .title-group__title-text`       |
 | B-SITE-11 | Redmine Issues       | `:redmine_ticket:`    | Extracts `Tracker #number: title` from h2/h3   |
-| B-SITE-12 | ReDoc (Swagger)      | `:swagger:`           | From the second span of the active label       |
+| B-SITE-12 | ReDoc (Swagger)      | `:swagger:`           | Active menu title (v2: label / v3: data-text)  |
 | B-SITE-13 | Unregistered sites   | (none)                | Uses `document.title` as-is                    |
 
 ### 1.4 GitHub Pull Request Status Emoji
@@ -171,7 +171,7 @@
 | B-SITE-09                    | Asana Tasks                                | ✅     | `e2e/site-title.spec.ts`: `Asana Task (mocked): title from aria-label`                                        |
 | B-SITE-10                    | Backlog Issues                             | ✅     | `e2e/site-title.spec.ts`: `Backlog Issue (mocked): title from DOM selector`                                   |
 | B-SITE-11                    | Redmine Issues                             | ✅     | `e2e/site-title.spec.ts`: `Redmine Issue: title is Feature #642: OpenXR On Linux.`                            |
-| B-SITE-12                    | ReDoc (Swagger)                            | ✅     | `e2e/site-title.spec.ts`: `ReDoc: title is 法令本文取得API`                                                   |
+| B-SITE-12                    | ReDoc (Swagger)                            | ✅     | `e2e/site-title.spec.ts`: ReDoc v2 / v3; `unit/redocTitle.test.ts`                                            |
 | B-SITE-13                    | Unregistered sites                         | ✅     | `e2e/core-commands.spec.ts`: implicitly tested on example.com                                                 |
 | **GitHub PR Status Emoji**   |                                            |        |                                                                                                               |
 | B-GH-PR-01                   | Status-specific PR emoji                   | ✅     | `e2e/site-title.spec.ts`: `GitHub Pull Request: status-specific emoji is used on a merged PR`                 |

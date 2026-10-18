@@ -67,21 +67,26 @@ const getJiraTitle = (): string => {
 };
 
 const getReDocTitle = (): string => {
-  // Find the active label element (class contains 'active')
+  // ReDoc v3 separates the menu title from the HTTP method badge.
+  const activeMenuItemLabel = document
+    .querySelector<HTMLElement>('[data-active="true"] [data-text]')
+    ?.textContent?.trim();
+  if (activeMenuItemLabel !== undefined && activeMenuItemLabel !== "") {
+    return activeMenuItemLabel;
+  }
+
+  // ReDoc v2 uses the second span of the active label for operation titles.
   const activeLabel = document.querySelector<HTMLLabelElement>(
     "label[class*='active']",
   );
 
   if (activeLabel) {
-    // Get all span elements within the active label
     const spans = activeLabel.querySelectorAll("span");
-    // Return the textContent of the second span (index 1)
     if (spans.length >= 2) {
-      return spans[1].textContent?.trim() ?? document.title;
+      return spans[1].textContent?.trim() || document.title;
     }
   }
 
-  // Fallback if no active label or second span is found
   return document.title;
 };
 

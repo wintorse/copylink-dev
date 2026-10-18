@@ -1,6 +1,6 @@
 {
   "name": "copylink.dev",
-  "version": "1.12.0",
+  "version": "1.13.0",
   "description": "Browser extension that provides shortcuts to copy links. On supported sites, it creates Slack emoji-enhanced links.",
   "homepage": "https://github.com/wintorse/copylink-dev#readme",
   "bugs": {
@@ -25,24 +25,25 @@
     "typecheck": "tsc --noEmit && tsc --noEmit -p tests/tsconfig.json",
     "test": "pnpm build && playwright test",
     "test:headed": "pnpm build && playwright test --headed",
-    "test:unit": "vitest run"
+    "test:unit": "vitest run",
+    "test:firefox-content": "pnpm build-firefox && playwright test --config playwright.firefox.config.ts"
   },
   "devDependencies": {
-    "@playwright/test": "^1.63.0",
-    "@types/chrome": "^0.3.4",
-    "@types/node": "^26.6.4",
-    "happy-dom": "^20.14.5",
-    "oxfmt": "^0.72.0",
-    "oxlint": "^1.87.0",
-    "oxlint-tsgolint": "^7.0.2003",
+    "@playwright/test": "^1.64.1",
+    "@types/chrome": "^0.3.5",
+    "@types/node": "^26.6.5",
+    "happy-dom": "^20.14.6",
+    "oxfmt": "^0.73.0",
+    "oxlint": "^1.88.0",
+    "oxlint-tsgolint": "^7.0.2004",
     "typescript": "^7.0.2",
-    "vite": "^8.3.3",
-    "vitest": "^5.0.3"
+    "vite": "^8.3.4",
+    "vitest": "^5.0.4"
   },
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": "26.11.1"
+      "version": "26.12.0"
     }
   },
   "packageManager": "pnpm@12.10.1+sha512.ukCjfrGjcNYP6oxM8dNkwTvMzvUY6YrSvO6VT1OdONo3RY5YJho/pV4GUjRQ6g//+fSXsTW+QfLBXBZCusrObA=="

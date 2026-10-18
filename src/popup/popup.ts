@@ -2,6 +2,7 @@ import {
   CUSTOM_REGEX_KEYS,
   DEFAULT_LINK_FORMAT,
   EMOJI_KEYS,
+  GITHUB_PULL_REQUEST_STATUS_EMOJI_KEYS,
   LINK_FORMAT_STORAGE_KEY,
   getCustomRegexElements,
   getEmojiElements,
@@ -11,6 +12,10 @@ import type {
   EmojiNameRecord,
   LinkFormat,
 } from "../types/types";
+import {
+  type ImportData,
+  parseImportedSettings,
+} from "../shared/popup/importSettings";
 import {
   buildCustomRegexes,
   buildEmojiNames,
@@ -28,11 +33,6 @@ type CustomRegexesStorageData = {
 
 type LinkFormatStorageData = {
   [key: string]: unknown;
-};
-
-type ImportData = {
-  emojiNames?: Partial<EmojiNameRecord>;
-  customRegexes?: Partial<CustomRegexes>;
 };
 
 const updateLinkFormat = (format: LinkFormat) => {
@@ -55,9 +55,20 @@ const collectEmojiInputs = (): Partial<Record<string, string>> => {
   return values;
 };
 
+const refreshStatusEmojiPlaceholders = (emojiName: string) => {
+  const elements = getEmojiElements();
+  for (const key of GITHUB_PULL_REQUEST_STATUS_EMOJI_KEYS) {
+    const element = document.getElementById(elements[key]);
+    if (element instanceof HTMLInputElement) {
+      element.placeholder = emojiName;
+    }
+  }
+};
+
 // Update emoji names in storage based on form inputs
 const updateEmojiNames = () => {
   const emojiNames = buildEmojiNames(collectEmojiInputs());
+  refreshStatusEmojiPlaceholders(emojiNames.githubPullRequest ?? "");
   chrome.storage.local.set({ emojiNames }, () => {
     if (chrome.runtime.lastError) {
       console.error(chrome.runtime.lastError);
@@ -77,8 +88,38 @@ const collectRegexInputs = (): Partial<Record<string, string>> => {
   return values;
 };
 
+let savedCustomRegexes: Partial<CustomRegexes> = {};
+
 const updateCustomRegexes = () => {
-  const customRegexes = buildCustomRegexes(collectRegexInputs());
+  const inputs = collectRegexInputs();
+  const elements = getCustomRegexElements();
+  const customRegexes = { ...savedCustomRegexes };
+  for (const key of CUSTOM_REGEX_KEYS) {
+    const element = document.getElementById(elements[key]);
+    if (!(element instanceof HTMLInputElement)) {
+      continue;
+    }
+    const value = inputs[key] ?? "";
+    let errorMessage = "";
+    try {
+      Object.assign(customRegexes, buildCustomRegexes({ [key]: value }));
+    } catch {
+      errorMessage = chrome.i18n.getMessage("invalidCustomRegex");
+    }
+    element.setCustomValidity(errorMessage);
+    element.setAttribute("aria-invalid", String(errorMessage.length > 0));
+    const errorId = `${element.id}-error`;
+    let error = document.getElementById(errorId);
+    if (!error) {
+      error = document.createElement("span");
+      error.id = errorId;
+      error.setAttribute("role", "alert");
+      element.after(error);
+      element.setAttribute("aria-describedby", errorId);
+    }
+    error.textContent = errorMessage;
+  }
+  savedCustomRegexes = customRegexes;
   chrome.storage.local.set({ copylinkdevCustomRegexes: customRegexes }, () => {
     if (chrome.runtime.lastError) {
       console.error(chrome.runtime.lastError);
@@ -91,13 +132,14 @@ const exportEmojiNames = async () => {
   const data = await new Promise<{
     emojiNames?: Partial<EmojiNameRecord>;
     copylinkdevCustomRegexes?: Partial<CustomRegexes>;
-  }>((resolve) => {
+  }>((resolve, reject) => {
     chrome.storage.local.get(
       ["emojiNames", "copylinkdevCustomRegexes"],
       (result) => {
         if (chrome.runtime.lastError) {
           console.error(chrome.runtime.lastError);
-          throw new Error("Failed to retrieve data from storage");
+          reject(new Error("Failed to retrieve data from storage"));
+          return;
         }
         resolve(
           result as {
@@ -117,22 +159,6 @@ const exportEmojiNames = async () => {
   const json = JSON.stringify(exportData, null, 2);
   const result = await copyToClipboardShared(json);
   return result;
-};
-
-const isImportData = (value: unknown): value is ImportData =>
-  typeof value === "object" &&
-  value !== null &&
-  ("emojiNames" in value || "customRegexes" in value);
-
-const formatImportedData = (data: ImportData): ImportData => {
-  const formattedData: ImportData = {};
-  if (data.emojiNames) {
-    formattedData.emojiNames = buildEmojiNames(data.emojiNames);
-  }
-  if (data.customRegexes) {
-    formattedData.customRegexes = buildCustomRegexes(data.customRegexes);
-  }
-  return formattedData;
 };
 
 const saveImportedData = (data: ImportData) => {
@@ -161,6 +187,7 @@ const saveImportedData = (data: ImportData) => {
 const refreshEmojiInputs = (emojiNames?: Partial<EmojiNameRecord>) => {
   const emojiElements = getEmojiElements();
   const values = getInitialEmojiValues(emojiNames);
+  refreshStatusEmojiPlaceholders(values.githubPullRequest);
   for (const key of EMOJI_KEYS) {
     const element = document.getElementById(emojiElements[key]);
     if (element instanceof HTMLInputElement) {
@@ -170,11 +197,18 @@ const refreshEmojiInputs = (emojiNames?: Partial<EmojiNameRecord>) => {
 };
 
 const refreshCustomRegexInputs = (customRegexes?: Partial<CustomRegexes>) => {
+  savedCustomRegexes = { ...customRegexes };
   const customRegexElements = getCustomRegexElements();
   for (const key of CUSTOM_REGEX_KEYS) {
     const element = document.getElementById(customRegexElements[key]);
     if (element instanceof HTMLInputElement) {
       element.value = customRegexes?.[key] ?? "";
+      element.setCustomValidity("");
+      element.setAttribute("aria-invalid", "false");
+      const error = document.getElementById(`${element.id}-error`);
+      if (error) {
+        error.textContent = "";
+      }
     }
   }
 };
@@ -189,12 +223,7 @@ const refreshImportedInputs = (data: ImportData) => {
 };
 
 const importData = (importedText: string) => {
-  const parsedData = JSON.parse(importedText);
-  if (!isImportData(parsedData)) {
-    throw new Error("Invalid import data format");
-  }
-
-  const formattedData = formatImportedData(parsedData);
+  const formattedData = parseImportedSettings(importedText);
   saveImportedData(formattedData);
   refreshImportedInputs(formattedData);
 };

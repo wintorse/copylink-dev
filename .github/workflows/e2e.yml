@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - "release/**"
 
   schedule:
     # every day 3:00 JST
@@ -18,9 +19,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        uses: actions/checkout@v7.0.1
 
-      - uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+      - uses: pnpm/setup@v3.1.1
         with:
           cache: true
           install: false
@@ -29,7 +30,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps chromium firefox
 
       - name: Run E2E tests
         run: pnpm test
+
+      - name: Run Firefox content integration tests
+        run: pnpm test:firefox-content

@@ -1,7 +1,7 @@
 body {
   width: 20rem;
   font-family: Arial, sans-serif;
-  font-size: 12px;
+  font-size: 0.75rem;
   margin: 0;
   padding: 0;
   background-color: #f9f9f9;
@@ -64,8 +64,24 @@ input[type="text"] {
   border-radius: 4px;
 }
 
-input[type="text"]:has(+ input) {
-  margin-bottom: 8px;
+.custom-regex-input {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 14px;
+}
+
+.custom-regex-input input[type="text"] {
+  margin-bottom: 0;
+}
+
+.custom-regex-input [role="alert"] {
+  font-size: 0.9em;
+  color: #e71c1c;
+}
+
+.custom-regex-input [role="alert"]:empty {
+  display: none;
 }
 
 button {

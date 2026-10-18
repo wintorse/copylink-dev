@@ -7,7 +7,7 @@ import { getGoogleSheetsRangeInfo } from "../shared/getGoogleSheetsRangeLink";
 import { getLinkFormat } from "./getLinkFormat";
 import { showToast } from "../utils/toast";
 
-export const copyTextLink = async (command: Command) => {
+export const copyTextLink = async (command: Command): Promise<void> => {
   await copyTextLinkCore(command, {
     t: (key: string) => chrome.i18n.getMessage(key),
     getEmojiName,

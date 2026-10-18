@@ -132,19 +132,10 @@ describe("resolveEmojiName – built-in site detection", () => {
     ).toBe(":jira:");
   });
 
-  it("returns :swagger: for ReDoc (document.title contains 'ReDoc')", () => {
+  it("returns :swagger: for ReDoc detected via its credit link", () => {
     expect(
       resolveEmojiName(
-        ctx("https://example.com/api", { documentTitle: "MyAPI - ReDoc" }),
-        {},
-      ),
-    ).toBe(":swagger:");
-  });
-
-  it("returns :swagger: for ReDoc (redoc-wrap element present)", () => {
-    expect(
-      resolveEmojiName(
-        ctx("https://example.com/api", { hasRedocWrap: true }),
+        ctx("https://example.com/api", { hasRedocCredit: true }),
         {},
       ),
     ).toBe(":swagger:");

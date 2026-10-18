@@ -6,16 +6,10 @@ import {
 import type { CustomRegexes, EmojiKeys, EmojiNameRecord } from "../types/types";
 import type { GitHubPullRequestStatus } from "./githubPullRequestStatus";
 
-export type PageContext = {
-  href: string;
-  hostname: string;
-  pathname: string;
-  documentBodyId?: string;
-  documentTitle?: string;
-  githubPullRequestStatus?: GitHubPullRequestStatus;
-  hasRedmineFooter?: boolean;
-  hasRedocWrap?: boolean;
-};
+import type { PageContext } from "./pageContext";
+import { detectSite } from "./siteDetection";
+
+export type { PageContext } from "./pageContext";
 
 export type EmojiResolverDeps = {
   emojiNames?: Partial<EmojiNameRecord>;
@@ -34,6 +28,14 @@ const githubPullRequestStatusEmojiKeys = {
   merged: "githubMergedPullRequest",
   closed: "githubClosedPullRequest",
 } as const satisfies Record<GitHubPullRequestStatus, EmojiKeys>;
+
+const matchesCustomRegex = (pattern: string, href: string): boolean => {
+  try {
+    return new RegExp(pattern).test(href);
+  } catch {
+    return false;
+  }
+};
 
 export const resolveEmojiName = (
   ctx: PageContext,
@@ -66,64 +68,15 @@ export const resolveEmojiName = (
       customEmoji.length > 0 &&
       regexPattern !== undefined &&
       regexPattern.length > 0 &&
-      new RegExp(regexPattern).test(ctx.href)
+      matchesCustomRegex(regexPattern, ctx.href)
     ) {
       return getEmoji(websiteKey);
     }
   }
 
-  const pathParts = ctx.pathname.split("/");
-
-  if (ctx.hostname === "docs.google.com") {
-    switch (pathParts[1]) {
-      case "spreadsheets":
-        return getEmoji("googleSheets");
-      case "document":
-        return getEmoji("googleDocs");
-      case "presentation":
-        return getEmoji("googleSlides");
-      default:
-        return getEmoji("googleDrive");
-    }
+  const site = detectSite(ctx);
+  if (site === "githubPullRequest") {
+    return getGitHubPullRequestEmoji();
   }
-
-  if (ctx.hostname === "drive.google.com") {
-    return getEmoji("googleDrive");
-  }
-
-  if (ctx.hostname === "github.com") {
-    switch (pathParts[3]) {
-      case "pull":
-        return getGitHubPullRequestEmoji();
-      case "issues":
-        return getEmoji("githubIssue");
-      default:
-        return getEmoji("github");
-    }
-  }
-
-  if (ctx.hostname === "app.asana.com") {
-    return getEmoji("asanaTask");
-  }
-
-  if (ctx.hostname.includes("backlog")) {
-    return getEmoji("backlogIssue");
-  }
-
-  if (ctx.hostname.includes("redmine") || ctx.hasRedmineFooter === true) {
-    return getEmoji("redmineIssue");
-  }
-
-  if (ctx.documentBodyId === "jira") {
-    return getEmoji("jiraIssue");
-  }
-
-  if (
-    (ctx.documentTitle?.includes("ReDoc") ?? false) ||
-    ctx.hasRedocWrap === true
-  ) {
-    return getEmoji("reDoc");
-  }
-
-  return "";
+  return site === undefined ? "" : getEmoji(site);
 };

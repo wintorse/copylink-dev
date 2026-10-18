@@ -1,11 +1,12 @@
 import type { Command, LinkFormat } from "../../types/types";
+import {
+  type CopyContent,
+  type FallbackSpec,
+  buildLinkCopyContent,
+} from "./buildLinkCopyContent";
 import type { CopyResult } from "./copyToClipboardShared";
 
-export type FallbackSpec =
-  | { type: "title"; title: string }
-  | { type: "plainUrl"; url: string }
-  | { type: "link"; title: string; url: string }
-  | { type: "linkWithEmoji"; title: string; url: string; emojiName: string };
+export type { FallbackSpec } from "./buildLinkCopyContent";
 
 export type CopyTextLinkDeps = {
   t: (key: string) => string;
@@ -21,13 +22,6 @@ export type CopyTextLinkDeps = {
     fallbackElement?: HTMLElement,
   ) => Promise<CopyResult>;
 };
-
-const escapeHtml = (str: string): string =>
-  str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
 
 export const createFallbackElement = (
   spec: FallbackSpec,
@@ -53,11 +47,14 @@ export const createFallbackElement = (
   }
   if (spec.type === "linkWithEmoji") {
     const el = document.createElement("span");
-    el.appendChild(document.createTextNode(`${spec.emojiName} `));
+    if (spec.emojiName) {
+      el.appendChild(document.createTextNode(`${spec.emojiName} `));
+    }
     const anchor = document.createElement("a");
     anchor.setAttribute("href", spec.url);
     anchor.textContent = spec.title;
     el.appendChild(anchor);
+    el.appendChild(document.createTextNode("\u00A0"));
     return el;
   }
   return undefined;
@@ -74,24 +71,22 @@ export const copyTextLinkCore = async (
     getFormattedTitle,
     getGoogleSheetsRangeInfo,
     getUrl,
+    notify,
+    copy,
   } = deps;
   const title = getFormattedTitle();
   const url = getUrl();
 
-  const notifySuccess = (messageKey: string) => deps.notify(t(messageKey));
-  const notifyFailure = (messageKey: string) => deps.notify(t(messageKey));
+  const notifySuccess = (messageKey: string) => notify(t(messageKey));
+  const notifyFailure = (messageKey: string) => notify(t(messageKey));
 
   const runCopy = async (
-    text: string,
-    html: string | undefined,
-    fallbackSpec: FallbackSpec | undefined,
+    { text, html, fallbackSpec }: CopyContent,
     successKey: string,
     failureKey: string,
   ) => {
-    const fallbackElement = fallbackSpec
-      ? createFallbackElement(fallbackSpec)
-      : undefined;
-    const result = await deps.copy(text, html, fallbackElement);
+    const fallbackElement = createFallbackElement(fallbackSpec);
+    const result = await copy(text, html, fallbackElement);
     if (result.success) {
       await notifySuccess(successKey);
     } else {
@@ -106,79 +101,46 @@ export const copyTextLinkCore = async (
     successKey: string,
     failureKey: string,
   ) => {
-    if (linkFormat === "plainUrl") {
-      await runCopy(
-        link,
-        undefined,
-        { type: "plainUrl", url: link },
-        successKey,
-        failureKey,
-      );
-    } else if (linkFormat === "markdown") {
-      await runCopy(
-        `[${linkTitle}](${link})`,
-        undefined,
-        { type: "title", title: `[${linkTitle}](${link})` },
-        successKey,
-        failureKey,
-      );
-    } else if (linkFormat === "html") {
-      const html = `<a href="${escapeHtml(link)}">${escapeHtml(linkTitle)}</a>&nbsp;`;
-      await runCopy(
-        linkTitle,
-        html,
-        { type: "link", title: linkTitle, url: link },
-        successKey,
-        failureKey,
-      );
-    } else {
-      // htmlWithEmoji
-      const emojiName = await getEmojiName();
-      const html = `${escapeHtml(emojiName)}&nbsp;<a href="${escapeHtml(link)}">${escapeHtml(linkTitle)}</a>&nbsp;`;
-      await runCopy(
-        `[${linkTitle}](${link})`,
-        html,
-        { type: "linkWithEmoji", title: linkTitle, url: link, emojiName },
-        successKey,
-        failureKey,
-      );
-    }
+    const emojiName =
+      linkFormat === "htmlWithEmoji" ? await getEmojiName() : "";
+    return runCopy(
+      buildLinkCopyContent({
+        title: linkTitle,
+        url: link,
+        format: linkFormat,
+        emojiName,
+      }),
+      successKey,
+      failureKey,
+    );
   };
 
   if (command === "copy-title") {
-    await runCopy(
-      title,
-      undefined,
-      { type: "title", title },
+    return runCopy(
+      { text: title, fallbackSpec: { type: "title", title } },
       "copyTitleSuccess",
       "copyTitleFailure",
     );
-    return;
   }
 
   if (command === "copy-link") {
-    const html = `<a href="${escapeHtml(url)}">${escapeHtml(title)}</a>&nbsp;`;
-    await runCopy(
+    return copyLinkWithFormat(
+      url,
       title,
-      html,
-      { type: "link", title, url },
+      "html",
       "copyLinkSuccess",
       "copyLinkFailure",
     );
-    return;
   }
 
   if (command === "copy-link-for-slack") {
-    const emojiName = await getEmojiName();
-    const html = `${escapeHtml(emojiName)}&nbsp;<a href="${escapeHtml(url)}">${escapeHtml(title)}</a>&nbsp;`;
-    await runCopy(
-      `[${title}](${url})`,
-      html,
-      { type: "linkWithEmoji", title, url, emojiName },
+    return copyLinkWithFormat(
+      url,
+      title,
+      "htmlWithEmoji",
       "copyLinkSuccess",
       "copyLinkFailure",
     );
-    return;
   }
 
   if (command === "copy-google-sheets-range") {
@@ -192,20 +154,19 @@ export const copyTextLinkCore = async (
 
     const rangeInfo = getGoogleSheetsRangeInfo();
     if (!rangeInfo) {
-      await deps.notify(t("copyGoogleSheetsRangeFailure"));
+      await notify(t("copyGoogleSheetsRangeFailure"));
       return;
     }
 
     const linkFormat = await getLinkFormat();
-    await copyLinkWithFormat(
+    return copyLinkWithFormat(
       rangeInfo.link,
       title,
       linkFormat,
       "copyGoogleSheetsRangeSuccess",
       "copyGoogleSheetsRangeFailure",
     );
-    return;
   }
 
-  await deps.notify("Unknown command");
+  await notify("Unknown command");
 };

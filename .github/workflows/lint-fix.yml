@@ -16,7 +16,7 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: pnpm/setup@v3.0.0
+      - uses: pnpm/setup@v3.1.1
         with:
           cache: true
           install: false

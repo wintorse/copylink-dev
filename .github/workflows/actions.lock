@@ -5,16 +5,16 @@ version: 'v0.0.3'
 workflows:
     '.github/workflows/ci.yml':
         - 'actions/checkout@v7.0.1'
-        - 'pnpm/setup@v3.0.0'
+        - 'pnpm/setup@v3.1.1'
     '.github/workflows/e2e.yml':
         - 'actions/checkout@v7.0.1'
-        - 'pnpm/setup@v3.0.0'
+        - 'pnpm/setup@v3.1.1'
     '.github/workflows/lint-fix.yml':
         - 'actions/checkout@v7.0.1'
-        - 'pnpm/setup@v3.0.0'
+        - 'pnpm/setup@v3.1.1'
     '.github/workflows/release.yml':
         - 'actions/checkout@v7.0.1'
-        - 'pnpm/setup@v3.0.0'
+        - 'pnpm/setup@v3.1.1'
         - 'softprops/action-gh-release@v3.0.3'
 dependencies:
     'actions/checkout@v7.0.1':
@@ -22,9 +22,9 @@ dependencies:
         commit: 'sha1-3d3c42e5aac5ba805825da76410c181273ba90b1'
         owner_id: 44036562
         repo_id: 197814629
-    'pnpm/setup@v3.0.0':
-        ref: 'v3.0.0'
-        commit: 'sha1-fbda4c85fc2e1e08721cd8763afea8f48d60f024'
+    'pnpm/setup@v3.1.1':
+        ref: 'v3.1.1'
+        commit: 'sha1-a0881977cd8ea73b1ed212236c99ca10dcc80cf4'
         owner_id: 21320719
         repo_id: 1235693694
     'softprops/action-gh-release@v3.0.3':

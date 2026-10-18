@@ -51,10 +51,7 @@ export const detectSite = (ctx: PageContext): SupportedSite | undefined => {
   if (ctx.hostname.includes("redmine") || ctx.hasRedmineFooter === true) {
     return "redmineIssue";
   }
-  if (
-    (ctx.documentTitle?.includes("ReDoc") ?? false) ||
-    ctx.hasRedocWrap === true
-  ) {
+  if (ctx.hasRedocCredit === true) {
     return "reDoc";
   }
   return undefined;

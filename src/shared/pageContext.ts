@@ -8,10 +8,9 @@ export type PageContext = {
   hostname: string;
   pathname: string;
   documentBodyId?: string;
-  documentTitle?: string;
   githubPullRequestStatus?: GitHubPullRequestStatus;
   hasRedmineFooter?: boolean;
-  hasRedocWrap?: boolean;
+  hasRedocCredit?: boolean;
 };
 
 export const buildPageContext = (): PageContext => ({
@@ -19,10 +18,11 @@ export const buildPageContext = (): PageContext => ({
   hostname: window.location.hostname,
   pathname: window.location.pathname,
   documentBodyId: document.body.id,
-  documentTitle: document.title,
   githubPullRequestStatus: getGitHubPullRequestStatus(),
   hasRedmineFooter: Array.from(document.querySelectorAll("#footer a")).some(
     (link) => link.textContent?.includes("Redmine") === true,
   ),
-  hasRedocWrap: document.querySelector(".redoc-wrap") !== null,
+  // ReDoc v2 and v3 share the same attribution URL.
+  hasRedocCredit:
+    document.querySelector('a[href="https://redocly.com/redoc/"]') !== null,
 });

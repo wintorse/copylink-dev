@@ -221,6 +221,9 @@ test.describe("Site-specific title formatting and emoji", () => {
     );
     // Wait for ReDoc to render the active label
     await page.waitForSelector("label[class*='active']", { timeout: 15_000 });
+    await expect(
+      page.locator('a[href="https://redocly.com/redoc/"]'),
+    ).toBeVisible();
 
     // When: The copy-link command is executed.
     await triggerCommand(sw, page, "copy-link");
@@ -236,6 +239,46 @@ test.describe("Site-specific title formatting and emoji", () => {
     const html = await readClipboardHtml(page);
     expect(html).not.toBeNull();
     expect(html).toContain(":swagger:");
+  });
+
+  test("ReDoc v3: copies the active operation title and Swagger emoji after navigation", async ({
+    sw,
+    context,
+  }) => {
+    const page = await context.newPage();
+    await page.goto("https://redocly.github.io/redoc/orders/createorder", {
+      waitUntil: "domcontentloaded",
+    });
+    const activeTitle = page.locator('[data-active="true"] [data-text]');
+    await expect(activeTitle).toHaveText("Create order", { timeout: 15_000 });
+    await expect(
+      page.locator('a[href="https://redocly.com/redoc/"]'),
+    ).toBeVisible();
+
+    await triggerCommand(sw, page, "copy-link");
+    expect(await readClipboardText(page)).toBe("Create order");
+    expect(await readClipboardHtml(page)).toContain(
+      'href="https://redocly.github.io/redoc/orders/createorder"',
+    );
+
+    await triggerCommand(sw, page, "copy-link-for-slack");
+    const html = await readClipboardHtml(page);
+    expect(html).toContain(":swagger:");
+    expect(html).toContain("Create order");
+
+    await page
+      .getByRole("link", { name: "Retrieve an order get", exact: true })
+      .click();
+    await expect(page).toHaveURL(
+      "https://redocly.github.io/redoc/orders/getorderbyid",
+    );
+    await expect(activeTitle).toHaveText("Retrieve an order");
+
+    await triggerCommand(sw, page, "copy-link");
+    expect(await readClipboardText(page)).toBe("Retrieve an order");
+    expect(await readClipboardHtml(page)).toContain(
+      'href="https://redocly.github.io/redoc/orders/getorderbyid"',
+    );
   });
 
   // ──────────────────────────────────────────────

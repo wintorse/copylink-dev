@@ -142,8 +142,6 @@ Install the Chrome team's `chrome-extensions` and `modern-web-guidance` skills g
 npx modern-web-guidance@latest install --choose -g
 ```
 
-Select your coding agent(s) and both skill packs in the wizard. The `-g` option installs them at user scope so they are available across projects. Installation through the official CLI enables automatic updates; run `npx modern-web-guidance@latest update` when a manual refresh is needed. Manage these skills in your local environment rather than committing copies to this repository.
-
 When applying the guidance, preserve Firefox and UserScript compatibility and the normal Chrome build's `activeTab` permission model.
 
 ## License

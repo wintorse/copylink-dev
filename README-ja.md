@@ -142,8 +142,6 @@ Chrome チームの `chrome-extensions` と `modern-web-guidance` スキルは�
 npx modern-web-guidance@latest install --choose -g
 ```
 
-ウィザードで使用するコーディングエージェントと両方のスキルを選択します。`-g` を指定するとユーザー単位でインストールされ、複数のプロジェクトで利用できます。公式 CLI 経由のインストールでは自動更新が有効になります。手動で更新する場合は `npx modern-web-guidance@latest update` を実行してください。スキルはローカル環境で管理し、このリポジトリにコピーをコミットしないでください。
-
 ガイダンスを適用する際は、Firefox 版・UserScript 版との互換性と、通常の Chrome ビルドの `activeTab` による権限設計を維持してください。
 
 ## ライセンス

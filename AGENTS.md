@@ -20,6 +20,10 @@ gh actions-lock --verify
 
 Dependabot updates the lockfile alongside GitHub Actions version updates.
 
+## Chrome Web Store Metadata
+
+Maintain [CHROMEWEBSTORE.md](CHROMEWEBSTORE.md) when changes affect user-facing behavior, permissions, host access, data handling, store assets, or submission status. Base permission and privacy explanations on the actual source and the artifact being submitted. Keep unverified Dashboard values explicit, and distinguish the normal Chrome build from the optional host-permission and Firefox builds.
+
 ## Testing
 
 E2E tests for GitHub, Google Sheets / Docs / Slides / Drive, Jira, ReDoc pages, as well as general websites, are performed using actual URLs and run periodically via CI.

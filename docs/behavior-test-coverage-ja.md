@@ -30,24 +30,23 @@
 
 ### 1.3 サイト別タイトル抽出 & 絵文字検出
 
-| ID        | サイト                   | 絵文字                | タイトル抽出方法                                                                               |
-| --------- | ------------------------ | --------------------- | ---------------------------------------------------------------------------------------------- |
-| B-SITE-01 | Google Docs              | `:google_docs:`       | `#docs-title-widget input` の value、なければ `document.title`                                 |
-| B-SITE-02 | Google Sheets            | `:google_sheets:`     | `#docs-title-widget input` の value、なければ `document.title`                                 |
-| B-SITE-03 | Google Slides            | `:google_slides:`     | `#docs-title-widget input` の value、なければ `document.title`                                 |
-| B-SITE-04 | Google Drive             | `:google_drive_2:`    | `document.title` から " - Google Drive" を除去                                                 |
-| B-SITE-05 | GitHub Repos             | `:github:`            | URL に PR・Issue 番号がない場合は `document.title`                                             |
-| B-SITE-06 | GitHub Pull Requests     | `:open_pull_request:` | URL の番号と `h1` の最初の子要素から `#number title` を生成。取得できなければ `document.title` |
-| B-SITE-07 | GitHub Issues            | `:open_issue:`        | URL の番号と `h1` の最初の子要素から `#number title` を生成。取得できなければ `document.title` |
-| B-SITE-08 | Jira Issues              | `:jira:`              | Issue ID + タイトルを `ID タイトル` 形式で抽出                                                 |
-| B-SITE-09 | Asana Tasks              | `:asana:`             | `TaskPrintView` の `aria-label` から取得                                                       |
-| B-SITE-10 | Backlog Issues           | `:backlog:`           | `#summary > span.title-group__title-text > div` のテキスト                                     |
-| B-SITE-11 | Redmine Issues           | `:redmine_ticket:`    | `トラッカー #番号: タイトル` 形式で h2/h3 から抽出                                             |
-| B-SITE-12 | ReDoc (Swagger)          | `:swagger:`           | 選択中メニューから取得（v2 / v3）                                                              |
-| B-SITE-13 | 未登録サイト             | （なし）              | `document.title` をそのまま使用                                                                |
-| B-SITE-14 | RedMica Issues           | `:redmine_ticket:`    | RedMica のフッタークレジットリンクで検出し、Redmine と同じタイトル形式を使用                   |
-| B-SITE-15 | Jira・Redmine の要約欠落 | (サイトの絵文字)      | 要約が未取得の場合は `document.title` にフォールバック                                         |
-| B-SITE-16 | 共通のサイト判定         | (判定されたサイト)    | タイトルと絵文字で判定順を共有し、フッターはクレジットリンクで判定                             |
+| ID        | サイト               | 絵文字                | タイトル抽出方法                                                                     |
+| --------- | -------------------- | --------------------- | ------------------------------------------------------------------------------------ |
+| B-SITE-01 | Google Docs          | `:google_docs:`       | `#docs-title-widget input` の value                                                  |
+| B-SITE-02 | Google Sheets        | `:google_sheets:`     | `#docs-title-widget input` の value                                                  |
+| B-SITE-03 | Google Slides        | `:google_slides:`     | `#docs-title-widget input` の value                                                  |
+| B-SITE-04 | Google Drive         | `:google_drive_2:`    | `document.title` から " - Google Drive" を除去                                       |
+| B-SITE-05 | GitHub Repos         | `:github:`            | `document.title`                                                                     |
+| B-SITE-06 | GitHub Pull Requests | `:open_pull_request:` | URL の番号と `h1` の最初の子要素から `#number title` を生成                          |
+| B-SITE-07 | GitHub Issues        | `:open_issue:`        | URL の番号と `h1` の最初の子要素から `#number title` を生成                          |
+| B-SITE-08 | Jira Issues          | `:jira:`              | `#key-val` の Issue ID と `#summary-val h2` のテキストを取得し、`ID タイトル` に整形 |
+| B-SITE-09 | Asana Tasks          | `:asana:`             | `TaskPrintView` の `aria-label` から取得                                             |
+| B-SITE-10 | Backlog Issues       | `:backlog:`           | `#summary > span.title-group__title-text > div` のテキスト                           |
+| B-SITE-11 | Redmine Issues       | `:redmine_ticket:`    | `トラッカー #番号: タイトル` 形式で h2/h3 から抽出                                   |
+| B-SITE-12 | ReDoc (Swagger)      | `:swagger:`           | 選択中メニューから取得（v2 / v3）                                                    |
+| B-SITE-13 | 未登録サイト         | （なし）              | `document.title` をそのまま使用                                                      |
+| B-SITE-14 | RedMica Issues       | `:redmine_ticket:`    | RedMica のフッタークレジットリンクで検出し、Redmine と同じタイトル形式を使用         |
+| B-SITE-16 | 共通のサイト判定     | (判定されたサイト)    | タイトルと絵文字で判定順を共有し、フッターはクレジットリンクで判定                   |
 
 ### 1.4 GitHub Pull Request 状態別絵文字
 
@@ -192,14 +191,13 @@
 | B-SITE-05                  | GitHub Repos                                                        | ✅   | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `GitHub Repo: emoji is :github:`                                                                                                                                                                                                              |
 | B-SITE-06                  | GitHub Pull Requests                                                | ✅   | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `GitHub Pull Request: title is #<number> <text>`                                                                                                                                                                                              |
 | B-SITE-07                  | GitHub Issues                                                       | ✅   | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `GitHub Issue: title is #<number> <text>`                                                                                                                                                                                                     |
-| B-SITE-08                  | Jira Issues                                                         | ✅   | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `Jira Issue: title is HIBERNATE-77 Support HQL in / not in`                                                                                                                                                                                   |
+| B-SITE-08                  | Jira Issues                                                         | ✅   | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `Jira Issue: title is HIBERNATE-77 Support HQL in / not in`; [unit/missingIssueTitle.test.ts](../tests/unit/missingIssueTitle.test.ts)                                                                                                        |
 | B-SITE-09                  | Asana Tasks (fixture)                                               | ✅   | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `Asana Task (mocked): title from aria-label`                                                                                                                                                                                                  |
 | B-SITE-10                  | Backlog Issues (fixture)                                            | ✅   | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `Backlog Issue (mocked): title from DOM selector`                                                                                                                                                                                             |
-| B-SITE-11                  | Redmine Issues (fixture)                                            | ✅   | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `Redmine Issue: title is Feature #642: OpenXR On Linux.`                                                                                                                                                                                      |
+| B-SITE-11                  | Redmine Issues (fixture)                                            | ✅   | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `Redmine Issue: title is Feature #642: OpenXR On Linux.`; [unit/missingIssueTitle.test.ts](../tests/unit/missingIssueTitle.test.ts)                                                                                                           |
 | B-SITE-12                  | ReDoc v2 / v3                                                       | ✅   | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `ReDoc v3: copies the active operation title and Swagger emoji after navigation`; [unit/redocTitle.test.ts](../tests/unit/redocTitle.test.ts)                                                                                                 |
 | B-SITE-13                  | 未登録サイト                                                        | ✅   | [unit/emojiResolver.test.ts](../tests/unit/emojiResolver.test.ts): `returns empty string for unknown sites`; [unit/siteDetection.test.ts](../tests/unit/siteDetection.test.ts): `does not detect Redmine from incidental footer text`                                                                    |
 | B-SITE-14                  | RedMica Issues (fixture)                                            | ✅   | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `RedMica Issue (mocked): footer credit enables title formatting and emoji`                                                                                                                                                                    |
-| B-SITE-15                  | Issue 要約欠落                                                      | ✅   | [unit/missingIssueTitle.test.ts](../tests/unit/missingIssueTitle.test.ts): `uses document.title when the issue summary is absent on %s`                                                                                                                                                                  |
 | B-SITE-16                  | 共通の判定順・フッタークレジット                                    | ✅   | [unit/siteDetection.test.ts](../tests/unit/siteDetection.test.ts): `gives Jira the same priority in titles and emoji when a Redmine footer also exists`; [unit/siteDetection.test.ts](../tests/unit/siteDetection.test.ts): `finds Redmine credit after other footer links`                              |
 | **GitHub PR 状態別絵文字** |                                                                     |      |                                                                                                                                                                                                                                                                                                          |
 | B-GH-PR-01                 | PR 状態別絵文字（merged を検証。他の状態の専用絵文字出力は未検証）  | ⚠️   | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `GitHub Pull Request: status-specific emoji is used on a merged PR`; [unit/emojiResolver.test.ts](../tests/unit/emojiResolver.test.ts): `uses GitHub PR status emoji when configured`                                                         |

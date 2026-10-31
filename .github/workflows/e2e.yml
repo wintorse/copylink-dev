@@ -1,6 +1,7 @@
 name: E2E Test
 
 on:
+  workflow_call:
   pull_request:
     branches:
       - main

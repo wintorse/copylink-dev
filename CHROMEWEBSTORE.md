@@ -2,7 +2,7 @@
 
 Last reviewed against repository source: 2026-10-31.
 
-This document records listing copy, permission explanations, and privacy disclosures for Chrome Web Store updates. The Developer Dashboard is the source of truth for the live listing and publication status.
+This document records Chrome Web Store listing copy and the source-backed information needed to maintain its disclosures and assets. It describes the normal Chrome build. The Developer Dashboard is the source of truth for the live listing, its settings, and publication status.
 
 ## Store Listing
 
@@ -40,11 +40,9 @@ The normal Chrome build uses the permissions in `public/manifest.json`:
 | `storage`        | Save the user's emoji names, custom website URL patterns, and Google Sheets range link format locally, and read them when generating links or importing/exporting settings.                                              |
 | `clipboardWrite` | Write the requested title, link, or exported settings to the clipboard when the user invokes the corresponding operation.                                                                                                |
 
-### Host Access
+### Host Access and Remote Code
 
-- The normal Chrome build has no persistent `host_permissions`. The `web_accessible_resources` match pattern makes the bundled toast stylesheet available to pages where the extension runs; it is not a host permission grant.
-- Chromium E2E tests also add host permissions to a temporary build so tests can trigger commands programmatically. Those permissions are test-only and must not be copied into the normal store package.
-- Firefox has a separate Manifest V2 build and permission model. This document describes the Chrome listing, not a Firefox submission.
+The normal Chrome build has no persistent `host_permissions`. The `web_accessible_resources` match pattern makes the bundled toast stylesheet available to pages where the extension runs; it is not a host permission grant. No remote runtime code loading was found in `src/`; the Dashboard remote-code answer for this build is **No**.
 
 ## Privacy and Data Use
 
@@ -54,31 +52,34 @@ Repository assessment:
 - The requested content is written to the local clipboard. Pasting or sharing it elsewhere is a subsequent user action.
 - Emoji names, custom website patterns, and the range link format are stored in `chrome.storage.local`, not automatically synced by this extension.
 - Export copies emoji and custom website settings as JSON to the clipboard. Import validates pasted JSON and saves the accepted settings locally; it does not call a remote import/export service.
-- No analytics, extension-operated remote data collection, or remote runtime code loading was found in `src/`. Links to GitHub and the browser's extension store open only when the user follows them.
+- No analytics or extension-operated remote data collection was found in `src/`. Links to GitHub and the browser's extension store open only when the user follows them.
 
 ### Dashboard Data-use Answers
 
-For the normal Chrome build, select **Website content** for page titles and supported-site details. Also consider selecting **Web history** as a conservative disclosure of the current page URL and title. Google includes URLs in its definition of browsing activity and requires disclosure even for local processing, but the Dashboard describes Web history as a list of visited pages, which the extension does not access or create. Google's guidance does not explicitly resolve whether reading only the current page falls into that checkbox; this is a recommendation, not a confirmed classification.
+| Dashboard category                                                                                                      | Source-backed assessment                                                                                                                                                                                                                                                                                        |
+| ----------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Website content                                                                                                         | Select: the extension reads page titles and supported-site details.                                                                                                                                                                                                                                             |
+| Web history                                                                                                             | Conservative recommendation: select for the current page URL and title. Google includes URLs in browsing activity, but the Dashboard describes a list of visited pages, which the extension does not access or create. Google does not explicitly resolve whether current-page access alone fits this checkbox. |
+| Personal identification, health, financial or payment, authentication, personal communications, location, user activity | The current source does not intentionally collect these categories. Page titles and URLs may nevertheless contain sensitive or identifying information. Review the Dashboard definitions and submitted artifact when answering.                                                                                 |
 
-The current source does not intentionally collect personal identification, health, financial or payment, authentication, personal communications, location, or user activity data as those categories. Page titles and URLs may nevertheless contain sensitive or identifying information. Review the Dashboard definitions and the submitted artifact before selecting the remaining categories, and revisit the answers if the extension's data practices change.
-
-Review the Dashboard's Limited Use certification against the actual practices before certifying it. Keep the Dashboard answers, store description, and privacy policy consistent. Google's disclosure requirements call for prominent disclosure and informed consent before installation; verify that the actual listing and installation flow meet them. Reassess the disclosures if storage, clipboard handling, or network behavior changes.
+Before certifying the Dashboard's data-use statements, verify that the submitted build does not sell or transfer data outside permitted uses, use or transfer it for unrelated purposes, or use or transfer it for creditworthiness or lending. Keep the Dashboard answers, store description, and privacy policy consistent. Google's disclosure requirements call for prominent disclosure and informed consent before installation; verify that the actual listing and installation flow meet them. Reassess the disclosures if storage, clipboard handling, or network behavior changes.
 
 Sources: [Google's user data FAQ](https://developer.chrome.com/docs/webstore/program-policies/user-data-faq), [Limited Use policy](https://developer.chrome.com/docs/webstore/program-policies/limited-use), [disclosure requirements](https://developer.chrome.com/docs/webstore/program-policies/disclosure-requirements), and [Dashboard privacy fields](https://developer.chrome.com/docs/webstore/cws-dashboard-privacy/).
 
 ### Privacy Policy
 
-The current policy is in [English](PRIVACY.md), [Japanese](PRIVACY-ja.md), and [Simplified Chinese](PRIVACY-zh-CN.md). It describes current-page access, clipboard output, local settings, data sharing, and Limited Use. The English and Japanese READMEs link to their respective versions, and each policy links to the other languages. The policy covers the Chrome extension.
+The Chrome extension policy is in [English](PRIVACY.md), [Japanese](PRIVACY-ja.md), and [Simplified Chinese](PRIVACY-zh-CN.md). Each version links to the others and includes the Limited Use statement.
 
-Publish the policy at a publicly accessible URL and enter that URL in the Developer Dashboard. Ensure that the language links work and that the policy is accessible from the extension homepage. The published policy URL is not recorded in this repository.
+Use the English policy URL in the Developer Dashboard:
+
+- English: https://github.com/wintorse/copylink-dev/blob/main/PRIVACY.md
+- Japanese: https://github.com/wintorse/copylink-dev/blob/main/PRIVACY-ja.md
+- Simplified Chinese: https://github.com/wintorse/copylink-dev/blob/main/PRIVACY-zh-CN.md
 
 ## Graphics and Assets
 
-| Asset                                   | Repository source                                                         | Status                                                                             |
-| --------------------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| Extension icons                         | `public/images/icon-16.png`, `icon-32.png`, `icon-48.png`, `icon-128.png` | Dimensions verified as 16, 32, 48, and 128 pixels square.                          |
-| Promotional artwork                     | `docs/promo.png`                                                          | 2400 × 1500 pixels; source artwork, not a verified store screenshot export.        |
-| Store screenshots and promotional tiles | Not recorded as separate store assets                                     | Check the existing Dashboard assets and refresh them when visible features change. |
+- The 128 × 128 extension icon is [icon-128.png](public/images/icon-128.png).
+- Google requires at least one 1280 × 800 or 640 × 400 screenshot. The screenshots and promotional tiles in the Dashboard have not been verified; check them when visible features change. See [Google's image requirements](https://developer.chrome.com/docs/webstore/images).
 
 ## Developer and Distribution Details
 

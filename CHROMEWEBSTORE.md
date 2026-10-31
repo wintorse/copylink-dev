@@ -2,7 +2,7 @@
 
 Last reviewed against repository source: 2026-10-31.
 
-This document records source-backed listing copy and permission explanations for Chrome Web Store updates. Reconcile it with the existing Developer Dashboard before submission. Dashboard-only values and publication status have not been verified; the entries below do not imply that a new version has been submitted.
+This document records listing copy, permission explanations, and privacy disclosures for Chrome Web Store updates. The Developer Dashboard is the source of truth for the live listing and publication status.
 
 ## Store Listing
 
@@ -10,11 +10,10 @@ This document records source-backed listing copy and permission explanations for
 - Extension ID: `ohkebnhdjdgmfnhcmdpkdfddongdjadp`
 - English name: `copylink.dev | Copy link with shortcuts`
 - English short description: `Copy links with shortcuts. On supported sites, create Slack emoji-enhanced links.`
-- Suggested category: Productivity. Confirm the existing Dashboard category.
 - Primary source language: English; the extension also contains Japanese and Simplified Chinese messages.
 - Single purpose: Copy the current page's title and link, or a selected Google Sheets range link, to the clipboard using keyboard shortcuts.
 
-### Detailed Description Draft
+### Detailed Description
 
 Copy titled links with keyboard shortcuts and paste them into Slack, documents, or other tools.
 
@@ -41,11 +40,9 @@ The normal Chrome build uses the permissions in `public/manifest.json`:
 | `storage`        | Save the user's emoji names, custom website URL patterns, and Google Sheets range link format locally, and read them when generating links or importing/exporting settings.                                              |
 | `clipboardWrite` | Write the requested title, link, or exported settings to the clipboard when the user invokes the corresponding operation.                                                                                                |
 
-### Host Access and Build Variants
+### Host Access
 
 - The normal Chrome build has no persistent `host_permissions`. The `web_accessible_resources` match pattern makes the bundled toast stylesheet available to pages where the extension runs; it is not a host permission grant.
-- `pnpm build:with-host-permissions` is an opt-in local build for Chrome / Arc. It adds `host_permissions: ["<all_urls>"]` to the generated manifest. If that variant is ever submitted, explicitly justify persistent access and update the Dashboard disclosures to match that artifact. Do not describe it as the normal store build.
-- Arc shortcut limitations and the local host-permission workaround are documented in `README.md`. Include accurate limitations in store copy when relevant.
 - Chromium E2E tests also add host permissions to a temporary build so tests can trigger commands programmatically. Those permissions are test-only and must not be copied into the normal store package.
 - Firefox has a separate Manifest V2 build and permission model. This document describes the Chrome listing, not a Firefox submission.
 
@@ -73,7 +70,7 @@ Sources: [Google's user data FAQ](https://developer.chrome.com/docs/webstore/pro
 
 The current policy is in [English](PRIVACY.md), [Japanese](PRIVACY-ja.md), and [Simplified Chinese](PRIVACY-zh-CN.md). It describes current-page access, clipboard output, local settings, data sharing, and Limited Use. The English and Japanese READMEs link to their respective versions, and each policy links to the other languages. The policy covers the Chrome extension.
 
-The user reports that no privacy policy URL is currently entered in the Developer Dashboard. These files are not yet known to be publicly available: after publishing them, verify that the chosen English policy URL is publicly accessible without sign-in, that its language links work, and that it is one click from the extension homepage. Then enter that live URL in the Dashboard before submission. The public URL and Dashboard update have not been verified.
+Publish the policy at a publicly accessible URL and enter that URL in the Developer Dashboard. Ensure that the language links work and that the policy is accessible from the extension homepage. The published policy URL is not recorded in this repository.
 
 ## Graphics and Assets
 
@@ -92,6 +89,4 @@ The user reports that no privacy policy URL is currently entered in the Develope
 
 ## Maintenance
 
-Update this file when user-visible behavior, permissions, host access, data handling, listing assets, or submission status changes. Keep it outside the packaged extension: builds copy `public/` into `dist/`, so this root-level document is not included. The detailed description is a draft for review and does not update the live listing.
-
-Sources: `public/manifest.json`, `public/manifest_firefox.json`, `public/_locales/en/messages.json`, `src/scripts/background.ts`, `src/popup/popup.ts`, `src/shared/`, `vite.config.js`, and `README.md`.
+Update this file when user-visible behavior, permissions, host access, data handling, or listing assets change. The live listing is managed in the Developer Dashboard. Keep this document outside the packaged extension: builds copy `public/` into `dist/`, so this root-level document is not included.

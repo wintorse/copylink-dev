@@ -134,6 +134,18 @@ Arc では、さらに拡張機能のショートカット設定で各ショー�
 
 Slack 絵文字名の変更・スプレッドシートの選択範囲のリンク形式の変更は拡張機能アイコンをクリックして行えます。
 
+## AI コーディングエージェントを使った開発
+
+Chrome チームの `chrome-extensions` と `modern-web-guidance` スキルは、[公式 CLI](https://developer.chrome.com/docs/modern-web-guidance/get-started) を使って開発者自身のローカル環境にグローバルインストールしてください。
+
+```sh
+npx modern-web-guidance@latest install --choose -g
+```
+
+ウィザードで使用するコーディングエージェントと両方のスキルを選択します。`-g` を指定するとユーザー単位でインストールされ、複数のプロジェクトで利用できます。公式 CLI 経由のインストールでは自動更新が有効になります。手動で更新する場合は `npx modern-web-guidance@latest update` を実行してください。スキルはローカル環境で管理し、このリポジトリにコピーをコミットしないでください。
+
+ガイダンスを適用する際は、Firefox 版・UserScript 版との互換性と、通常の Chrome ビルドの `activeTab` による権限設計を維持してください。
+
 ## ライセンス
 
 MIT

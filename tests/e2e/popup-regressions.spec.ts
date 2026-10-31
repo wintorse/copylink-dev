@@ -10,6 +10,7 @@ for (const section of ["emojiNames", "customRegexes", "both"] as const) {
     extensionId,
     sw,
   }) => {
+    // Given: Custom emoji names, regexes, and the Markdown format are saved and visible.
     const previousEmojis = {
       github: ":saved_github:",
       githubMergedPullRequest: ":saved_merged:",
@@ -43,10 +44,13 @@ for (const section of ["emojiNames", "customRegexes", "both"] as const) {
       ...(resetEmojis ? { emojiNames: {} } : {}),
       ...(resetRegexes ? { customRegexes: {} } : {}),
     };
+
+    // When: Empty sections are imported for the requested settings.
     await popup.locator("#importButton").click();
     await popup.locator("#importTextarea").fill(JSON.stringify(payload));
     await popup.locator("#importConfirmButton").click();
 
+    // Then: Only those settings reset, and the selected link format is preserved.
     const defaults = Object.fromEntries(
       Object.entries(DEFAULT_EMOJI_NAMES).filter(
         ([key]) =>
@@ -64,11 +68,13 @@ for (const section of ["emojiNames", "customRegexes", "both"] as const) {
       .poll(() => sw.evaluate(() => chrome.storage.local.get(null)))
       .toEqual(expectedStorage);
 
-    // Check the refreshed form and a reopened form to verify persistence.
     for (const reopen of [false, true]) {
       if (reopen) {
+        // When: The popup is reloaded to read the saved settings again.
         await popup.reload();
       }
+
+      // Then: The form shows the reset values and preserves the untouched settings.
       await expect(popup.locator("#emojiName-github")).toHaveValue(
         resetEmojis ? DEFAULT_EMOJI_NAMES.github : ":saved_github:",
       );
@@ -90,6 +96,7 @@ test("localizes every popup data-i18n element with browser messages", async ({
   context,
   extensionId,
 }) => {
+  // Given: The popup will initially contain fallback text instead of translated messages.
   const popup = await context.newPage();
   await popup.addInitScript(() => {
     // Replace fallback English before the popup listener runs so untranslated
@@ -100,7 +107,11 @@ test("localizes every popup data-i18n element with browser messages", async ({
       }
     });
   });
+
+  // When: The popup is opened and its localization runs.
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
+
+  // Then: Every localized element matches the message supplied by the browser.
   const messages = await popup.locator("[data-i18n]").evaluateAll((elements) =>
     elements.map((element) => {
       const key = element.getAttribute("data-i18n") ?? "";

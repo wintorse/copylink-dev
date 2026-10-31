@@ -40,13 +40,13 @@ test("native shortcuts grant activeTab to the unmodified Chrome build", async ()
     expect(await getActiveUrl()).toBeUndefined();
 
     await pressShortcut("Copylink Chrome native shortcut", "alt+l");
+    await expect.poll(getActiveUrl).toBe(fixtureUrl);
     await expect
       .poll(() => readNativeClipboard())
       .toBe("Copylink Chrome native shortcut");
     await expect
       .poll(() => readNativeClipboard("text/html"))
       .toContain(`<a href="${fixtureUrl}">Copylink Chrome native shortcut</a>`);
-    expect(await getActiveUrl()).toBe(fixtureUrl);
 
     await page.evaluate(() => {
       document.title = "Copylink Chrome Slack shortcut";

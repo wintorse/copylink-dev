@@ -23,10 +23,22 @@ export async function pressShortcut(
 export async function readNativeClipboard(
   target = "UTF8_STRING",
 ): Promise<string> {
-  const { stdout } = await run(
-    "xclip",
-    ["-selection", "clipboard", "-out", "-target", target],
-    { timeout: 5_000 },
-  );
-  return stdout;
+  try {
+    const { stdout } = await run(
+      "xclip",
+      ["-selection", "clipboard", "-out", "-target", target],
+      { timeout: 5_000 },
+    );
+    return stdout;
+  } catch (error) {
+    // A fresh Xvfb clipboard has no targets until the async copy finishes.
+    // Return an empty sample so expect.poll retries; tool/display errors fail.
+    if (
+      error instanceof Error &&
+      /target \S+ not available/.test(error.message)
+    ) {
+      return "";
+    }
+    throw error;
+  }
 }

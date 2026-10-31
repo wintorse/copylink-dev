@@ -45,6 +45,7 @@ The normal Chrome build uses the permissions in `public/manifest.json`:
 
 - The normal Chrome build has no persistent `host_permissions`. The `web_accessible_resources` match pattern makes the bundled toast stylesheet available to pages where the extension runs; it is not a host permission grant.
 - `pnpm build:with-host-permissions` is an opt-in local build for Chrome / Arc. It adds `host_permissions: ["<all_urls>"]` to the generated manifest. If that variant is ever submitted, explicitly justify persistent access and update the Dashboard disclosures to match that artifact. Do not describe it as the normal store build.
+- Arc shortcut limitations and the local host-permission workaround are documented in `README.md`. Include accurate limitations in store copy when relevant.
 - Chromium E2E tests also add host permissions to a temporary build so tests can trigger commands programmatically. Those permissions are test-only and must not be copied into the normal store package.
 - Firefox has a separate Manifest V2 build and permission model. This document describes the Chrome listing, not a Firefox submission.
 
@@ -88,15 +89,6 @@ The user reports that no privacy policy URL is currently entered in the Develope
 - Homepage: https://github.com/wintorse/copylink-dev
 - Support: https://github.com/wintorse/copylink-dev/issues
 - Current Dashboard visibility and distribution regions: not verified. Preserve the existing values unless a distribution change is intended.
-
-## Version History and Review Notes
-
-| Version | Repository evidence                                    | Store status                               |
-| ------- | ------------------------------------------------------ | ------------------------------------------ |
-| 1.13.0  | Local `v1.13.0` Git tag exists.                        | Dashboard publication status not verified. |
-| 1.14.0  | Current package and Chrome manifest; local tag exists. | Dashboard publication status not verified. |
-
-Arc shortcut limitations and the local host-permission workaround are documented in `README.md`. Include accurate limitations in store copy when relevant. No rejection history is recorded in this repository; obtain actual review feedback before adding rejection or resolution claims.
 
 ## Maintenance
 

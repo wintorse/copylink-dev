@@ -47,7 +47,7 @@ Dependabot updates the lockfile alongside GitHub Actions version updates.
 
 ## Chrome Web Store Metadata
 
-Maintain [CHROMEWEBSTORE.md](CHROMEWEBSTORE.md) when changes affect user-facing behavior, permissions, host access, data handling, store assets, or submission status. Base permission and privacy explanations on the actual source and the artifact being submitted. Keep unverified Dashboard values explicit, and distinguish the normal Chrome build from the optional host-permission and Firefox builds.
+Whenever you are creating or making changes to a Chrome extension, create and manage a [CHROMEWEBSTORE.md](CHROMEWEBSTORE.md) file. You can use the chrome-extensions skill to learn about the format of this file.
 
 ## Testing
 

@@ -134,6 +134,16 @@ Shortcuts can be changed from [Extension Settings](chrome://extensions/shortcuts
 
 You can set Slack emojis and Google Sheets™ range link format by clicking the extension icon.
 
+## Development with AI Coding Agents
+
+Install the Chrome team's `chrome-extensions` and `modern-web-guidance` skills globally in your own development environment using the [official CLI](https://developer.chrome.com/docs/modern-web-guidance/get-started):
+
+```sh
+npx modern-web-guidance@latest install --choose -g
+```
+
+When applying the guidance, preserve Firefox and UserScript compatibility and the normal Chrome build's `activeTab` permission model.
+
 ## License
 
 MIT

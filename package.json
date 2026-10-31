@@ -1,6 +1,6 @@
 {
   "name": "copylink.dev",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "description": "Browser extension that provides shortcuts to copy links. On supported sites, it creates Slack emoji-enhanced links.",
   "homepage": "https://github.com/wintorse/copylink-dev#readme",
   "bugs": {
@@ -50,5 +50,5 @@
       "version": "26.12.1"
     }
   },
-  "packageManager": "pnpm@12.16.1+sha512-CR0d7nknV1Zhsl2rPCrjHK/BxU1rce1qZgDPDByxBDSkR+rhQBXxsj4ua+3u1535SpMuIWTSgyKA3OP7MvZW0Q=="
+  "packageManager": "pnpm@12.16.1"
 }

@@ -2,6 +2,8 @@
 
 > 日本語版: [behavior-test-coverage-ja.md](behavior-test-coverage-ja.md)
 
+This catalog describes extension behavior. Each coverage entry names its automated evidence and scope; a passing example does not imply every browser, input, or permission path is tested. See [tests/README.md](../tests/README.md) for live-site/fixture boundaries, diagnostics, and manual release checks.
+
 ---
 
 ## 1. Behavior Catalog
@@ -11,84 +13,100 @@
 | ID       | Command                      | Keyboard Shortcut             | Behavior                                                        |
 | -------- | ---------------------------- | ----------------------------- | --------------------------------------------------------------- |
 | B-CMD-01 | **Copy Link**                | Alt+L / MacCtrl+L             | Copies the page URL with a formatted title                      |
-| B-CMD-02 | **Copy Link for Slack**      | Alt+Shift+L / MacCtrl+Shift+L | Copies a link prefixed with a Slack emoji                       |
-| B-CMD-03 | **Copy Title**               | Alt+T / MacCtrl+T             | Copies the page title as plain text only                        |
+| B-CMD-02 | **Copy Link for Slack**      | Alt+Shift+L / MacCtrl+Shift+L | Copy HTML with an optional Slack emoji; plain text is Markdown  |
+| B-CMD-03 | **Copy Title**               | Alt+T / MacCtrl+T             | Copy the formatted page title as plain text only                |
 | B-CMD-04 | **Copy Google Sheets Range** | Alt+R / MacCtrl+R             | Copies a range link for Google Sheets (with gid & range params) |
 
 ### 1.2 Link Formats
 
-| ID       | Format                        | Example output                                                  |
-| -------- | ----------------------------- | --------------------------------------------------------------- |
-| B-FMT-01 | **Plain URL**                 | `https://docs.google.com/...`                                   |
-| B-FMT-02 | **HTML**                      | `<a href="...">Title</a>&nbsp;` (plain text = title only)       |
-| B-FMT-03 | **Markdown**                  | `[Title](https://...)`                                          |
-| B-FMT-04 | **HTML with Emoji** (default) | `:emoji: <a href="...">Title</a>&nbsp;` (plain text = Markdown) |
+These four selectable formats apply to Google Sheets range links. `copy-link` always uses HTML, `copy-link-for-slack` uses HTML with an optional emoji, and `copy-title` copies plain text.
+
+| ID       | Format                        | Example output                                                       |
+| -------- | ----------------------------- | -------------------------------------------------------------------- |
+| B-FMT-01 | **Plain URL**                 | `https://docs.google.com/...`                                        |
+| B-FMT-02 | **HTML**                      | `<a href="...">Title</a>&nbsp;` (plain text = title only)            |
+| B-FMT-03 | **Markdown**                  | `[Title](https://...)`                                               |
+| B-FMT-04 | **HTML with Emoji** (default) | `:emoji:&nbsp;<a href="...">Title</a>&nbsp;` (plain text = Markdown) |
 
 ### 1.3 Site-specific Title Extraction & Emoji Detection
 
-| ID        | Site                 | Emoji                 | Title extraction method                        |
-| --------- | -------------------- | --------------------- | ---------------------------------------------- |
-| B-SITE-01 | Google Docs          | `:google_docs:`       | From `input#docs-title-widget`                 |
-| B-SITE-02 | Google Sheets        | `:google_sheets:`     | From `document.title`                          |
-| B-SITE-03 | Google Slides        | `:google_slides:`     | From `document.title`                          |
-| B-SITE-04 | Google Drive         | `:google_drive_2:`    | Strips " - Google Drive" from `document.title` |
-| B-SITE-05 | GitHub Repos         | `:github:`            | Extracts repo/owner from h1                    |
-| B-SITE-06 | GitHub Pull Requests | `:open_pull_request:` | Formats as `#number title`                     |
-| B-SITE-07 | GitHub Issues        | `:open_issue:`        | Formats as `#number title`                     |
-| B-SITE-08 | Jira Issues          | `:jira:`              | Formats as `ID title`                          |
-| B-SITE-09 | Asana Tasks          | `:asana:`             | From `aria-label` of `TaskPrintView`           |
-| B-SITE-10 | Backlog Issues       | `:backlog:`           | From `#summary .title-group__title-text`       |
-| B-SITE-11 | Redmine Issues       | `:redmine_ticket:`    | Extracts `Tracker #number: title` from h2/h3   |
-| B-SITE-12 | ReDoc (Swagger)      | `:swagger:`           | Active menu title (v2: label / v3: data-text)  |
-| B-SITE-13 | Unregistered sites   | (none)                | Uses `document.title` as-is                    |
+| ID        | Site                  | Emoji                 | Title extraction method                                                     |
+| --------- | --------------------- | --------------------- | --------------------------------------------------------------------------- |
+| B-SITE-01 | Google Docs           | `:google_docs:`       | Value of `#docs-title-widget input`                                         |
+| B-SITE-02 | Google Sheets         | `:google_sheets:`     | Value of `#docs-title-widget input`                                         |
+| B-SITE-03 | Google Slides         | `:google_slides:`     | Value of `#docs-title-widget input`                                         |
+| B-SITE-04 | Google Drive          | `:google_drive_2:`    | Strips " - Google Drive" from `document.title`                              |
+| B-SITE-05 | GitHub Repos          | `:github:`            | `document.title`                                                            |
+| B-SITE-06 | GitHub Pull Requests  | `:open_pull_request:` | Number from the URL + text of `h1 > *:first-child`                          |
+| B-SITE-07 | GitHub Issues         | `:open_issue:`        | Number from the URL + text of `h1 > *:first-child`                          |
+| B-SITE-08 | Jira Issues           | `:jira:`              | Text of `#key-val` and `#summary-val h2`, joined as `ID title`              |
+| B-SITE-09 | Asana Tasks           | `:asana:`             | From `aria-label` of `TaskPrintView`                                        |
+| B-SITE-10 | Backlog Issues        | `:backlog:`           | Text from `#summary > span.title-group__title-text > div`                   |
+| B-SITE-11 | Redmine Issues        | `:redmine_ticket:`    | Extracts `Tracker #number: title` from h2/h3                                |
+| B-SITE-14 | RedMica Issues        | `:redmine_ticket:`    | Recognized by a RedMica footer credit link; shares Redmine title formatting |
+| B-SITE-12 | ReDoc (Swagger)       | `:swagger:`           | Active menu title (v2: label / v3: data-text)                               |
+| B-SITE-13 | Unregistered sites    | (none)                | Uses `document.title` as-is                                                 |
+| B-SITE-16 | Shared site detection | (detected site)       | Titles and emojis share site priority; footer detection uses credit links   |
 
 ### 1.4 GitHub Pull Request Status Emoji
 
-| ID         | Behavior                                                                                           |
-| ---------- | -------------------------------------------------------------------------------------------------- |
-| B-GH-PR-01 | Pull request pages can use separate emojis for Draft, Open, Merged, and Closed states              |
-| B-GH-PR-02 | PR Conversation pages detect status from `data-status` (`draft`, `pullOpened`, `pullMerged`, etc.) |
-| B-GH-PR-03 | PR Files Changed pages fall back to `span[reviewable_state]` text (`Draft`, `Open`, etc.)          |
-| B-GH-PR-04 | If a status-specific emoji is unset, the default GitHub Pull Request emoji is used                 |
+| ID         | Behavior                                                                                                           |
+| ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| B-GH-PR-01 | Pull request pages can use separate emojis for Draft, Open, Merged, and Closed states                              |
+| B-GH-PR-02 | PR Conversation pages detect status from `data-status` (`draft`, `pullOpened`, `pullMerged`, etc.)                 |
+| B-GH-PR-03 | PR Files Changed pages fall back to `span[reviewable_state]` text (`Draft`, `Open`, etc.)                          |
+| B-GH-PR-04 | Unset status emojis inherit the configured common GitHub PR emoji, or its default                                  |
+| B-GH-PR-05 | Keep unset status fields blank, display inherited placeholders, and preserve inheritance after edits and reopening |
 
 ### 1.5 Custom Website Settings
 
-| ID          | Behavior                                                                     |
-| ----------- | ---------------------------------------------------------------------------- |
-| B-CUSTOM-01 | Five custom website slots (regex + emoji)                                    |
-| B-CUSTOM-02 | Custom regex takes priority over built-in site detection                     |
-| B-CUSTOM-03 | When a custom regex matches the current URL, its configured emoji is applied |
+| ID          | Behavior                                                                                                           |
+| ----------- | ------------------------------------------------------------------------------------------------------------------ |
+| B-CUSTOM-01 | Five custom website slots (regex + emoji)                                                                          |
+| B-CUSTOM-02 | Custom regex takes priority over built-in site detection                                                           |
+| B-CUSTOM-03 | Apply a custom emoji only when its nonempty regex matches and its emoji is configured                              |
+| B-CUSTOM-04 | Show invalid regex errors, keep the last valid value, save valid sibling fields, and clear errors after correction |
+| B-CUSTOM-05 | Ignore invalid persisted regexes and continue built-in emoji resolution                                            |
 
 ### 1.6 Popup Settings
 
-| ID         | Behavior                                                                 |
-| ---------- | ------------------------------------------------------------------------ |
-| B-POPUP-01 | Edit the 13 built-in emoji names                                         |
-| B-POPUP-02 | Configure up to 5 custom websites (regex + emoji)                        |
-| B-POPUP-03 | Select the Google Sheets range link format via radio buttons (4 options) |
-| B-POPUP-04 | All setting changes are saved to `chrome.storage.local` in real time     |
-| B-POPUP-05 | Export emoji names and custom regexes as JSON to the clipboard           |
-| B-POPUP-06 | Import JSON settings, save them, and refresh the form inputs             |
+| ID         | Behavior                                                                                                           |
+| ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| B-POPUP-01 | Edit 16 built-in emoji fields, including four GitHub PR status fields                                              |
+| B-POPUP-02 | Configure up to 5 custom websites (regex + emoji)                                                                  |
+| B-POPUP-03 | Select the Google Sheets range link format via radio buttons (4 options)                                           |
+| B-POPUP-04 | Valid setting edits are saved to `chrome.storage.local` immediately                                                |
+| B-POPUP-05 | Export emoji names and custom regexes as JSON to the clipboard                                                     |
+| B-POPUP-06 | Import JSON settings, save them, and refresh the form inputs                                                       |
+| B-POPUP-07 | Import empty emojiNames/customRegexes sections to reset the corresponding settings; a bare empty object is invalid |
+| B-POPUP-08 | Reject malformed imports without overwriting saved settings or existing form fields                                |
+| B-POPUP-09 | Display export failure when asynchronous storage retrieval fails                                                   |
+| B-POPUP-10 | Normalize emoji names by trimming input and adding surrounding colons when omitted                                 |
 
 ### 1.7 Clipboard Behavior
 
-| ID        | Behavior                                                                    |
-| --------- | --------------------------------------------------------------------------- |
-| B-CLIP-01 | Dual-format copy (text/plain + text/html) via `navigator.clipboard.write()` |
-| B-CLIP-02 | Fallback to `document.execCommand('copy')` on HTTP (non-secure) pages       |
-| B-CLIP-03 | User's text selection is preserved after the execCommand fallback           |
-| B-CLIP-04 | Copy Link: plain text = title, HTML = `<a>` tag                             |
-| B-CLIP-05 | Copy Link for Slack: plain text = Markdown, HTML = emoji + `<a>` tag        |
+| ID        | Behavior                                                                                          |
+| --------- | ------------------------------------------------------------------------------------------------- |
+| B-CLIP-01 | Dual-format copy (text/plain + text/html) via `navigator.clipboard.write()`                       |
+| B-CLIP-02 | Fallback to `document.execCommand('copy')` on HTTP (non-secure) pages                             |
+| B-CLIP-03 | User's text selection is preserved after the execCommand fallback                                 |
+| B-CLIP-04 | Copy Link: plain text = title, HTML = `<a>` tag                                                   |
+| B-CLIP-05 | Copy Link for Slack: plain text = Markdown, HTML = emoji + `<a>` tag                              |
+| B-CLIP-06 | Escape titles, URLs, and emoji names in generated HTML                                            |
+| B-CLIP-07 | Escape Markdown labels and encode special destination characters in Markdown and Slack plain text |
+| B-CLIP-08 | Omit the emoji prefix and separator when no emoji is set; retain the trailing non-breaking space  |
 
 ### 1.8 Google Sheets Range Link
 
-| ID         | Behavior                                                        |
-| ---------- | --------------------------------------------------------------- |
-| B-RANGE-01 | Extracts the GID (sheet ID) from the URL hash                   |
-| B-RANGE-02 | Extracts the cell range from the `#t-name-box` input            |
-| B-RANGE-03 | Generates a link in `{baseUrl}#gid={gid}&range={range}` format  |
-| B-RANGE-04 | Does nothing on non-Sheets pages                                |
-| B-RANGE-05 | Produces four output variants based on the selected link format |
+| ID         | Behavior                                                                     |
+| ---------- | ---------------------------------------------------------------------------- |
+| B-RANGE-01 | Extracts the GID (sheet ID) from the URL hash                                |
+| B-RANGE-02 | Extracts the cell range from the `#t-name-box` input                         |
+| B-RANGE-03 | Generates a link in `{baseUrl}#gid={gid}&range={range}` format               |
+| B-RANGE-04 | Does nothing on non-Sheets pages                                             |
+| B-RANGE-05 | Produces four output variants based on the selected link format              |
+| B-RANGE-06 | Use gid=0 when the URL hash has no nonempty gid                              |
+| B-RANGE-07 | Show a failure notification when the Sheets name box is unavailable or empty |
 
 ### 1.9 Toast Notifications
 
@@ -110,21 +128,26 @@
 
 ### 1.11 Error Handling
 
-| ID       | Behavior                                                         |
-| -------- | ---------------------------------------------------------------- |
-| B-ERR-01 | Silent error handling when no active tab is found                |
-| B-ERR-02 | Rejects non-http/https URL schemes (e.g., `chrome://`, `about:`) |
-| B-ERR-03 | Logs an error and aborts when content script injection fails     |
-| B-ERR-04 | Falls back to `execCommand` when the Clipboard API fails         |
-| B-ERR-05 | Shows a failure toast when all copy methods fail                 |
+| ID       | Behavior                                                            |
+| -------- | ------------------------------------------------------------------- |
+| B-ERR-01 | Log an error and stop when no active tab is found                   |
+| B-ERR-02 | Chrome: reject non-http/https schemes before script injection       |
+| B-ERR-03 | Chrome: log an error and abort when content script injection fails  |
+| B-ERR-04 | Falls back to `execCommand` when the Clipboard API fails            |
+| B-ERR-05 | Request a failure notification when the copy helper reports failure |
+| B-ERR-06 | Chrome: log an error and stop when the tab URL is missing           |
+| B-ERR-07 | Log background-to-content message delivery failures                 |
 
 ### 1.12 Content Scripts
 
-| ID      | Behavior                                                              |
-| ------- | --------------------------------------------------------------------- |
-| B-CS-01 | Duplicate-injection guard via the `__copylinkDevInjected` flag        |
-| B-CS-02 | Chrome: dynamic script injection via `chrome.scripting.executeScript` |
-| B-CS-03 | Firefox: pre-injected content script                                  |
+| ID      | Behavior                                                                                               |
+| ------- | ------------------------------------------------------------------------------------------------------ |
+| B-CS-01 | Duplicate-injection guard via the `__copylinkDevInjected` flag                                         |
+| B-CS-02 | Chrome: dynamic script injection via `chrome.scripting.executeScript`                                  |
+| B-CS-03 | Firefox: pre-injected content script                                                                   |
+| B-CS-04 | Keep the message port open until command completion and acknowledge completion even after an exception |
+| B-CS-05 | Skip copy commands on URL paths ending in .xml                                                         |
+| B-CS-06 | Ignore messages with an unsupported type or command                                                    |
 
 ---
 
@@ -132,92 +155,118 @@
 
 ### Test Architecture
 
-| Type       | Framework             | Directory     | Scope                                                   |
-| ---------- | --------------------- | ------------- | ------------------------------------------------------- |
-| E2E tests  | Playwright (Chromium) | `tests/e2e/`  | Command execution, UI behavior, and settings in-browser |
-| Unit tests | Vitest + happy-dom    | `tests/unit/` | Pure logic, static assets, and error-handling paths     |
+| Type                        | Framework                 | Directory        | Scope                                                                               |
+| --------------------------- | ------------------------- | ---------------- | ----------------------------------------------------------------------------------- |
+| Chromium E2E                | Playwright                | `tests/e2e/`     | Extension commands/UI with live and intercepted pages; test-only host permissions   |
+| Firefox content integration | Playwright / Gecko        | `tests/firefox/` | Native/fallback clipboard and content scripts; extension messaging/i18n APIs mocked |
+| Unit tests                  | Vitest + happy-dom / Node | `tests/unit/`    | Shared logic, DOM extraction, static assets, and mocked extension API errors        |
 
 ### Legend
 
-| Symbol | Meaning                  |
-| ------ | ------------------------ |
-| ✅     | Fully tested             |
-| ⚠️     | Implicitly verified only |
-| ❌     | Not tested               |
+| Symbol | Meaning                                               |
+| ------ | ----------------------------------------------------- |
+| ✅     | Explicit automated assertions within the stated scope |
+| ⚠️     | Partial coverage; the unverified path is identified   |
+| ❌     | No direct automated assertion found                   |
 
 ### Coverage Mapping
 
-| Behavior ID                  | Behavior                                   | Status | Test file / test name                                                                                         |
-| ---------------------------- | ------------------------------------------ | ------ | ------------------------------------------------------------------------------------------------------------- |
-| **Core Commands**            |                                            |        |                                                                                                               |
-| B-CMD-01                     | Copy Link                                  | ✅     | `e2e/core-commands.spec.ts`: `copy-link copies title as text and HTML anchor`                                 |
-| B-CMD-02                     | Copy Link for Slack                        | ✅     | `e2e/core-commands.spec.ts`: `copy-link-for-slack copies markdown text and HTML with emoji`                   |
-| B-CMD-03                     | Copy Title                                 | ✅     | `e2e/core-commands.spec.ts`: `copy-title copies only the page title as plain text`                            |
-| B-CMD-04                     | Copy Google Sheets Range                   | ✅     | `e2e/google-sheets.spec.ts`: `copy-google-sheets-range copies URL with range parameter`                       |
-| **Link Formats**             |                                            |        |                                                                                                               |
-| B-FMT-01                     | Plain URL                                  | ✅     | `e2e/link-formats.spec.ts`: `plainUrl format: text is URL only`                                               |
-| B-FMT-02                     | HTML                                       | ✅     | `e2e/link-formats.spec.ts`: `html format: text is title, html is <a> without emoji`                           |
-| B-FMT-03                     | Markdown                                   | ✅     | `e2e/link-formats.spec.ts`: `markdown format: text is [title](url), no html`                                  |
-| B-FMT-04                     | HTML with Emoji                            | ✅     | `e2e/link-formats.spec.ts`: `htmlWithEmoji format: text is markdown, html has emoji + <a>`                    |
-| **Site-specific Processing** |                                            |        |                                                                                                               |
-| B-SITE-01                    | Google Docs                                | ✅     | `e2e/site-title.spec.ts`: `Google Docs: title is テスト document`                                             |
-| B-SITE-02                    | Google Sheets                              | ✅     | `e2e/site-title.spec.ts`: `Google Sheets: title is テスト spreadsheet`                                        |
-| B-SITE-03                    | Google Slides                              | ✅     | `e2e/site-title.spec.ts`: `Google Slides: title is テスト presentation`                                       |
-| B-SITE-04                    | Google Drive                               | ✅     | `e2e/site-title.spec.ts`: `Google Drive: title is public folder`                                              |
-| B-SITE-05                    | GitHub Repos                               | ✅     | `e2e/site-title.spec.ts`: `GitHub Repo: emoji is :github:`                                                    |
-| B-SITE-06                    | GitHub Pull Requests                       | ✅     | `e2e/site-title.spec.ts`: `GitHub Pull Request: title is #<number> <text>`                                    |
-| B-SITE-07                    | GitHub Issues                              | ✅     | `e2e/site-title.spec.ts`: `GitHub Issue: title is #<number> <text>`                                           |
-| B-SITE-08                    | Jira Issues                                | ✅     | `e2e/site-title.spec.ts`: `Jira Issue: title is HIBERNATE-77 Support HQL in / not in`                         |
-| B-SITE-09                    | Asana Tasks                                | ✅     | `e2e/site-title.spec.ts`: `Asana Task (mocked): title from aria-label`                                        |
-| B-SITE-10                    | Backlog Issues                             | ✅     | `e2e/site-title.spec.ts`: `Backlog Issue (mocked): title from DOM selector`                                   |
-| B-SITE-11                    | Redmine Issues                             | ✅     | `e2e/site-title.spec.ts`: `Redmine Issue: title is Feature #642: OpenXR On Linux.`                            |
-| B-SITE-12                    | ReDoc (Swagger)                            | ✅     | `e2e/site-title.spec.ts`: ReDoc v2 / v3; `unit/redocTitle.test.ts`                                            |
-| B-SITE-13                    | Unregistered sites                         | ✅     | `e2e/core-commands.spec.ts`: implicitly tested on example.com                                                 |
-| **GitHub PR Status Emoji**   |                                            |        |                                                                                                               |
-| B-GH-PR-01                   | Status-specific PR emoji                   | ✅     | `e2e/site-title.spec.ts`: `GitHub Pull Request: status-specific emoji is used on a merged PR`                 |
-| B-GH-PR-02                   | Conversation `data-status` detection       | ✅     | `unit/getEmojiName.test.ts`: `maps data-status=%s to %s`                                                      |
-| B-GH-PR-03                   | Files Changed `reviewable_state` detection | ✅     | `unit/getEmojiName.test.ts`: `falls back to reviewable_state text for GitHub Files Changed`                   |
-| B-GH-PR-04                   | Status emoji fallback                      | ✅     | `unit/emojiResolver.test.ts`: `falls back to the default GitHub PR emoji when status emoji is not configured` |
-| **Custom Websites**          |                                            |        |                                                                                                               |
-| B-CUSTOM-01                  | Custom slot configuration                  | ✅     | `e2e/popup.spec.ts`: `custom website regex + emoji is applied for matching URLs`                              |
-| B-CUSTOM-02                  | Custom takes priority over built-in        | ✅     | `e2e/popup.spec.ts`: `custom website regex takes priority over built-in site detection`                       |
-| B-CUSTOM-03                  | Emoji applied on regex match               | ✅     | `e2e/popup.spec.ts`: `custom website regex + emoji is applied for matching URLs`                              |
-| **Popup Settings**           |                                            |        |                                                                                                               |
-| B-POPUP-01                   | Change emoji names                         | ✅     | `e2e/popup.spec.ts`: `changing an emoji name persists and is used in copy`                                    |
-| B-POPUP-02                   | Custom website configuration               | ✅     | `e2e/popup.spec.ts`: `custom website regex + emoji is applied for matching URLs`                              |
-| B-POPUP-03                   | Link format selection                      | ✅     | `e2e/popup.spec.ts`: `selecting a link format radio persists to storage`                                      |
-| B-POPUP-04                   | Real-time storage persistence              | ✅     | `e2e/popup.spec.ts`: storage verified in each test                                                            |
-| B-POPUP-05                   | Export settings                            | ✅     | `e2e/popup.spec.ts`: `exports emoji names and custom regexes to the clipboard`                                |
-| B-POPUP-06                   | Import settings                            | ✅     | `e2e/popup.spec.ts`: `imports settings, saves them, and refreshes the form inputs`                            |
-| **Clipboard**                |                                            |        |                                                                                                               |
-| B-CLIP-01                    | Clipboard API dual-format                  | ✅     | `e2e/core-commands.spec.ts`: both text and HTML verified                                                      |
-| B-CLIP-02                    | HTTP fallback                              | ✅     | `e2e/http-site.spec.ts`: three commands tested on an HTTP site                                                |
-| B-CLIP-03                    | Selection preservation                     | ✅     | `unit/clipboardFallback.test.ts`: `restores the previous selection range after execCommand fallback`          |
-| B-CLIP-04                    | Copy Link output format                    | ✅     | `e2e/core-commands.spec.ts`                                                                                   |
-| B-CLIP-05                    | Copy Link for Slack output format          | ✅     | `e2e/core-commands.spec.ts`                                                                                   |
-| **Google Sheets Range**      |                                            |        |                                                                                                               |
-| B-RANGE-01                   | GID extraction                             | ✅     | `e2e/google-sheets.spec.ts`: `gid=0` verified                                                                 |
-| B-RANGE-02                   | Cell range extraction                      | ✅     | `e2e/google-sheets.spec.ts`: `range=C2:E4` verified                                                           |
-| B-RANGE-03                   | Link format                                | ✅     | `e2e/google-sheets.spec.ts`                                                                                   |
-| B-RANGE-04                   | No-op on non-Sheets pages                  | ✅     | `e2e/google-sheets.spec.ts`: `on non-Sheets page does nothing`                                                |
-| B-RANGE-05                   | Format-variant outputs                     | ✅     | `e2e/link-formats.spec.ts`: all 4 formats tested                                                              |
-| **Toast Notifications**      |                                            |        |                                                                                                               |
-| B-TOAST-01                   | Shown after successful copy                | ✅     | `e2e/toast.spec.ts`: `toast appears after copy-link`                                                          |
-| B-TOAST-02                   | Position                                   | ✅     | `unit/toast-css.test.ts`: `positions the toast 24px from the bottom/left`                                     |
-| B-TOAST-03                   | Auto-dismissed after ~3s                   | ✅     | `e2e/toast.spec.ts`: `disappears after ~3s`                                                                   |
-| B-TOAST-04                   | Shadow DOM isolation                       | ✅     | `unit/toastShadowDom.test.ts`: `places .copylink-dev-toast inside the shadow root, not in the main document`  |
-| **Internationalization**     |                                            |        |                                                                                                               |
-| B-I18N-01                    | English locale                             | ✅     | `unit/i18n.test.ts`: `en/messages.json contains all required keys`                                            |
-| B-I18N-02                    | Japanese locale                            | ✅     | `unit/i18n.test.ts`: `ja/messages.json contains all required keys`                                            |
-| B-I18N-03                    | Simplified Chinese locale                  | ✅     | `unit/i18n.test.ts`: `zh_CN/messages.json contains all required keys`                                         |
-| B-I18N-04                    | Popup auto-translation                     | ✅     | `unit/i18n.test.ts`: `every data-i18n attribute in popup.html references a key present in messages.json`      |
-| **Error Handling**           |                                            |        |                                                                                                               |
-| B-ERR-01                     | No active tab                              | ✅     | `unit/background.test.ts`: `logs an error and does nothing when no active tab is found`                       |
-| B-ERR-02                     | Non-http/https scheme rejected             | ✅     | `unit/background.test.ts`: `rejects chrome:// URLs without injecting the content script`                      |
-| B-ERR-03                     | Script injection failure                   | ✅     | `unit/background.test.ts`: `logs error and does NOT send message when script injection fails`                 |
-| B-ERR-04                     | Clipboard API failure fallback             | ✅     | `unit/clipboardFallback.test.ts`: `attempts the execCommand fallback when Clipboard API fails`                |
-| B-ERR-05                     | Failure toast when all methods fail        | ✅     | `e2e/toast.spec.ts` + `unit/copyTextLinkCore.test.ts`: failure notification                                   |
-| **Content Scripts**          |                                            |        |                                                                                                               |
-| B-CS-01                      | Duplicate-injection guard                  | ✅     | `unit/content.test.ts`: `does NOT re-register the listener when the script is injected a second time`         |
-| B-CS-02                      | Chrome dynamic injection                   | ⚠️     | Implicitly verified by all E2E tests                                                                          |
-| B-CS-03                      | Firefox pre-injected script                | ❌     | Playwright does not support testing Firefox extensions                                                        |
+| Behavior ID                  | Behavior                                                                                          | Status | Test evidence                                                                                                                                                                                                                                                                                            |
+| ---------------------------- | ------------------------------------------------------------------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Core Commands**            |                                                                                                   |        |                                                                                                                                                                                                                                                                                                          |
+| B-CMD-01                     | Copy Link                                                                                         | ✅     | [e2e/core-commands.spec.ts](../tests/e2e/core-commands.spec.ts): `copy-link copies title as text and HTML anchor`                                                                                                                                                                                        |
+| B-CMD-02                     | Copy Link for Slack                                                                               | ✅     | [e2e/core-commands.spec.ts](../tests/e2e/core-commands.spec.ts): `copy-link-for-slack copies markdown text and HTML with emoji`                                                                                                                                                                          |
+| B-CMD-03                     | Copy Title                                                                                        | ✅     | [e2e/core-commands.spec.ts](../tests/e2e/core-commands.spec.ts): `copy-title copies only the page title as plain text`                                                                                                                                                                                   |
+| B-CMD-04                     | Copy Google Sheets Range                                                                          | ✅     | [e2e/google-sheets.spec.ts](../tests/e2e/google-sheets.spec.ts): `copy-google-sheets-range copies URL with range parameter`                                                                                                                                                                              |
+| **Link Formats**             |                                                                                                   |        |                                                                                                                                                                                                                                                                                                          |
+| B-FMT-01                     | Plain URL                                                                                         | ✅     | [e2e/link-formats.spec.ts](../tests/e2e/link-formats.spec.ts): `plainUrl format: text is URL only`                                                                                                                                                                                                       |
+| B-FMT-02                     | HTML                                                                                              | ✅     | [e2e/link-formats.spec.ts](../tests/e2e/link-formats.spec.ts): `html format: text is title, html is <a> without emoji`                                                                                                                                                                                   |
+| B-FMT-03                     | Markdown                                                                                          | ✅     | [e2e/link-formats.spec.ts](../tests/e2e/link-formats.spec.ts): `markdown format: text is [title](url), no html`                                                                                                                                                                                          |
+| B-FMT-04                     | HTML with Emoji                                                                                   | ✅     | [e2e/link-formats.spec.ts](../tests/e2e/link-formats.spec.ts): `htmlWithEmoji format: text is markdown, html has emoji + <a>`                                                                                                                                                                            |
+| **Site-specific Processing** |                                                                                                   |        |                                                                                                                                                                                                                                                                                                          |
+| B-SITE-01                    | Google Docs                                                                                       | ✅     | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `Google Docs: title is テスト document`                                                                                                                                                                                                       |
+| B-SITE-02                    | Google Sheets                                                                                     | ✅     | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `Google Sheets: title is テスト spreadsheet`                                                                                                                                                                                                  |
+| B-SITE-03                    | Google Slides                                                                                     | ✅     | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `Google Slides: title is テスト presentation`                                                                                                                                                                                                 |
+| B-SITE-04                    | Google Drive                                                                                      | ✅     | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `Google Drive: title is public folder`                                                                                                                                                                                                        |
+| B-SITE-05                    | GitHub Repos                                                                                      | ✅     | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `GitHub Repo: emoji is :github:`                                                                                                                                                                                                              |
+| B-SITE-06                    | GitHub Pull Requests                                                                              | ✅     | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `GitHub Pull Request: title is #<number> <text>`                                                                                                                                                                                              |
+| B-SITE-07                    | GitHub Issues                                                                                     | ✅     | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `GitHub Issue: title is #<number> <text>`                                                                                                                                                                                                     |
+| B-SITE-08                    | Jira Issues                                                                                       | ✅     | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `Jira Issue: title is HIBERNATE-77 Support HQL in / not in`; [unit/missingIssueTitle.test.ts](../tests/unit/missingIssueTitle.test.ts)                                                                                                        |
+| B-SITE-09                    | Asana Tasks (fixture)                                                                             | ✅     | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `Asana Task (mocked): title from aria-label`                                                                                                                                                                                                  |
+| B-SITE-10                    | Backlog Issues (fixture)                                                                          | ✅     | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `Backlog Issue (mocked): title from DOM selector`                                                                                                                                                                                             |
+| B-SITE-11                    | Redmine Issues (fixture)                                                                          | ✅     | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `Redmine Issue: title is Feature #642: OpenXR On Linux.`; [unit/missingIssueTitle.test.ts](../tests/unit/missingIssueTitle.test.ts)                                                                                                           |
+| B-SITE-14                    | RedMica Issues (fixture)                                                                          | ✅     | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `RedMica Issue (mocked): footer credit enables title formatting and emoji`                                                                                                                                                                    |
+| B-SITE-12                    | ReDoc v2 / v3                                                                                     | ✅     | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `ReDoc v3: copies the active operation title and Swagger emoji after navigation`; [unit/redocTitle.test.ts](../tests/unit/redocTitle.test.ts)                                                                                                 |
+| B-SITE-13                    | Unregistered sites                                                                                | ✅     | [unit/emojiResolver.test.ts](../tests/unit/emojiResolver.test.ts): `returns empty string for unknown sites`; [unit/siteDetection.test.ts](../tests/unit/siteDetection.test.ts): `does not detect Redmine from incidental footer text`                                                                    |
+| B-SITE-16                    | Shared detection priority / footer credits                                                        | ✅     | [unit/siteDetection.test.ts](../tests/unit/siteDetection.test.ts): `gives Jira the same priority in titles and emoji when a Redmine footer also exists`; [unit/siteDetection.test.ts](../tests/unit/siteDetection.test.ts): `finds Redmine credit after other footer links`                              |
+| **GitHub PR Status Emoji**   |                                                                                                   |        |                                                                                                                                                                                                                                                                                                          |
+| B-GH-PR-01                   | PR status-specific emoji (merged verified; other configured states lack direct output assertions) | ⚠️     | [e2e/site-title.spec.ts](../tests/e2e/site-title.spec.ts): `GitHub Pull Request: status-specific emoji is used on a merged PR`; [unit/emojiResolver.test.ts](../tests/unit/emojiResolver.test.ts): `uses GitHub PR status emoji when configured`                                                         |
+| B-GH-PR-02                   | Conversation status parsing (four states)                                                         | ✅     | [unit/getEmojiName.test.ts](../tests/unit/getEmojiName.test.ts): `maps data-status=%s to %s`                                                                                                                                                                                                             |
+| B-GH-PR-03                   | Files Changed status fallback                                                                     | ✅     | [unit/getEmojiName.test.ts](../tests/unit/getEmojiName.test.ts): `falls back to reviewable_state text for GitHub Files Changed`                                                                                                                                                                          |
+| B-GH-PR-04                   | Common PR emoji fallback                                                                          | ✅     | [unit/emojiResolver.test.ts](../tests/unit/emojiResolver.test.ts): `falls back to the default GitHub PR emoji when status emoji is not configured`                                                                                                                                                       |
+| B-GH-PR-05                   | Preserve inheritance after saving                                                                 | ✅     | [e2e/pr-emoji-inheritance.spec.ts](../tests/e2e/pr-emoji-inheritance.spec.ts): `unset PR status emoji inherits changes to the common emoji after saving`; [unit/emojiSettings.test.ts](../tests/unit/emojiSettings.test.ts)                                                                              |
+| **Custom Websites**          |                                                                                                   |        |                                                                                                                                                                                                                                                                                                          |
+| B-CUSTOM-01                  | Custom slot configuration                                                                         | ✅     | [e2e/popup.spec.ts](../tests/e2e/popup.spec.ts): `custom website regex + emoji is applied for matching URLs`                                                                                                                                                                                             |
+| B-CUSTOM-02                  | Custom emoji priority                                                                             | ✅     | [e2e/popup.spec.ts](../tests/e2e/popup.spec.ts): `custom website regex takes priority over built-in site detection`                                                                                                                                                                                      |
+| B-CUSTOM-03                  | Regex match with configured emoji                                                                 | ✅     | [e2e/popup.spec.ts](../tests/e2e/popup.spec.ts): `custom website regex + emoji is applied for matching URLs`; [unit/emojiResolver.test.ts](../tests/unit/emojiResolver.test.ts): `falls through to built-in when custom emoji slot is unset (undefined)`                                                 |
+| B-CUSTOM-04                  | Invalid regex feedback and partial saving                                                         | ✅     | [unit/customRegexInput.test.ts](../tests/unit/customRegexInput.test.ts): `preserves the last valid regex, saves valid sibling edits, and clears validation after correction`                                                                                                                             |
+| B-CUSTOM-05                  | Invalid saved regex fallback                                                                      | ✅     | [unit/customRegexInput.test.ts](../tests/unit/customRegexInput.test.ts): `ignores invalid persisted regexes and continues built-in emoji resolution`                                                                                                                                                     |
+| **Popup Settings**           |                                                                                                   |        |                                                                                                                                                                                                                                                                                                          |
+| B-POPUP-01                   | Built-in emoji editing                                                                            | ✅     | [e2e/popup.spec.ts](../tests/e2e/popup.spec.ts): `changing an emoji name persists and is used in copy`                                                                                                                                                                                                   |
+| B-POPUP-02                   | Custom website settings                                                                           | ✅     | [e2e/popup.spec.ts](../tests/e2e/popup.spec.ts): `custom website regex + emoji is applied for matching URLs`                                                                                                                                                                                             |
+| B-POPUP-03                   | Range link format selection                                                                       | ✅     | [e2e/popup.spec.ts](../tests/e2e/popup.spec.ts): `selecting a link format radio persists to storage`                                                                                                                                                                                                     |
+| B-POPUP-04                   | Immediate storage persistence                                                                     | ✅     | [e2e/popup.spec.ts](../tests/e2e/popup.spec.ts): `changing an emoji name persists and is used in copy`; [e2e/popup.spec.ts](../tests/e2e/popup.spec.ts): `selecting a link format radio persists to storage`                                                                                             |
+| B-POPUP-05                   | Export settings                                                                                   | ✅     | [e2e/popup.spec.ts](../tests/e2e/popup.spec.ts): `exports emoji names and custom regexes to the clipboard`                                                                                                                                                                                               |
+| B-POPUP-06                   | Import settings and refresh form                                                                  | ✅     | [e2e/popup.spec.ts](../tests/e2e/popup.spec.ts): `imports settings, saves them, and refreshes the form inputs`                                                                                                                                                                                           |
+| B-POPUP-07                   | Reset via empty import sections (parser tested; UI reset not asserted)                            | ⚠️     | [unit/importSettings.test.ts](../tests/unit/importSettings.test.ts): `accepts empty sections to reset settings`                                                                                                                                                                                          |
+| B-POPUP-08                   | Reject invalid imports without changes                                                            | ✅     | [e2e/import-validation.spec.ts](../tests/e2e/import-validation.spec.ts): `malformed settings do not overwrite storage or the popup`; [unit/importSettings.test.ts](../tests/unit/importSettings.test.ts): `rejects malformed settings before saving: %j`                                                 |
+| B-POPUP-09                   | Export storage errors                                                                             | ✅     | [unit/exportStorageError.test.ts](../tests/unit/exportStorageError.test.ts): `shows exportFailure when the asynchronous storage callback reports an error`                                                                                                                                               |
+| B-POPUP-10                   | Emoji normalization (colons asserted; trimming not asserted)                                      | ⚠️     | [unit/importSettings.test.ts](../tests/unit/importSettings.test.ts): `normalizes valid emoji names and preserves regexes`; [unit/emojiSettings.test.ts](../tests/unit/emojiSettings.test.ts): `stores configured GitHub PR status emoji values`                                                          |
+| **Clipboard**                |                                                                                                   |        |                                                                                                                                                                                                                                                                                                          |
+| B-CLIP-01                    | Native dual-format clipboard                                                                      | ✅     | [e2e/core-commands.spec.ts](../tests/e2e/core-commands.spec.ts): `copy-link copies title as text and HTML anchor`; [firefox/content.spec.ts](../tests/firefox/content.spec.ts)                                                                                                                           |
+| B-CLIP-02                    | Non-secure HTTP fallback                                                                          | ✅     | [e2e/http-site.spec.ts](../tests/e2e/http-site.spec.ts)                                                                                                                                                                                                                                                  |
+| B-CLIP-03                    | Selection preservation                                                                            | ✅     | [unit/clipboardFallback.test.ts](../tests/unit/clipboardFallback.test.ts): `restores the previous selection range after execCommand fallback`                                                                                                                                                            |
+| B-CLIP-04                    | Copy Link output                                                                                  | ✅     | [e2e/core-commands.spec.ts](../tests/e2e/core-commands.spec.ts): `copy-link copies title as text and HTML anchor`                                                                                                                                                                                        |
+| B-CLIP-05                    | Slack HTML and Markdown output                                                                    | ✅     | [e2e/core-commands.spec.ts](../tests/e2e/core-commands.spec.ts): `copy-link-for-slack copies markdown text and HTML with emoji`                                                                                                                                                                          |
+| B-CLIP-06                    | HTML escaping                                                                                     | ✅     | [unit/buildLinkCopyContent.test.ts](../tests/unit/buildLinkCopyContent.test.ts): `escapes title, URL and emoji only in HTML, preserving raw fallback values`                                                                                                                                             |
+| B-CLIP-07                    | Markdown escaping                                                                                 | ✅     | [unit/buildLinkCopyContent.test.ts](../tests/unit/buildLinkCopyContent.test.ts): `escapes Markdown syntax in %s plain text`                                                                                                                                                                              |
+| B-CLIP-08                    | No emoji separator when unset                                                                     | ✅     | [unit/buildLinkCopyContent.test.ts](../tests/unit/buildLinkCopyContent.test.ts): `omits the emoji prefix and separator when no emoji is supplied`                                                                                                                                                        |
+| **Google Sheets Range**      |                                                                                                   |        |                                                                                                                                                                                                                                                                                                          |
+| B-RANGE-01                   | GID extraction                                                                                    | ✅     | [e2e/google-sheets.spec.ts](../tests/e2e/google-sheets.spec.ts): `copy-google-sheets-range copies URL with range parameter`                                                                                                                                                                              |
+| B-RANGE-02                   | Cell range extraction                                                                             | ✅     | [e2e/google-sheets.spec.ts](../tests/e2e/google-sheets.spec.ts): `copy-google-sheets-range copies URL with range parameter`                                                                                                                                                                              |
+| B-RANGE-03                   | Range URL generation                                                                              | ✅     | [e2e/google-sheets.spec.ts](../tests/e2e/google-sheets.spec.ts): `copy-google-sheets-range copies URL with range parameter`                                                                                                                                                                              |
+| B-RANGE-04                   | No-op outside Sheets                                                                              | ✅     | [e2e/google-sheets.spec.ts](../tests/e2e/google-sheets.spec.ts): `copy-google-sheets-range on non-Sheets page does nothing`                                                                                                                                                                              |
+| B-RANGE-05                   | Four range formats                                                                                | ✅     | [e2e/link-formats.spec.ts](../tests/e2e/link-formats.spec.ts)                                                                                                                                                                                                                                            |
+| B-RANGE-06                   | Default gid when missing (not asserted)                                                           | ❌     | —                                                                                                                                                                                                                                                                                                        |
+| B-RANGE-07                   | Unavailable range notification; empty input not directly asserted                                 | ⚠️     | [e2e/toast.spec.ts](../tests/e2e/toast.spec.ts): `failure toast appears when Google Sheets range is unavailable`; [unit/copyTextLinkCore.test.ts](../tests/unit/copyTextLinkCore.test.ts): `notifies failure when range info is unavailable (name box missing)`                                          |
+| **Toast Notifications**      |                                                                                                   |        |                                                                                                                                                                                                                                                                                                          |
+| B-TOAST-01                   | Success toast                                                                                     | ✅     | [e2e/toast.spec.ts](../tests/e2e/toast.spec.ts): `toast appears after copy-link and disappears after ~3s`                                                                                                                                                                                                |
+| B-TOAST-02                   | Position (static CSS assertions)                                                                  | ✅     | [unit/toast-css.test.ts](../tests/unit/toast-css.test.ts): `positions the toast 24px from the bottom`; [unit/toast-css.test.ts](../tests/unit/toast-css.test.ts): `positions the toast 24px from the left`                                                                                               |
+| B-TOAST-03                   | Automatic toast removal                                                                           | ✅     | [e2e/toast.spec.ts](../tests/e2e/toast.spec.ts): `toast appears after copy-link and disappears after ~3s`                                                                                                                                                                                                |
+| B-TOAST-04                   | Shadow DOM isolation                                                                              | ✅     | [unit/toastShadowDom.test.ts](../tests/unit/toastShadowDom.test.ts): `places .copylink-dev-toast inside the shadow root, not in the main document`                                                                                                                                                       |
+| **Internationalization**     |                                                                                                   |        |                                                                                                                                                                                                                                                                                                          |
+| B-I18N-01                    | English locale                                                                                    | ✅     | [unit/i18n.test.ts](../tests/unit/i18n.test.ts) (locale key completeness)                                                                                                                                                                                                                                |
+| B-I18N-02                    | Japanese locale                                                                                   | ✅     | [unit/i18n.test.ts](../tests/unit/i18n.test.ts) (locale key completeness)                                                                                                                                                                                                                                |
+| B-I18N-03                    | Simplified Chinese locale                                                                         | ✅     | [unit/i18n.test.ts](../tests/unit/i18n.test.ts) (locale key completeness)                                                                                                                                                                                                                                |
+| B-I18N-04                    | Popup localization (keys checked; rendered labels not asserted)                                   | ⚠️     | [unit/i18n.test.ts](../tests/unit/i18n.test.ts): `every data-i18n attribute in popup.html references a key present in messages.json`                                                                                                                                                                     |
+| **Error Handling**           |                                                                                                   |        |                                                                                                                                                                                                                                                                                                          |
+| B-ERR-01                     | No active tab                                                                                     | ✅     | [unit/background.test.ts](../tests/unit/background.test.ts): `logs an error and does nothing when no active tab is found`                                                                                                                                                                                |
+| B-ERR-02                     | Non-web schemes (Chrome)                                                                          | ✅     | [unit/background.test.ts](../tests/unit/background.test.ts): `rejects chrome:// URLs without injecting the content script`; [unit/background.test.ts](../tests/unit/background.test.ts): `rejects about:blank without injecting the content script`                                                      |
+| B-ERR-03                     | Injection failure (Chrome)                                                                        | ✅     | [unit/background.test.ts](../tests/unit/background.test.ts): `logs error and does NOT send message when script injection fails`                                                                                                                                                                          |
+| B-ERR-04                     | Native API failure fallback                                                                       | ✅     | [unit/clipboardFallback.test.ts](../tests/unit/clipboardFallback.test.ts): `attempts the execCommand fallback when Clipboard API fails and a fallbackElement is given`; [firefox/content.spec.ts](../tests/firefox/content.spec.ts)                                                                      |
+| B-ERR-05                     | Copy failure notification                                                                         | ✅     | [unit/copyTextLinkCore.test.ts](../tests/unit/copyTextLinkCore.test.ts): `notifies failure when the copy operation fails (B-ERR-05)`                                                                                                                                                                     |
+| B-ERR-06                     | Missing URL (Chrome)                                                                              | ✅     | [unit/background.test.ts](../tests/unit/background.test.ts): `logs an error and does nothing when tab has no URL`                                                                                                                                                                                        |
+| B-ERR-07                     | Background message delivery errors (not asserted)                                                 | ❌     | —                                                                                                                                                                                                                                                                                                        |
+| **Content Scripts**          |                                                                                                   |        |                                                                                                                                                                                                                                                                                                          |
+| B-CS-01                      | Duplicate injection guard                                                                         | ✅     | [unit/content.test.ts](../tests/unit/content.test.ts): `does NOT re-register the listener when the script is injected a second time`                                                                                                                                                                     |
+| B-CS-02                      | Chrome dynamic injection; actual shortcuts / activeTab need manual checks                         | ⚠️     | [unit/background.test.ts](../tests/unit/background.test.ts): `injects content script and sends command message on a valid https page`; [e2e/core-commands.spec.ts](../tests/e2e/core-commands.spec.ts)                                                                                                   |
+| B-CS-03                      | Firefox content behavior; add-on installation / manifest injection need manual checks             | ⚠️     | [firefox/content.spec.ts](../tests/firefox/content.spec.ts)                                                                                                                                                                                                                                              |
+| B-CS-04                      | Completion acknowledgments on success and exception                                               | ✅     | [unit/commandCompletion.test.ts](../tests/unit/commandCompletion.test.ts): `keeps the message port open and responds only after the command completes`; [unit/commandCompletion.test.ts](../tests/unit/commandCompletion.test.ts): `logs command errors locally and still responds with completion only` |
+| B-CS-05                      | XML path exclusion (not asserted)                                                                 | ❌     | —                                                                                                                                                                                                                                                                                                        |
+| B-CS-06                      | Unsupported messages (not asserted)                                                               | ❌     | —                                                                                                                                                                                                                                                                                                        |
+
+## 3. Remaining Validation Boundaries
+
+The table records known gaps rather than treating untested behavior as covered. Physical shortcuts and production `activeTab` grants, installed Firefox add-on behavior, and the separate UserScript consumer still require manual or consumer-side verification. The missing-gid default, XML exclusion, unsupported-message filtering, and background message-delivery error paths currently have no direct automated assertion. Configured PR emoji output is directly verified for merged PRs; the remaining states are not an exhaustive output matrix.
+
+The catalogs cover runtime behavior, not every build or release workflow. CI also validates types, lint, unit tests, both browser builds, and the Actions lockfile; release publication depends on CI and browser checks. See the workflows and [tests/README.md](../tests/README.md).

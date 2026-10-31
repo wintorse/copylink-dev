@@ -49,6 +49,8 @@ Maintain [CHROMEWEBSTORE.md](CHROMEWEBSTORE.md) when changes affect user-facing 
 
 ## Testing
 
-E2E tests for GitHub, Google Sheets / Docs / Slides / Drive, Jira, ReDoc pages, as well as general websites, are performed using actual URLs and run periodically via CI.
+Selected E2E tests for GitHub, Google Sheets / Docs / Slides / Drive, Jira, and ReDoc use real external pages and run periodically via CI to detect upstream UI changes. Generic pages, the current Redmine / RedMica / Asana / Backlog cases, and targeted GitHub / Sheets regression cases use local or intercepted fixture responses for repeatable behavior checks.
 
-This is to detect UI changes on these sites. When CI fails, it lets us know that this extension needs to be fixed.
+When a live-site test fails, distinguish navigation or service failures from changed page structure and extension regressions before changing code. Preserve the real-site checks: do not replace them with fixtures, skip them, or weaken assertions solely to make CI pass. Update fixtures when the intended behavior changes, and add focused regression coverage for confirmed extension bugs.
+
+See [tests/README.md](tests/README.md) for validation commands, fixture boundaries, failure triage, and browser paths that require manual verification.

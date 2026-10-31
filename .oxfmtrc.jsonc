@@ -1,4 +1,8 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
   "printWidth": 80,
+  "ignorePatterns": [
+    ".agents/skills/chrome-extensions/",
+    ".agents/skills/modern-web-guidance/",
+  ],
 }

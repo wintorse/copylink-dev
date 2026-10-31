@@ -2,9 +2,34 @@ import {
   buildCustomRegexes,
   buildEmojiNames,
   getInitialEmojiValues,
+  normalizeEmojiValue,
 } from "../../src/shared/popup/emojiSettings";
 import { describe, expect, it } from "vitest";
 import { resolveEmojiName } from "../../src/shared/emojiResolver";
+
+describe("emoji name normalization", () => {
+  it.each([
+    { input: "  octocat  ", expected: ":octocat:" },
+    { input: "\t:octocat:\n", expected: ":octocat:" },
+    { input: " \t\n", expected: ":default:" },
+  ])("trims emoji input before normalizing: $input", ({ input, expected }) => {
+    expect(normalizeEmojiValue(input, ":default:")).toBe(expected);
+  });
+
+  it("trims ordinary, PR status, and custom emoji names before saving", () => {
+    expect(
+      buildEmojiNames({
+        github: "  octocat  ",
+        githubMergedPullRequest: " :merged: ",
+        customWebsite1: "\tcustom\n",
+      }),
+    ).toMatchObject({
+      github: ":octocat:",
+      githubMergedPullRequest: ":merged:",
+      customWebsite1: ":custom:",
+    });
+  });
+});
 
 describe("emojiSettings – GitHub PR status fallback", () => {
   it("omits blank GitHub PR status emoji values so they can fall back", () => {

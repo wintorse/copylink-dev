@@ -1,6 +1,7 @@
 name: E2E Test
 
 on:
+  workflow_call:
   pull_request:
     branches:
       - main
@@ -21,7 +22,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7.0.1
 
-      - uses: pnpm/setup@v3.1.1
+      - uses: pnpm/setup@v3.1.2
         with:
           cache: true
           install: false
@@ -33,7 +34,60 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium firefox
 
       - name: Run E2E tests
+        id: chromium
         run: pnpm test
 
       - name: Run Firefox content integration tests
+        if: success() || steps.chromium.outcome == 'failure'
         run: pnpm test:firefox-content
+
+      - name: Upload browser test diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: browser-test-diagnostics
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+  browser-ui:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - uses: pnpm/setup@v3.1.2
+        with:
+          cache: true
+          install: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install browsers and native input tools
+        run: |
+          pnpm exec playwright install --with-deps chromium firefox
+          sudo apt-get update
+          sudo apt-get install -y xdotool xclip
+
+      - name: Test Chrome shortcuts and activeTab permissions
+        id: chromium
+        run: xvfb-run -a pnpm test:chromium-shortcuts
+
+      - name: Test Firefox add-on installation and shortcuts
+        if: success() || steps.chromium.outcome == 'failure'
+        run: xvfb-run -a pnpm test:firefox-addon
+
+      - name: Upload browser UI diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: browser-ui-diagnostics
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7

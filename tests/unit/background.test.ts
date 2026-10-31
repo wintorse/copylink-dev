@@ -133,6 +133,51 @@ describe("background.ts command handler", () => {
     });
   });
 
+  it.each([
+    "https://example.com/feed.xml",
+    "https://example.com/FEED.XML?download=1#section",
+  ])(
+    "skips XML paths without injecting or sending a command: %s",
+    async (url) => {
+      queryMock.mockResolvedValue([{ id: 1, url }]);
+
+      await invoke("copy-link");
+
+      expect(executeScriptMock).not.toHaveBeenCalled();
+      expect(sendMessageMock).not.toHaveBeenCalled();
+    },
+  );
+
+  it("does not exclude HTML pages whose query mentions XML", async () => {
+    queryMock.mockResolvedValue([
+      { id: 1, url: "https://example.com/view?file=feed.xml" },
+    ]);
+    executeScriptMock.mockResolvedValue(null);
+    sendMessageMock.mockResolvedValue(null);
+
+    await invoke("copy-link");
+
+    expect(sendMessageMock).toHaveBeenCalledExactlyOnceWith(1, {
+      type: "execute-command",
+      command: "copy-link",
+    });
+  });
+
+  it("logs message delivery failures without rejecting the command listener", async () => {
+    queryMock.mockResolvedValue([{ id: 1, url: "https://example.com/" }]);
+    executeScriptMock.mockResolvedValue(null);
+    const error = new Error("Content script disconnected");
+    sendMessageMock.mockRejectedValue(error);
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    await expect(invoke("copy-link")).resolves.toBeUndefined();
+
+    expect(errorSpy).toHaveBeenCalledWith(
+      "Error sending command copy-link:",
+      error,
+    );
+  });
+
   // ──────────────────────────────────────────────
   // B-ERR-03: Script injection failure
   // ──────────────────────────────────────────────

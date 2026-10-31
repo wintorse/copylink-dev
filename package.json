@@ -26,25 +26,29 @@
     "test": "pnpm build && playwright test",
     "test:headed": "pnpm build && playwright test --headed",
     "test:unit": "vitest run",
-    "test:firefox-content": "pnpm build-firefox && playwright test --config playwright.firefox.config.ts"
+    "test:firefox-content": "pnpm build-firefox && playwright test --config playwright.firefox.config.ts",
+    "test:chromium-shortcuts": "pnpm build && playwright test --config playwright.chromium-shortcuts.config.ts",
+    "test:firefox-addon": "pnpm build-firefox && playwright test --config playwright.firefox-addon.config.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
-    "@types/chrome": "^0.3.5",
+    "@types/chrome": "^0.3.7",
     "@types/node": "^26.6.5",
+    "@types/selenium-webdriver": "^4.35.7",
     "happy-dom": "^20.14.6",
     "oxfmt": "^0.73.0",
-    "oxlint": "^1.88.0",
-    "oxlint-tsgolint": "^7.0.2004",
+    "oxlint": "^1.90.0",
+    "oxlint-tsgolint": "^7.0.2005",
+    "selenium-webdriver": "^4.51.0",
     "typescript": "^7.0.2",
-    "vite": "^8.3.4",
-    "vitest": "^5.0.4"
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
   },
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": "26.12.0"
+      "version": "26.12.1"
     }
   },
-  "packageManager": "pnpm@12.10.1+sha512.ukCjfrGjcNYP6oxM8dNkwTvMzvUY6YrSvO6VT1OdONo3RY5YJho/pV4GUjRQ6g//+fSXsTW+QfLBXBZCusrObA=="
+  "packageManager": "pnpm@12.16.1+sha512-CR0d7nknV1Zhsl2rPCrjHK/BxU1rce1qZgDPDByxBDSkR+rhQBXxsj4ua+3u1535SpMuIWTSgyKA3OP7MvZW0Q=="
 }

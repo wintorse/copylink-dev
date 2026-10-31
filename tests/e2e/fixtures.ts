@@ -15,8 +15,9 @@ const DIST_PATH = path.join(import.meta.dirname, "..", "..", "dist");
 /**
  * Create a temporary copy of the dist folder with host_permissions added
  * to the manifest. This is needed because `activeTab` only grants access
- * on explicit user gestures (keyboard shortcuts, action clicks) which
- * cannot be triggered programmatically from Playwright.
+ * on explicit user gestures (keyboard shortcuts, action clicks). This suite
+ * uses a command helper; tests/browser-ui separately exercises native keys
+ * against the unmodified manifest on Linux.
  *
  * @returns The path to the prepared extension directory that can be loaded in the test context.
  */

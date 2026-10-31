@@ -1,4 +1,4 @@
-[English](./README.md)
+[English](./README.md) | [プライバシーポリシー](./PRIVACY-ja.md)
 
 [UserScript 版はこちら](https://github.com/wintorse/copylink-dev-user-js)
 

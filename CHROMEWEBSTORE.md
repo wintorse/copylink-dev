@@ -26,7 +26,7 @@ Supported sites include Google Sheets, Docs, Slides, Drive, GitHub, Jira, Asana,
 
 After installation, configure your preferred keyboard shortcuts in the browser's extension shortcut settings. Click the extension icon to customize emojis and the Google Sheets range link format.
 
-Settings stay in the browser's local extension storage. Copying writes the requested content to your clipboard; the extension does not send it to an extension-operated server.
+When you use a copy shortcut, the extension reads the current page's URL and title and, on supported sites, the details needed to format the result. For Google Sheets range links, it also reads the selected range reference. The extension processes this information on your device and writes the requested content to your clipboard. Settings stay in the browser's local extension storage; the extension does not send page information or settings to an extension-operated server.
 
 Support and source code: https://github.com/wintorse/copylink-dev
 
@@ -58,11 +58,19 @@ Repository assessment:
 - Export copies emoji and custom website settings as JSON to the clipboard. Import validates pasted JSON and saves the accepted settings locally; it does not call a remote import/export service.
 - No analytics, extension-operated remote data collection, or remote runtime code loading was found in `src/`. Links to GitHub and the browser's extension store open only when the user follows them.
 
-Review the existing Dashboard data-use answers against these behaviors before submission, particularly the distinction between local processing of website content and transmission off-device. Reassess this section if storage, clipboard handling, or network behavior changes.
+### Dashboard Data-use Answers
+
+Based on the normal Chrome build, select **Web history** for the current page URL and **Website content** for page titles and supported-site details. The extension accesses these to fulfill a copy command; it does not maintain a browsing history or send the data to the developer. Google includes visited URLs in its definition of browsing activity and requires disclosure even for local processing. Review the remaining Dashboard categories against their current definitions and the submitted artifact; do not select categories solely because arbitrary page text could contain sensitive information.
+
+Review the Dashboard's Limited Use certification against the actual practices before certifying it. Keep the Dashboard answers, store description, and privacy policy consistent. Google's disclosure requirements call for prominent disclosure and informed consent before installation; verify that the actual listing and installation flow meet them. Reassess the disclosures if storage, clipboard handling, or network behavior changes.
+
+Sources: [Google's user data FAQ](https://developer.chrome.com/docs/webstore/program-policies/user-data-faq), [Limited Use policy](https://developer.chrome.com/docs/webstore/program-policies/limited-use), [disclosure requirements](https://developer.chrome.com/docs/webstore/program-policies/disclosure-requirements), and [Dashboard privacy fields](https://developer.chrome.com/docs/webstore/cws-dashboard-privacy/).
 
 ### Privacy Policy
 
-The published privacy policy URL is not recorded in this repository. Confirm the URL currently used in the Developer Dashboard, verify that it describes the behavior above, and record it here before the next store submission. Do not invent a URL or replace an existing published policy without reviewing it.
+The repository contains the policy in [English](PRIVACY.md), [Japanese](PRIVACY-ja.md), and [Simplified Chinese](PRIVACY-zh-CN.md). The English and Japanese READMEs link to their respective versions, and each policy links to the other languages. The policy covers the Chrome extension and includes the Limited Use statement.
+
+The user reports that no privacy policy URL is currently entered in the Developer Dashboard. These files are not yet known to be publicly available: after publishing them, verify that the chosen English policy URL is publicly accessible without sign-in, that its language links work, and that it is one click from the extension homepage. Then enter that live URL in the Dashboard before submission. The public URL and Dashboard update have not been verified.
 
 ## Graphics and Assets
 

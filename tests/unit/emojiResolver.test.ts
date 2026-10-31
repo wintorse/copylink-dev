@@ -21,6 +21,33 @@ const ctx = (href: string, overrides?: Partial<PageContext>): PageContext => {
 };
 
 describe("resolveEmojiName – built-in site detection", () => {
+  it.each([
+    { status: "draft", expected: ":draft:" },
+    { status: "open", expected: ":open:" },
+    { status: "merged", expected: ":merged:" },
+    { status: "closed", expected: ":closed:" },
+  ] as const)(
+    "uses the configured emoji for a $status pull request",
+    ({ status, expected }) => {
+      expect(
+        resolveEmojiName(
+          ctx("https://github.com/owner/repo/pull/1", {
+            githubPullRequestStatus: status,
+          }),
+          {
+            emojiNames: {
+              githubPullRequest: ":common:",
+              githubDraftPullRequest: ":draft:",
+              githubOpenPullRequest: ":open:",
+              githubMergedPullRequest: ":merged:",
+              githubClosedPullRequest: ":closed:",
+            },
+          },
+        ),
+      ).toBe(expected);
+    },
+  );
+
   it("returns :google_sheets: for Google Sheets", () => {
     expect(
       resolveEmojiName(ctx("https://docs.google.com/spreadsheets/d/abc"), {}),

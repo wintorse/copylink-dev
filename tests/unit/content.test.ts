@@ -1,5 +1,12 @@
 // @vitest-environment node
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { handleCommand } from "../../src/scripts/commands";
+
+type MessageListener = (
+  message: { type?: string; command?: string },
+  sender: object,
+  respond: () => void,
+) => boolean;
 
 // Mock the commands module to break the import chain into chrome storage APIs.
 // content.ts imports handleCommand from ./commands, which would otherwise pull
@@ -10,13 +17,18 @@ vi.mock("../../src/scripts/commands", () => ({
 
 describe("content.ts duplicate injection guard (B-CS-01)", () => {
   let addListenerMock: ReturnType<typeof vi.fn>;
+  let messageListener: MessageListener | undefined;
 
   beforeEach(() => {
     // Reset the guard flag so each test starts as if the script was never injected.
     delete (globalThis as Record<string, unknown>).__copylinkDevInjected;
     vi.resetModules();
 
-    addListenerMock = vi.fn();
+    vi.mocked(handleCommand).mockReset();
+    messageListener = undefined;
+    addListenerMock = vi.fn((listener: MessageListener) => {
+      messageListener = listener;
+    });
     vi.stubGlobal("chrome", {
       runtime: {
         onMessage: {
@@ -56,4 +68,24 @@ describe("content.ts duplicate injection guard (B-CS-01)", () => {
 
     expect(addListenerMock).toHaveBeenCalledTimes(1); // still only once
   });
+
+  it.each([
+    { type: "other-message", command: "copy-link" },
+    { type: "execute-command", command: "unsupported-command" },
+    { type: "execute-command" },
+    {},
+  ])(
+    "ignores unsupported messages without copying or responding: %j",
+    async (message) => {
+      await import("../../src/scripts/content");
+      const respond = vi.fn();
+      if (!messageListener) {
+        throw new Error("Missing content message listener");
+      }
+
+      expect(messageListener(message, {}, respond)).toBe(false);
+      expect(handleCommand).not.toHaveBeenCalled();
+      expect(respond).not.toHaveBeenCalled();
+    },
+  );
 });

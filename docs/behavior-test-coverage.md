@@ -219,5 +219,5 @@
 | B-ERR-05                     | Failure toast when all methods fail        | ✅     | `e2e/toast.spec.ts` + `unit/copyTextLinkCore.test.ts`: failure notification                                   |
 | **Content Scripts**          |                                            |        |                                                                                                               |
 | B-CS-01                      | Duplicate-injection guard                  | ✅     | `unit/content.test.ts`: `does NOT re-register the listener when the script is injected a second time`         |
-| B-CS-02                      | Chrome dynamic injection                   | ⚠️     | Implicitly verified by all E2E tests                                                                          |
-| B-CS-03                      | Firefox pre-injected script                | ❌     | Playwright does not support testing Firefox extensions                                                        |
+| B-CS-02                      | Chrome dynamic injection                   | ⚠️     | Helper-based E2E; actual shortcuts and `activeTab` grants require manual checks. See `tests/README.md`.       |
+| B-CS-03                      | Firefox pre-injected script                | ⚠️     | Gecko content integration is tested; add-on installation and manifest-driven injection require manual checks. |

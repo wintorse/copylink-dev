@@ -219,5 +219,5 @@
 | B-ERR-05                   | 全方法失敗時の失敗表示                   | ✅   | `e2e/toast.spec.ts` + `unit/copyTextLinkCore.test.ts`: failure notification                                   |
 | **コンテントスクリプト**   |                                          |      |                                                                                                               |
 | B-CS-01                    | 重複注入防止                             | ✅   | `unit/content.test.ts`: `does NOT re-register the listener when the script is injected a second time`         |
-| B-CS-02                    | Chrome 動的注入                          | ⚠️   | 全 E2E テストで暗黙的に動作を確認                                                                             |
-| B-CS-03                    | Firefox 事前注入                         | ❌   | Playwright は Firefox 拡張のテストをサポートしていないため未対応                                              |
+| B-CS-02                    | Chrome 動的注入                          | ⚠️   | ヘルパー経由の E2E で確認。実際のショートカットと `activeTab` 付与は手動確認が必要。詳細は `tests/README.md`  |
+| B-CS-03                    | Firefox 事前注入                         | ⚠️   | Gecko 上のコンテント処理をテスト。インストールと manifest による注入は手動確認が必要                          |

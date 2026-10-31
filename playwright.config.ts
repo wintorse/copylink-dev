@@ -6,6 +6,11 @@ import process from "node:process";
 // oxlint-disable-next-line import/no-default-export -- Playwright requires a default export for config
 export default defineConfig({
   testDir: "./tests/e2e",
+  outputDir: "test-results/chromium",
+  reporter: [
+    ["list"],
+    ["html", { outputFolder: "playwright-report/chromium", open: "never" }],
+  ],
   timeout: 60_000,
   retries: 1,
   workers: 1, // Extensions require persistent context — run serially
@@ -16,6 +21,8 @@ export default defineConfig({
     reuseExistingServer: process.env.CI === undefined,
   },
   use: {
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
     permissions: ["clipboard-read", "clipboard-write"],
   },
 });

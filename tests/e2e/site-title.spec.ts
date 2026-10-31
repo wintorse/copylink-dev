@@ -208,6 +208,46 @@ test.describe("Site-specific title formatting and emoji", () => {
     expect(html).toContain(":redmine_ticket:");
   });
 
+  test("RedMica Issue (mocked): footer credit enables title formatting and emoji", async ({
+    sw,
+    context,
+  }) => {
+    // Keep the hostname free of "redmine" so detection relies on the footer.
+    // The official demo's hostname contains "redmine" and would mask a regression.
+    const url = "https://issues.example.com/issues/123";
+    const title = "Feature #123: Support RedMica issues";
+    const page = await context.newPage();
+    await page.route(url, async (route) => {
+      await route.fulfill({
+        contentType: "text/html",
+        body: `<!DOCTYPE html>
+<html><head><title>RedMica issue page</title></head>
+<body>
+  <div id="content">
+    <h2>Feature #123</h2>
+    <div class="subject"><h3>Support RedMica issues</h3></div>
+  </div>
+  <div id="footer">
+    Powered by <a href="https://github.com/redmica/redmica">RedMica</a>
+  </div>
+</body></html>`,
+      });
+    });
+    await page.goto(url, { waitUntil: "domcontentloaded" });
+
+    await triggerCommand(sw, page, "copy-link");
+    expect(await readClipboardText(page)).toBe(title);
+    const linkHtml = await readClipboardHtml(page);
+    expect(linkHtml).toContain(title);
+    expect(linkHtml).toContain(`href="${url}"`);
+
+    await triggerCommand(sw, page, "copy-link-for-slack");
+    const slackHtml = await readClipboardHtml(page);
+    expect(slackHtml).toContain(":redmine_ticket:");
+    expect(slackHtml).toContain(title);
+    expect(slackHtml).toContain(`href="${url}"`);
+  });
+
   // ──────────────────────────────────────────────
   // ReDoc
   // ──────────────────────────────────────────────

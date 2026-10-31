@@ -20,7 +20,9 @@ export const buildPageContext = (): PageContext => ({
   documentBodyId: document.body.id,
   githubPullRequestStatus: getGitHubPullRequestStatus(),
   hasRedmineFooter: Array.from(document.querySelectorAll("#footer a")).some(
-    (link) => link.textContent?.includes("Redmine") === true,
+    (link) =>
+      link.textContent?.toLowerCase().includes("redmine") === true ||
+      link.textContent?.toLowerCase().includes("redmica") === true,
   ),
   // ReDoc v2 and v3 share the same attribution URL.
   hasRedocCredit:

@@ -26,7 +26,7 @@ Supported sites include Google Sheets, Docs, Slides, Drive, GitHub, Jira, Asana,
 
 After installation, configure your preferred keyboard shortcuts in the browser's extension shortcut settings. Click the extension icon to customize emojis and the Google Sheets range link format.
 
-When you use a copy shortcut, the extension reads the current page's URL and title and, on supported sites, the details needed to format the result. For Google Sheets range links, it also reads the selected range reference. The extension processes this information on your device and writes the requested content to your clipboard. Settings stay in the browser's local extension storage; the extension does not send page information or settings to an extension-operated server.
+When you use a copy shortcut, the extension reads the current page's URL and title and, on supported sites, the details needed to format the result. For Google Sheets range links, it also reads the selected range reference. It does not access or create a list of your browsing history. The extension processes this information on your device and writes the requested content to your clipboard. Settings stay in the browser's local extension storage; the extension does not send page information or settings to an extension-operated server.
 
 Support and source code: https://github.com/wintorse/copylink-dev
 
@@ -52,7 +52,7 @@ The normal Chrome build uses the permissions in `public/manifest.json`:
 
 Repository assessment:
 
-- A copy command reads the active page URL and title. Supported-site formatting can also read issue identifiers, summaries, pull request state, or the selected Google Sheets range.
+- A copy command reads the active page URL and title. Supported-site formatting can also read issue identifiers, summaries, pull request state, or the selected Google Sheets range. The extension does not access or create a list of browsing history.
 - The requested content is written to the local clipboard. Pasting or sharing it elsewhere is a subsequent user action.
 - Emoji names, custom website patterns, and the range link format are stored in `chrome.storage.local`, not automatically synced by this extension.
 - Export copies emoji and custom website settings as JSON to the clipboard. Import validates pasted JSON and saves the accepted settings locally; it does not call a remote import/export service.
@@ -60,7 +60,9 @@ Repository assessment:
 
 ### Dashboard Data-use Answers
 
-Based on the normal Chrome build, select **Web history** for the current page URL and **Website content** for page titles and supported-site details. The extension accesses these to fulfill a copy command; it does not maintain a browsing history or send the data to the developer. Google includes visited URLs in its definition of browsing activity and requires disclosure even for local processing. Review the remaining Dashboard categories against their current definitions and the submitted artifact; do not select categories solely because arbitrary page text could contain sensitive information.
+For the normal Chrome build, select **Website content** for page titles and supported-site details. Also consider selecting **Web history** as a conservative disclosure of the current page URL and title. Google includes URLs in its definition of browsing activity and requires disclosure even for local processing, but the Dashboard describes Web history as a list of visited pages, which the extension does not access or create. Google's guidance does not explicitly resolve whether reading only the current page falls into that checkbox; this is a recommendation, not a confirmed classification.
+
+The current source does not intentionally collect personal identification, health, financial or payment, authentication, personal communications, location, or user activity data as those categories. Page titles and URLs may nevertheless contain sensitive or identifying information. Review the Dashboard definitions and the submitted artifact before selecting the remaining categories, and revisit the answers if the extension's data practices change.
 
 Review the Dashboard's Limited Use certification against the actual practices before certifying it. Keep the Dashboard answers, store description, and privacy policy consistent. Google's disclosure requirements call for prominent disclosure and informed consent before installation; verify that the actual listing and installation flow meet them. Reassess the disclosures if storage, clipboard handling, or network behavior changes.
 
@@ -68,7 +70,7 @@ Sources: [Google's user data FAQ](https://developer.chrome.com/docs/webstore/pro
 
 ### Privacy Policy
 
-The repository contains the policy in [English](PRIVACY.md), [Japanese](PRIVACY-ja.md), and [Simplified Chinese](PRIVACY-zh-CN.md). The English and Japanese READMEs link to their respective versions, and each policy links to the other languages. The policy covers the Chrome extension and includes the Limited Use statement.
+The current policy is in [English](PRIVACY.md), [Japanese](PRIVACY-ja.md), and [Simplified Chinese](PRIVACY-zh-CN.md). It describes current-page access, clipboard output, local settings, data sharing, and Limited Use. The English and Japanese READMEs link to their respective versions, and each policy links to the other languages. The policy covers the Chrome extension.
 
 The user reports that no privacy policy URL is currently entered in the Developer Dashboard. These files are not yet known to be publicly available: after publishing them, verify that the chosen English policy URL is publicly accessible without sign-in, that its language links work, and that it is one click from the extension homepage. Then enter that live URL in the Dashboard before submission. The public URL and Dashboard update have not been verified.
 
@@ -89,10 +91,10 @@ The user reports that no privacy policy URL is currently entered in the Develope
 
 ## Version History and Review Notes
 
-| Version         | Repository evidence                                                                                                          | Store status                               |
-| --------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
-| 1.13.0          | Current package and manifest versions; GitHub release exists.                                                                | Dashboard publication status not verified. |
-| 1.14.0, planned | `release/v1.14.0` contains RedMica detection changes. Reconcile the final release scope and version files before submission. | Not submitted by this change.              |
+| Version | Repository evidence                                    | Store status                               |
+| ------- | ------------------------------------------------------ | ------------------------------------------ |
+| 1.13.0  | Local `v1.13.0` Git tag exists.                        | Dashboard publication status not verified. |
+| 1.14.0  | Current package and Chrome manifest; local tag exists. | Dashboard publication status not verified. |
 
 Arc shortcut limitations and the local host-permission workaround are documented in `README.md`. Include accurate limitations in store copy when relevant. No rejection history is recorded in this repository; obtain actual review feedback before adding rejection or resolution claims.
 

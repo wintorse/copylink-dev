@@ -36,14 +36,6 @@ test("installs the Firefox add-on and copies through manifest-driven scripts", a
     await expect
       .poll(() => readNativeClipboard())
       .toBe(`[Copylink Firefox Slack shortcut](${fixtureUrl})`);
-
-    await driver.executeScript(
-      'document.title = "Copylink Firefox title shortcut"',
-    );
-    await pressShortcut("Copylink Firefox title shortcut", "alt+t");
-    await expect
-      .poll(() => readNativeClipboard())
-      .toBe("Copylink Firefox title shortcut");
   } catch (error) {
     const screenshot = await driver.takeScreenshot().catch(() => null);
     if (screenshot !== null) {

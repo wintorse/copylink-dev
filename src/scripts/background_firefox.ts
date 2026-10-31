@@ -34,3 +34,5 @@ chrome.commands.onCommand.addListener((command) => {
 //     createNotification(message.message);
 //   }
 // });
+
+export {};

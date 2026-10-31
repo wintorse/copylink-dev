@@ -26,16 +26,20 @@
     "test": "pnpm build && playwright test",
     "test:headed": "pnpm build && playwright test --headed",
     "test:unit": "vitest run",
-    "test:firefox-content": "pnpm build-firefox && playwright test --config playwright.firefox.config.ts"
+    "test:firefox-content": "pnpm build-firefox && playwright test --config playwright.firefox.config.ts",
+    "test:chromium-shortcuts": "pnpm build && playwright test --config playwright.chromium-shortcuts.config.ts",
+    "test:firefox-addon": "pnpm build-firefox && playwright test --config playwright.firefox-addon.config.ts"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
     "@types/chrome": "^0.3.5",
     "@types/node": "^26.6.5",
+    "@types/selenium-webdriver": "^4.35.7",
     "happy-dom": "^20.14.6",
     "oxfmt": "^0.73.0",
     "oxlint": "^1.88.0",
     "oxlint-tsgolint": "^7.0.2004",
+    "selenium-webdriver": "^4.51.0",
     "typescript": "^7.0.2",
     "vite": "^8.3.4",
     "vitest": "^5.0.4"

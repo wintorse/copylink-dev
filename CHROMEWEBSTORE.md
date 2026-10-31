@@ -85,7 +85,7 @@ The user reports that no privacy policy URL is currently entered in the Develope
 
 ## Developer and Distribution Details
 
-- Repository author: `wintorse`. Confirm the Dashboard publisher name and public contact email before submission; the email is not recorded in the repository.
+- Repository author: `wintorse`.
 - Homepage: https://github.com/wintorse/copylink-dev
 - Support: https://github.com/wintorse/copylink-dev/issues
 - Current Dashboard visibility and distribution regions: not verified. Preserve the existing values unless a distribution change is intended.

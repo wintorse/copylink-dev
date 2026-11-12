@@ -16,7 +16,7 @@ workflows:
     '.github/workflows/release.yml':
         - 'actions/checkout@v7.0.1'
         - 'pnpm/setup@v3.1.2'
-        - 'softprops/action-gh-release@v3.0.3'
+        - 'softprops/action-gh-release@v3.0.4'
 dependencies:
     'actions/checkout@v7.0.1':
         ref: 'v7.0.1'
@@ -33,8 +33,8 @@ dependencies:
         commit: 'sha1-fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e'
         owner_id: 21320719
         repo_id: 1235693694
-    'softprops/action-gh-release@v3.0.3':
-        ref: 'v3.0.3'
-        commit: 'sha1-efb35369e0ad2afab669f228072c1b0d510eae64'
+    'softprops/action-gh-release@v3.0.4':
+        ref: 'v3.0.4'
+        commit: 'sha1-8a0cd651e5b2365bd640854a3fa5dfc70e4875f3'
         owner_id: 2242
         repo_id: 204253808

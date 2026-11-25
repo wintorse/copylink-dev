@@ -8,18 +8,18 @@ This document records Chrome Web Store listing copy and the source-backed inform
 
 - Existing listing: https://chromewebstore.google.com/detail/ohkebnhdjdgmfnhcmdpkdfddongdjadp
 - Extension ID: `ohkebnhdjdgmfnhcmdpkdfddongdjadp`
-- English name: `copylink.dev | Copy link with shortcuts`
-- English short description: `Copy links with shortcuts. On supported sites, create Slack emoji-enhanced links.`
+- English name: `copylink.dev | Copy link with shortcut`
+- English short description: `Copy link with keyboard shortcut. On supported sites, create Slack emoji-enhanced links.`
 - Primary source language: English; the extension also contains Japanese and Simplified Chinese messages.
 - Single purpose: Copy the current page's title and link, or a selected Google Sheets range link, to the clipboard using keyboard shortcuts.
 
 ### Detailed Description
 
-Copy titled links with keyboard shortcuts and paste them into Slack, documents, or other tools.
+Copy titled link with a keyboard shortcut and paste it into Slack, documents, or other tools.
 
 Copy a page link, a link with a configurable Slack emoji, or the page title alone. On supported sites, copy a formatted title that includes useful details such as an issue or pull request number. Customize emojis for GitHub pull requests in Draft, Open, Merged, and Closed states.
 
-Copy links to selected Google Sheets ranges in HTML, HTML with a Slack emoji, Markdown, or plain URL format. Choose emojis and custom website URL patterns in the extension settings, and import or export those settings to share them between installations.
+Copy link to selected Google Sheets ranges in HTML, HTML with a Slack emoji, Markdown, or plain URL format. Choose emojis and custom website URL patterns in the extension settings, and import or export those settings to share them between installations.
 
 Supported sites include Google Sheets, Docs, Slides, Drive, GitHub, Jira, Asana, Backlog, Redmine and RedMica, and ReDoc API documentation. Other websites use the page title.
 

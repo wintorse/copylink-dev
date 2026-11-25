@@ -33,14 +33,11 @@
 <br>
 
 > [!NOTE]
-> **For Arc Browser Users**: Since around May 2025, keyboard shortcuts stopped working in Arc browser.
+> **For Dia Browser Users**: Keyboard shortcuts do not work in Dia due to its permission behavior (or a bug).
 >
 > Please use the [UserScript version](https://github.com/wintorse/copylink-dev-user-js) instead.
 >
-> _For developers:_ If host permission is granted, this extension works, but only when the shortcuts are set to "Global" mode.
-> Note that global shortcuts may conflict with shortcuts in other applications.
->
-> [Build with host permissions](#build-with-host-permissions-chrome--arc), install it, and configure the shortcuts.
+> _For developers:_ You can also make the extension work by [building it locally with host permissions](#build-with-host-permissions-chrome--dia). After installation, make sure the shortcuts are configured.
 
 Provides shortcuts to easily copy text links with titles, such as "[My spreadsheet](https://example.com)".
 
@@ -85,7 +82,7 @@ Or build from the source code:
 5. Enable "Developer mode" in the top right corner
 6. Click "Load unpacked" and select the `dist` folder
 
-### Build with host permissions (Chrome / Arc)
+### Build with host permissions (Chrome / Dia)
 
 After cloning the repository and running `pnpm i`, run the following instead of the usual `pnpm run build`:
 
@@ -94,8 +91,6 @@ pnpm run build:with-host-permissions
 ```
 
 This adds `host_permissions: ["<all_urls>"]` to the generated `dist/manifest.json`, requesting host access to all sites. Load the `dist` folder using the steps above. If the extension is already loaded, reload it from the extension management page.
-
-In Arc, also set each shortcut to "Global" mode in the extension shortcut settings.
 
 The usual `pnpm run build` does not add host permissions. To return to the usual build, run it again and reload the extension.
 

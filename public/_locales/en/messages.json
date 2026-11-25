@@ -1,9 +1,9 @@
 {
   "name": {
-    "message": "copylink.dev | Copy link with shortcuts"
+    "message": "copylink.dev | Copy link with shortcut"
   },
   "description": {
-    "message": "Copy links with shortcuts. On supported sites, create Slack emoji-enhanced links."
+    "message": "Copy link with keyboard shortcut. On supported sites, create Slack emoji-enhanced links."
   },
   "copyLinkDescription": {
     "message": "Copy link"
